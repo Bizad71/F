@@ -1,111 +1,597 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خانه‌چی | فروشگاه لوازم خانگی</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>خانه‌چی | فروشگاه لوازم خانگی</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+<!-- نورهای پس زمینه -->
+<div class="bg-glow glow-1"></div>
+<div class="bg-glow glow-2"></div>
+<div class="bg-glow glow-3"></div>
+
+
+<!-- HEADER -->
 <header class="header">
-<div class="container nav">
 
-<a href="#" class="logo">
-خانه<span>چی</span>
-</a>
+    <div class="container nav">
 
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="جستجوی محصول...">
-<button onclick="searchProducts()">🔍</button>
-</div>
+        <a href="#" class="logo">
+            خانه<span>چی</span>
+        </a>
 
-<div class="nav-actions">
-<button class="icon-btn" onclick="toggleCart()">
-🛒
-<span id="cartCount">0</span>
-</button>
-</div>
+        <nav class="menu">
 
-</div>
+            <a href="#">خانه</a>
+            <a href="#products">محصولات</a>
+            <a href="#categories">دسته‌بندی</a>
+            <a href="#contact">تماس با ما</a>
+
+        </nav>
+
+        <div class="header-actions">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="جستجوی محصول..."
+                >
+
+                <button onclick="searchProducts()">
+                    🔍
+                </button>
+
+            </div>
+
+            <button class="cart-button" onclick="toggleCart()">
+
+                🛒
+
+                <span id="cartCount">
+                    0
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
 </header>
+
 
 <main>
 
-<!-- Hero -->
+
+<!-- HERO -->
 <section class="hero">
-<div class="container hero-content">
 
-<div class="hero-text">
-<span class="badge">فروش ویژه تابستان</span>
+    <div class="container hero-content">
 
-<h1>
-خانه‌ای زیباتر،
-<strong>زندگی راحت‌تر</strong>
-</h1>
+        <div class="hero-text">
 
-<p>
-جدیدترین لوازم خانگی با کیفیت بالا و قیمت مناسب
-</p>
+            <div class="neon-badge">
+                ✨ فروش ویژه
+            </div>
 
-<a href="#products" class="hero-btn">
-مشاهده محصولات
-</a>
-</div>
+            <h1>
 
-<div class="hero-image">
-<div class="hero-circle">🏠</div>
-</div>
+                لوازم خانه
+                <span>با حال و هوای جدید</span>
 
-</div>
+            </h1>
+
+            <p>
+
+                جدیدترین لوازم خانگی با طراحی مدرن،
+                کیفیت عالی و قیمت مناسب.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#products" class="neon-button">
+                    مشاهده محصولات
+                </a>
+
+                <a href="#categories" class="outline-button">
+                    دسته‌بندی‌ها
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <strong>+۵۰۰</strong>
+                    <span>محصول</span>
+                </div>
+
+                <div>
+                    <strong>+۱۰K</strong>
+                    <span>مشتری</span>
+                </div>
+
+                <div>
+                    <strong>۴.۹</strong>
+                    <span>امتیاز</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-product">
+
+            <div class="neon-ring"></div>
+
+            <div class="hero-appliance">
+                🏠
+            </div>
+
+            <div class="floating-card card-one">
+                ✨ کیفیت عالی
+            </div>
+
+            <div class="floating-card card-two">
+                💖 محبوب مشتری‌ها
+            </div>
+
+        </div>
+
+    </div>
+
 </section>
 
-<!-- Categories -->
-<section class="categories">
-<div class="container">
 
-<div class="section-title">
-<h2>دسته‌بندی محصولات</h2>
-<p>محصول مورد نظرتان را سریع پیدا کنید</p>
-</div>
 
-<div class="category-grid">
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
 
-<button onclick="filterProducts('all')" class="category-card">
-<span>🏠</span>
-<h3>همه محصولات</h3>
-</button>
+    <div class="container">
 
-<button onclick="filterProducts('kitchen')" class="category-card">
-<span>🍳</span>
-<h3>آشپزخانه</h3>
-</button>
+        <div class="section-heading">
 
-<button onclick="filterProducts('tv')" class="category-card">
-<span>📺</span>
-<h3>تلویزیون</h3>
-</button>
+            <span>دسته‌بندی</span>
 
-<button onclick="filterProducts('cleaning')" class="category-card">
-<span>🧹</span>
-<h3>نظافت</h3>
-</button>
+            <h2>
+                چی برای خونه می‌خوای؟
+            </h2>
 
-<button onclick="filterProducts('cooling')" class="category-card">
-<span>❄️</span>
-<h3>سرمایش</h3>
-</button>
+            <p>
+                از بین دسته‌بندی‌های محبوب انتخاب کن
+            </p>
 
-</div>
-</div>
+        </div>
+
+
+        <div class="category-grid">
+
+            <button
+                class="category-card"
+                onclick="filterProducts('all')"
+            >
+
+                <div class="category-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    همه محصولات
+                </h3>
+
+                <span>
+                    مشاهده همه
+                </span>
+
+            </button>
+
+
+            <button
+                class="category-card"
+                onclick="filterProducts('kitchen')"
+            >
+
+                <div class="category-icon">
+                    🍳
+                </div>
+
+                <h3>
+                    آشپزخانه
+                </h3>
+
+                <span>
+                    محصولات آشپزخانه
+                </span>
+
+            </button>
+
+
+            <button
+                class="category-card"
+                onclick="filterProducts('tv')"
+            >
+
+                <div class="category-icon">
+                    📺
+                </div>
+
+                <h3>
+                    تلویزیون
+                </h3>
+
+                <span>
+                    انواع تلویزیون
+                </span>
+
+            </button>
+
+
+            <button
+                class="category-card"
+                onclick="filterProducts('cleaning')"
+            >
+
+                <div class="category-icon">
+                    🧹
+                </div>
+
+                <h3>
+                    نظافت
+                </h3>
+
+                <span>
+                    جارو و لباسشویی
+                </span>
+
+            </button>
+
+
+            <button
+                class="category-card"
+                onclick="filterProducts('cooling')"
+            >
+
+                <div class="category-icon">
+                    ❄️
+                </div>
+
+                <h3>
+                    سرمایش
+                </h3>
+
+                <span>
+                    کولر و تهویه
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
 </section>
 
-<!-- Products -->
+
+
+<!-- PRODUCTS -->
 <section class="products-section" id="products">
 
-<div class="container">
+    <div class="container">
 
+        <div class="section-heading">
+
+            <span>محصولات</span>
+
+            <h2>
+                انتخاب‌های محبوب
+            </h2>
+
+            <p>
+                بهترین محصولات فروشگاه خانه‌چی
+            </p>
+
+        </div>
+
+
+        <div
+            id="productsGrid"
+            class="products-grid"
+        ></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- FEATURES -->
+<section class="features">
+
+    <div class="container">
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🚚
+                </div>
+
+                <div>
+                    <h3>
+                        ارسال سریع
+                    </h3>
+
+                    <p>
+                        ارسال به سراسر کشور
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💎
+                </div>
+
+                <div>
+                    <h3>
+                        ضمانت اصالت
+                    </h3>
+
+                    <p>
+                        تضمین کیفیت کالا
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🔐
+                </div>
+
+                <div>
+                    <h3>
+                        پرداخت امن
+                    </h3>
+
+                    <p>
+                        پرداخت کاملاً مطمئن
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💬
+                </div>
+
+                <div>
+                    <h3>
+                        پشتیبانی
+                    </h3>
+
+                    <p>
+                        همیشه کنار شما هستیم
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+
+<!-- CART -->
+
+<div
+    id="cartOverlay"
+    class="cart-overlay"
+    onclick="closeCart(event)"
+>
+
+    <aside
+        class="cart"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="cart-header">
+
+            <div>
+
+                <span>
+                    سبد خرید
+                </span>
+
+                <h2>
+                    محصولات شما
+                </h2>
+
+            </div>
+
+            <button onclick="toggleCart()">
+                ✕
+            </button>
+
+        </div>
+
+
+        <div
+            id="cartItems"
+            class="cart-items"
+        >
+
+            <div class="empty-cart">
+
+                <div>
+                    🛒
+                </div>
+
+                <h3>
+                    سبد خرید خالیه
+                </h3>
+
+                <p>
+                    هنوز محصولی به سبد خرید اضافه نکردی
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="cart-footer">
+
+            <div class="total">
+
+                <span>
+                    مجموع خرید
+                </span>
+
+                <strong id="cartTotal">
+                    ۰ تومان
+                </strong>
+
+            </div>
+
+            <button
+                class="checkout-btn"
+                onclick="checkout()"
+            >
+                ادامه خرید
+                <span>←</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+</div>
+
+
+
+<!-- FOOTER -->
+
+<footer
+    class="footer"
+    id="contact"
+>
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <a href="#" class="logo">
+                خانه<span>چی</span>
+            </a>
+
+            <p>
+                فروشگاه آنلاین لوازم خانگی
+                با کلی محصول جذاب برای خونه شما.
+            </p>
+
+            <div class="socials">
+
+                <a href="#">◎</a>
+                <a href="#">◉</a>
+                <a href="#">✉</a>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                دسترسی سریع
+            </h3>
+
+            <a href="#">
+                صفحه اصلی
+            </a>
+
+            <a href="#products">
+                محصولات
+            </a>
+
+            <a href="#categories">
+                دسته‌بندی‌ها
+            </a>
+
+            <a href="#">
+                درباره ما
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                تماس با ما
+            </h3>
+
+            <p>
+                📞 ۰۲۱-۱۲۳۴۵۶۷۸
+            </p>
+
+            <p>
+                ✉ info@khanechi.ir
+            </p>
+
+            <p>
+                📍 تهران
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © ۱۴۰۵ خانه‌چی
+        — تمامی حقوق محفوظ است.
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+      </html>
 <div class="section-title">
 <h2>محصولات پرفروش</h2>
 <p>انتخاب‌های محبوب مشتریان خانه‌چی</p>
