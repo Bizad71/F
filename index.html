@@ -1,717 +1,614 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>خانه‌چی | فروشگاه لوازم خانگی</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-</head>
-
-<body>
-
-<!-- نورهای پس زمینه -->
-<div class="bg-glow glow-1"></div>
-<div class="bg-glow glow-2"></div>
-<div class="bg-glow glow-3"></div>
-
-
-<!-- HEADER -->
-<header class="header">
-
-    <div class="container nav">
-
-        <a href="#" class="logo">
-            خانه<span>چی</span>
-        </a>
-
-        <nav class="menu">
-
-            <a href="#">خانه</a>
-            <a href="#products">محصولات</a>
-            <a href="#categories">دسته‌بندی</a>
-            <a href="#contact">تماس با ما</a>
-
-        </nav>
-
-        <div class="header-actions">
-
-            <div class="search-box">
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="جستجوی محصول..."
-                >
-
-                <button onclick="searchProducts()">
-                    🔍
-                </button>
-
-            </div>
-
-            <button class="cart-button" onclick="toggleCart()">
-
-                🛒
-
-                <span id="cartCount">
-                    0
-                </span>
-
-            </button>
-
-        </div>
-
-    </div>
-
-</header>
-
-
-<main>
-
-
-<!-- HERO -->
-<section class="hero">
-
-    <div class="container hero-content">
-
-        <div class="hero-text">
-
-            <div class="neon-badge">
-                ✨ فروش ویژه
-            </div>
-
-            <h1>
-
-                لوازم خانه
-                <span>با حال و هوای جدید</span>
-
-            </h1>
-
-            <p>
-
-                جدیدترین لوازم خانگی با طراحی مدرن،
-                کیفیت عالی و قیمت مناسب.
-
-            </p>
-
-            <div class="hero-buttons">
-
-                <a href="#products" class="neon-button">
-                    مشاهده محصولات
-                </a>
-
-                <a href="#categories" class="outline-button">
-                    دسته‌بندی‌ها
-                </a>
-
-            </div>
-
-            <div class="hero-stats">
-
-                <div>
-                    <strong>+۵۰۰</strong>
-                    <span>محصول</span>
-                </div>
-
-                <div>
-                    <strong>+۱۰K</strong>
-                    <span>مشتری</span>
-                </div>
-
-                <div>
-                    <strong>۴.۹</strong>
-                    <span>امتیاز</span>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="hero-product">
-
-            <div class="neon-ring"></div>
-
-            <div class="hero-appliance">
-                🏠
-            </div>
-
-            <div class="floating-card card-one">
-                ✨ کیفیت عالی
-            </div>
-
-            <div class="floating-card card-two">
-                💖 محبوب مشتری‌ها
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- CATEGORIES -->
-<section class="categories" id="categories">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span>دسته‌بندی</span>
-
-            <h2>
-                چی برای خونه می‌خوای؟
-            </h2>
-
-            <p>
-                از بین دسته‌بندی‌های محبوب انتخاب کن
-            </p>
-
-        </div>
-
-
-        <div class="category-grid">
-
-            <button
-                class="category-card"
-                onclick="filterProducts('all')"
-            >
-
-                <div class="category-icon">
-                    🏠
-                </div>
-
-                <h3>
-                    همه محصولات
-                </h3>
-
-                <span>
-                    مشاهده همه
-                </span>
-
-            </button>
-
-
-            <button
-                class="category-card"
-                onclick="filterProducts('kitchen')"
-            >
-
-                <div class="category-icon">
-                    🍳
-                </div>
-
-                <h3>
-                    آشپزخانه
-                </h3>
-
-                <span>
-                    محصولات آشپزخانه
-                </span>
-
-            </button>
-
-
-            <button
-                class="category-card"
-                onclick="filterProducts('tv')"
-            >
-
-                <div class="category-icon">
-                    📺
-                </div>
-
-                <h3>
-                    تلویزیون
-                </h3>
-
-                <span>
-                    انواع تلویزیون
-                </span>
-
-            </button>
-
-
-            <button
-                class="category-card"
-                onclick="filterProducts('cleaning')"
-            >
-
-                <div class="category-icon">
-                    🧹
-                </div>
-
-                <h3>
-                    نظافت
-                </h3>
-
-                <span>
-                    جارو و لباسشویی
-                </span>
-
-            </button>
-
-
-            <button
-                class="category-card"
-                onclick="filterProducts('cooling')"
-            >
-
-                <div class="category-icon">
-                    ❄️
-                </div>
-
-                <h3>
-                    سرمایش
-                </h3>
-
-                <span>
-                    کولر و تهویه
-                </span>
-
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- PRODUCTS -->
-<section class="products-section" id="products">
-
-    <div class="container">
-
-        <div class="section-heading">
-
-            <span>محصولات</span>
-
-            <h2>
-                انتخاب‌های محبوب
-            </h2>
-
-            <p>
-                بهترین محصولات فروشگاه خانه‌چی
-            </p>
-
-        </div>
-
-
-        <div
-            id="productsGrid"
-            class="products-grid"
-        ></div>
-
-    </div>
-
-</section>
-
-
-
-<!-- FEATURES -->
-<section class="features">
-
-    <div class="container">
-
-        <div class="features-grid">
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    🚚
-                </div>
-
-                <div>
-                    <h3>
-                        ارسال سریع
-                    </h3>
-
-                    <p>
-                        ارسال به سراسر کشور
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    💎
-                </div>
-
-                <div>
-                    <h3>
-                        ضمانت اصالت
-                    </h3>
-
-                    <p>
-                        تضمین کیفیت کالا
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    🔐
-                </div>
-
-                <div>
-                    <h3>
-                        پرداخت امن
-                    </h3>
-
-                    <p>
-                        پرداخت کاملاً مطمئن
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="feature-card">
-
-                <div class="feature-icon">
-                    💬
-                </div>
-
-                <div>
-                    <h3>
-                        پشتیبانی
-                    </h3>
-
-                    <p>
-                        همیشه کنار شما هستیم
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-
-<!-- CART -->
-
-<div
-    id="cartOverlay"
-    class="cart-overlay"
-    onclick="closeCart(event)"
->
-
-    <aside
-        class="cart"
-        onclick="event.stopPropagation()"
-    >
-
-        <div class="cart-header">
-
-            <div>
-
-                <span>
-                    سبد خرید
-                </span>
-
-                <h2>
-                    محصولات شما
-                </h2>
-
-            </div>
-
-            <button onclick="toggleCart()">
-                ✕
-            </button>
-
-        </div>
-
-
-        <div
-            id="cartItems"
-            class="cart-items"
-        >
-
-            <div class="empty-cart">
-
-                <div>
-                    🛒
-                </div>
-
-                <h3>
-                    سبد خرید خالیه
-                </h3>
-
-                <p>
-                    هنوز محصولی به سبد خرید اضافه نکردی
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="cart-footer">
-
-            <div class="total">
-
-                <span>
-                    مجموع خرید
-                </span>
-
-                <strong id="cartTotal">
-                    ۰ تومان
-                </strong>
-
-            </div>
-
-            <button
-                class="checkout-btn"
-                onclick="checkout()"
-            >
-                ادامه خرید
-                <span>←</span>
-            </button>
-
-        </div>
-
-    </aside>
-
-</div>
-
-
-
-<!-- FOOTER -->
-
-<footer
-    class="footer"
-    id="contact"
->
-
-    <div class="container footer-grid">
-
-        <div class="footer-brand">
-
-            <a href="#" class="logo">
-                خانه<span>چی</span>
-            </a>
-
-            <p>
-                فروشگاه آنلاین لوازم خانگی
-                با کلی محصول جذاب برای خونه شما.
-            </p>
-
-            <div class="socials">
-
-                <a href="#">◎</a>
-                <a href="#">◉</a>
-                <a href="#">✉</a>
-
-            </div>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                دسترسی سریع
-            </h3>
-
-            <a href="#">
-                صفحه اصلی
-            </a>
-
-            <a href="#products">
-                محصولات
-            </a>
-
-            <a href="#categories">
-                دسته‌بندی‌ها
-            </a>
-
-            <a href="#">
-                درباره ما
-            </a>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                تماس با ما
-            </h3>
-
-            <p>
-                📞 ۰۲۱-۱۲۳۴۵۶۷۸
-            </p>
-
-            <p>
-                ✉ info@khanechi.ir
-            </p>
-
-            <p>
-                📍 تهران
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <div class="copyright">
-
-        © ۱۴۰۵ خانه‌چی
-        — تمامی حقوق محفوظ است.
-
-    </div>
-
-</footer>
-
-
-<script src="script.js"></script>
-
-</body>
-      </html>
-<div class="section-title">
-<h2>محصولات پرفروش</h2>
-<p>انتخاب‌های محبوب مشتریان خانه‌چی</p>
-</div>
-
-<div id="productsGrid" class="products-grid"></div>
-
-</div>
-
-</section>
-
-<!-- Features -->
-<section class="features">
-
-<div class="container features-grid">
-
-<div class="feature">
-<span>🚚</span>
-<div>
-<h3>ارسال سریع</h3>
-<p>ارسال به سراسر کشور</p>
-</div>
-</div>
-
-<div class="feature">
-<span>🛡️</span>
-<div>
-<h3>ضمانت اصالت</h3>
-<p>تضمین کیفیت کالا</p>
-</div>
-</div>
-
-<div class="feature">
-<span>💳</span>
-<div>
-<h3>پرداخت امن</h3>
-<p>پرداخت کاملاً مطمئن</p>
-</div>
-</div>
-
-<div class="feature">
-<span>☎️</span>
-<div>
-<h3>پشتیبانی</h3>
-<p>همراه شما هستیم</p>
-</div>
-</div>
-
-</div>
-
-</section>
-
-</main>
-
-<!-- Cart -->
-<div id="cartOverlay" class="cart-overlay" onclick="closeCart(event)">
-
-<aside class="cart" onclick="event.stopPropagation()">
-
-<div class="cart-header">
-<h2>سبد خرید</h2>
-<button onclick="toggleCart()">✕</button>
-</div>
-
-<div id="cartItems" class="cart-items">
-<p class="empty-cart">سبد خرید شما خالی است.</p>
-</div>
-
-<div class="cart-footer">
-
-<div class="total">
-<span>مجموع:</span>
-<strong id="cartTotal">۰ تومان</strong>
-</div>
-
-<button class="checkout-btn" onclick="checkout()">
-ادامه خرید
-</button>
-
-</div>
-
-</aside>
-
-</div>
-
-<footer class="footer">
-
-<div class="container footer-grid">
-
-<div>
-<h2>خانه‌چی</h2>
-<p>
-فروشگاه آنلاین لوازم خانگی با بهترین قیمت و کیفیت.
-</p>
-</div>
-
-<div>
-<h3>دسترسی سریع</h3>
-<a href="#">صفحه اصلی</a>
-<a href="#products">محصولات</a>
-<a href="#">درباره ما</a>
-<a href="#">تماس با ما</a>
-</div>
-
-<div>
-<h3>تماس با ما</h3>
-<p>📞 ۰۲۱-۱۲۳۴۵۶۷۸</p>
-<p>📧 info@khanechi.ir</p>
-<p>📍 تهران</p>
-</div>
-
-</div>
-
-<div class="copyright">
-© ۱۴۰۵ خانه‌چی - تمامی حقوق محفوظ است.
-</div>
-
-</footer>
-
-<script src="script.js"></script>
-
-</body>
-</html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>English Detective — A1 Mystery</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap');
+
+:root{
+    --bg:#060914;
+    --bg2:#0b1020;
+    --panel:#0d1426;
+    --panel2:#111a30;
+    --line:#1c2a46;
+    --blue:#38bdf8;
+    --blue2:#0ea5e9;
+    --purple:#8b5cf6;
+    --green:#22c55e;
+    --red:#ef4444;
+    --yellow:#facc15;
+    --text:#edf6ff;
+    --muted:#8291aa;
+    --shadow:0 20px 60px rgba(0,0,0,.4);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(56,189,248,.08),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(139,92,246,.08),transparent 30%),
+        linear-gradient(135deg,var(--bg),#050811 70%);
+    color:var(--text);
+    font-family:Inter,Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.035;
+    background-image:
+        linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+button{
+    font-family:inherit;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    background:rgba(6,9,20,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(56,189,248,.5);
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:rgba(56,189,248,.08);
+    box-shadow:0 0 25px rgba(56,189,248,.1);
+    font-size:21px;
+}
+
+.logo-text{
+    font-family:Orbitron,sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:1.5px;
+}
+
+.logo-text span{
+    color:var(--blue);
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.xp-mini{
+    min-width:115px;
+    padding:8px 13px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:rgba(255,255,255,.025);
+}
+
+.xp-mini-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:var(--muted);
+    margin-bottom:5px;
+}
+
+.xp-mini-top strong{
+    color:var(--blue);
+}
+
+.xp-bar{
+    height:4px;
+    background:#172138;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.xp-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+    transition:.5s;
+}
+
+.menu-btn{
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--text);
+    border-radius:10px;
+    width:40px;
+    height:40px;
+    cursor:pointer;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container{
+    width:min(1180px,calc(100% - 32px));
+    margin:auto;
+}
+
+main{
+    padding:38px 0 70px;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.hero{
+    display:grid;
+    grid-template-columns:1.4fr .6fr;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.hero-card{
+    position:relative;
+    min-height:250px;
+    overflow:hidden;
+    padding:34px;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 90% 20%,rgba(56,189,248,.14),transparent 35%),
+        linear-gradient(145deg,#0d162a,#090f1d);
+    box-shadow:var(--shadow);
+}
+
+.hero-card::after{
+    content:"";
+    position:absolute;
+    width:240px;
+    height:240px;
+    right:-80px;
+    bottom:-100px;
+    border-radius:50%;
+    border:1px solid rgba(56,189,248,.12);
+    box-shadow:
+        0 0 0 30px rgba(56,189,248,.02),
+        0 0 0 60px rgba(56,189,248,.015);
+}
+
+.case-label{
+    font-family:Orbitron,sans-serif;
+    color:var(--blue);
+    font-size:11px;
+    letter-spacing:2px;
+    margin-bottom:14px;
+}
+
+.hero h1{
+    font-family:Orbitron,sans-serif;
+    font-size:clamp(25px,4vw,43px);
+    line-height:1.15;
+    margin-bottom:14px;
+}
+
+.hero h1 span{
+    color:var(--blue);
+}
+
+.hero p{
+    max-width:650px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:14px;
+}
+
+.detective-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--line);
+    border-radius:22px;
+    background:linear-gradient(145deg,#0c1325,#090e1b);
+}
+
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-size:38px;
+    border:1px solid rgba(56,189,248,.35);
+    background:rgba(56,189,248,.06);
+    box-shadow:0 0 35px rgba(56,189,248,.08);
+    margin-bottom:12px;
+}
+
+.detective-card small{
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.detective-card h2{
+    margin:5px 0 10px;
+    font-family:Orbitron,sans-serif;
+    font-size:17px;
+}
+
+.level-badge{
+    padding:6px 14px;
+    border-radius:30px;
+    background:rgba(139,92,246,.12);
+    border:1px solid rgba(139,92,246,.3);
+    color:#b9a1ff;
+    font-size:11px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:35px;
+}
+
+.stat{
+    padding:18px;
+    border:1px solid var(--line);
+    background:rgba(13,20,38,.75);
+    border-radius:15px;
+}
+
+.stat-icon{
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.stat-number{
+    font-family:Orbitron,sans-serif;
+    font-size:21px;
+}
+
+.stat-name{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+.section-title{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    margin-bottom:16px;
+}
+
+.section-title h2{
+    font-family:Orbitron,sans-serif;
+    font-size:18px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =========================
+   CASE GRID
+========================= */
+
+.cases{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.case{
+    position:relative;
+    padding:21px;
+    border:1px solid var(--line);
+    border-radius:17px;
+    background:linear-gradient(145deg,#0c1426,#09101e);
+    cursor:pointer;
+    transition:.25s;
+    overflow:hidden;
+}
+
+.case:hover:not(.locked){
+    transform:translateY(-3px);
+    border-color:rgba(56,189,248,.4);
+    box-shadow:0 12px 35px rgba(0,0,0,.3);
+}
+
+.case.locked{
+    cursor:not-allowed;
+    opacity:.55;
+}
+
+.case.completed{
+    border-color:rgba(34,197,94,.3);
+}
+
+.case-number{
+    color:var(--blue);
+    font-family:Orbitron,sans-serif;
+    font-size:10px;
+    letter-spacing:1px;
+}
+
+.case h3{
+    margin:9px 0 6px;
+    font-size:17px;
+}
+
+.case-desc{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.6;
+}
+
+.case-bottom{
+    margin-top:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.difficulty{
+    color:#7dd3fc;
+    font-size:10px;
+    padding:5px 9px;
+    border-radius:20px;
+    border:1px solid rgba(56,189,248,.2);
+    background:rgba(56,189,248,.05);
+}
+
+.case-status{
+    font-size:11px;
+}
+
+.complete{
+    color:var(--green);
+}
+
+.locked-text{
+    color:var(--muted);
+}
+
+.progress-mini{
+    position:absolute;
+    bottom:0;
+    left:0;
+    height:2px;
+    background:var(--green);
+}
+
+/* =========================
+   GAME SCREEN
+========================= */
+
+.game-screen{
+    display:none;
+}
+
+.game-screen.active{
+    display:block;
+}
+
+.game-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+}
+
+.back-btn{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.025);
+    color:var(--text);
+    border-radius:10px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.game-progress{
+    flex:1;
+    margin-left:15px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:10px;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.progress-track{
+    height:5px;
+    border-radius:10px;
+    background:#162038;
+    overflow:hidden;
+}
+
+.progress-track div{
+    height:100%;
+    background:linear-gradient(90deg,var(--blue),var(--purple));
+    transition:.4s;
+}
+
+/* =========================
+   STORY
+========================= */
+
+.story-card{
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:linear-gradient(145deg,#0d1628,#09101e);
+    padding:30px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+}
+
+.story-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:start;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.story-case{
+    color:var(--blue);
+    font-family:Orbitron,sans-serif;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.story-header h1{
+    font-family:Orbitron,sans-serif;
+    font-size:clamp(20px,3vw,29px);
+    margin-top:8px;
+}
+
+.story-badge{
+    padding:6px 10px;
+    border:1px solid rgba(56,189,248,.25);
+    color:#7dd3fc;
+    border-radius:20px;
+    font-size:10px;
+}
+
+.story-text{
+    font-size:17px;
+    line-height:2.1;
+    color:#e7f2ff;
+}
+
+.story-line{
+    margin-bottom:8px;
+}
+
+.word{
+    display:inline-block;
+    cursor:pointer;
+    border-bottom:1px dashed rgba(56,189,248,.5);
+    transition:.2s;
+}
+
+.word:hover{
+    color:var(--blue);
+}
+
+.word.learned{
+    color:#7dd3fc;
+}
+
+/* =========================
+   WORD POPUP
+========================= */
+
+.word-popup{
+    position:fixed;
+    z-index:500;
+    min-width:180px;
+    max-width:280px;
+    padding:15px;
+    border:1px solid rgba(56,189,248,.35);
+    border-radius:13px;
+    background:#0b1425;
+    box-shadow:0 20px 50px rgba(0,0,0,.6);
+    display:none;
+}
+
+.word-popup.active{
+    display:block;
+}
+
+.word-popup-word{
+    font-family:Orbitron,sans-serif;
+    color:var(--blue);
+    font-size:14px;
+}
+
+.word-popup-meaning{
+    margin-top:6px;
+    color:white;
+    font-size:13px;
+}
+
+.word-popup-action{
+    margin-top:10px;
+    font-size:10px;
+    color:var(--muted);
+}
+
+/* =========================
+   CLUE BOX
+========================= */
+
+.clue-box{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px 18px;
+    margin-bottom:18px;
+    border:1px solid rgba(250,204,21,.16);
+    background:rgba(250,204,21,.035);
+    border-radius:14px;
+}
+
+.clue-box p{
+    color:#c7d0df;
+    font-size:12px;
+    line-height:1.6;
+}
+
+.clue-btn{
+    flex-shrink:0;
+    border:1px solid
