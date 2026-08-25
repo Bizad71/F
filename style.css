@@ -6,29 +6,22 @@
 
 html,
 body {
-
     width: 100%;
     height: 100%;
-
     overflow: hidden;
 
     background: #020609;
 
     overscroll-behavior: none;
-
     touch-action: manipulation;
 }
 
 body {
-
     position: fixed;
-
     inset: 0;
 
     width: 100vw;
-
     height: 100vh;
-
     height: 100dvh;
 
     color: #00ffcc;
@@ -39,89 +32,64 @@ body {
         sans-serif;
 }
 
-
-/* =====================================
-   MAIN
-===================================== */
-
 .app {
-
     position: fixed;
-
     inset: 0;
 
     width: 100vw;
-
     height: 100vh;
-
     height: 100dvh;
 
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
 
     padding:
         max(15px, env(safe-area-inset-top))
-        max(15px, env(safe-area-inset-right))
-        max(15px, env(safe-area-inset-bottom))
-        max(15px, env(safe-area-inset-left));
+        15px
+        max(20px, env(safe-area-inset-bottom));
 
     background:
-
         radial-gradient(
             circle at center,
-            rgba(0,255,200,0.09),
+            rgba(0,255,200,.09),
             transparent 60%
         ),
-
         #020609;
 }
 
-
-/* =====================================
-   SCAN LINES
-===================================== */
-
 .app::before {
-
     content: "";
 
-    position: absolute;
-
+    position: fixed;
     inset: 0;
 
-    background:
+    pointer-events: none;
 
+    background:
         repeating-linear-gradient(
             0deg,
-            rgba(0,255,200,0.025) 0px,
-            rgba(0,255,200,0.025) 1px,
+            rgba(0,255,200,.025) 0,
+            rgba(0,255,200,.025) 1px,
             transparent 1px,
             transparent 4px
         );
 
-    pointer-events: none;
-
     z-index: 1;
 }
 
-
 .app::after {
-
     content: "";
 
-    position: absolute;
-
-    left: 0;
+    position: fixed;
 
     top: 0;
+    left: 0;
 
     width: 100%;
-
     height: 3px;
 
     background: #00ffcc;
@@ -130,15 +98,14 @@ body {
         0 0 10px #00ffcc,
         0 0 25px #00ffcc;
 
-    animation:
-        scanLine 3s linear infinite;
+    animation: scanLine 3s linear infinite;
+
+    pointer-events: none;
 
     z-index: 10;
 }
 
-
 @keyframes scanLine {
-
     from {
         top: 0;
     }
@@ -146,80 +113,60 @@ body {
     to {
         top: 100%;
     }
-
 }
 
-
-/* =====================================
-   TOP
-===================================== */
+/* TOP */
 
 .top {
-
     width: 100%;
-
     max-width: 650px;
 
     display: flex;
-
     justify-content: space-between;
 
     margin-bottom: 15px;
 
     font-family: monospace;
-
     font-size: 12px;
 
     z-index: 5;
 }
 
-
 .status {
-
     color: #00ffcc;
 
     text-shadow:
         0 0 8px #00ffcc;
 }
 
-
 #phase {
-
     color: #777;
-
     direction: ltr;
 }
 
-
-/* =====================================
-   DEVICE
-===================================== */
+/* DEVICE */
 
 .phone {
-
     width: 100%;
-
     max-width: 650px;
 
     padding: 14px 17px;
 
     border:
         1px solid
-        rgba(0,255,200,0.4);
+        rgba(0,255,200,.4);
 
     background:
-        rgba(0,20,20,0.65);
+        rgba(0,20,20,.65);
 
     box-shadow:
         0 0 20px
-        rgba(0,255,200,0.08);
+        rgba(0,255,200,.08);
 
     z-index: 5;
 }
 
-
 .phone-title {
-
     text-align: center;
 
     font-family: monospace;
@@ -236,58 +183,46 @@ body {
         0 0 8px #00ffcc;
 }
 
-
 .info {
-
     display: flex;
-
     justify-content: space-between;
 
     padding: 6px 0;
 
     border-bottom:
         1px solid
-        rgba(255,255,255,0.05);
+        rgba(255,255,255,.05);
 
     font-family: monospace;
 
     font-size: 11px;
 }
 
-
 .info span {
     color: #666;
 }
 
-
 .info b {
-
     color: #ddd;
-
     font-weight: normal;
-
     direction: ltr;
 }
 
-
-/* =====================================
-   MAIN PERCENT
-===================================== */
+/* PERCENT */
 
 .percentage {
-
     margin-top: 15px;
 
     font-family: monospace;
 
     font-size:
-        clamp(55px, 16vw, 95px);
+        clamp(55px,16vw,95px);
 
     font-weight: bold;
 
-    line-height: 1;
-
     color: #00ffcc;
+
+    line-height: 1;
 
     text-shadow:
         0 0 5px #00ffcc,
@@ -297,21 +232,12 @@ body {
     z-index: 5;
 }
 
-
 .percentage small {
-
     font-size: 28px;
 }
 
-
-/* =====================================
-   MAIN BAR
-===================================== */
-
 .progress {
-
     width: 100%;
-
     max-width: 650px;
 
     height: 8px;
@@ -322,16 +248,13 @@ body {
 
     border:
         1px solid
-        rgba(0,255,200,0.25);
+        rgba(0,255,200,.25);
 
     z-index: 5;
 }
 
-
 #bar {
-
     width: 0%;
-
     height: 100%;
 
     background: #00ffcc;
@@ -340,12 +263,10 @@ body {
         0 0 10px #00ffcc;
 
     transition:
-        width 0.08s linear;
+        width .08s linear;
 }
 
-
 .scan-text {
-
     margin-top: 8px;
 
     min-height: 17px;
@@ -361,15 +282,170 @@ body {
     z-index: 5;
 }
 
+/* FACE BUTTON */
 
-/* =====================================
-   MEDIA CLEANUP
-===================================== */
+.face-button {
+    width: 100%;
+    max-width: 650px;
 
-.media-box {
+    margin-top: 12px;
+
+    padding: 14px;
+
+    border:
+        1px solid
+        #00ffcc;
+
+    background:
+        rgba(0,255,200,.08);
+
+    color: #00ffcc;
+
+    font-family: Tahoma, Arial;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 15px
+        rgba(0,255,200,.15);
+
+    z-index: 6;
+}
+
+.face-button:active {
+    transform: scale(.98);
+}
+
+/* CAMERA */
+
+.camera-box {
+    display: none;
 
     width: 100%;
+    max-width: 500px;
 
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border:
+        1px solid
+        rgba(0,255,200,.5);
+
+    background: #000;
+
+    z-index: 20;
+}
+
+.camera-box.show {
+    display: block;
+}
+
+#camera {
+    width: 100%;
+
+    max-height: 320px;
+
+    display: block;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+
+    border:
+        1px solid
+        rgba(0,255,200,.25);
+}
+
+#canvas {
+    display: none;
+}
+
+#captureButton {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 12px;
+
+    border: none;
+
+    background: #00ffcc;
+
+    color: #00100d;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+/* RESULT */
+
+.face-result {
+    display: none;
+
+    width: 100%;
+    max-width: 500px;
+
+    margin-top: 15px;
+
+    padding: 15px;
+
+    border:
+        1px solid
+        rgba(255,60,60,.6);
+
+    background:
+        rgba(30,0,0,.35);
+
+    text-align: center;
+
+    z-index: 15;
+}
+
+.face-result.show {
+    display: block;
+}
+
+.face-error {
+    margin-bottom: 12px;
+
+    color: #ff4040;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    text-shadow:
+        0 0 10px red;
+}
+
+#capturedPhoto {
+    width: 100%;
+
+    max-height: 300px;
+
+    object-fit: cover;
+
+    display: block;
+
+    border:
+        2px solid
+        #00ffcc;
+
+    box-shadow:
+        0 0 20px
+        rgba(0,255,200,.35);
+}
+
+/* MEDIA */
+
+.media-box {
+    width: 100%;
     max-width: 650px;
 
     margin-top: 10px;
@@ -378,17 +454,15 @@ body {
 
     border:
         1px solid
-        rgba(0,255,200,0.25);
+        rgba(0,255,200,.25);
 
     background:
-        rgba(0,10,12,0.7);
+        rgba(0,10,12,.7);
 
     z-index: 5;
 }
 
-
 .media-title {
-
     font-family: monospace;
 
     font-size: 12px;
@@ -400,15 +474,11 @@ body {
     color: #00ffcc;
 }
 
-
 .media-item {
-
     margin-top: 7px;
 }
 
-
 .media-row {
-
     display: flex;
 
     justify-content: space-between;
@@ -420,17 +490,12 @@ body {
     color: #aaa;
 }
 
-
 .media-row b {
-
     color: #00ffcc;
-
     font-weight: normal;
 }
 
-
 .media-progress {
-
     width: 100%;
 
     height: 5px;
@@ -442,11 +507,8 @@ body {
     overflow: hidden;
 }
 
-
 .media-progress div {
-
     width: 0%;
-
     height: 100%;
 
     background: #00ffcc;
@@ -455,12 +517,10 @@ body {
         0 0 8px #00ffcc;
 
     transition:
-        width 0.1s linear;
+        width .1s linear;
 }
 
-
 .media-status {
-
     margin-top: 2px;
 
     font-family: monospace;
@@ -472,15 +532,10 @@ body {
     direction: ltr;
 }
 
-
-/* =====================================
-   TERMINAL
-===================================== */
+/* TERMINAL */
 
 .terminal {
-
     width: 100%;
-
     max-width: 650px;
 
     height: 35px;
@@ -506,27 +561,20 @@ body {
     z-index: 5;
 }
 
-
-/* =====================================
-   FINAL
-===================================== */
+/* FINAL */
 
 .final {
-
     position: fixed;
 
     inset: 0;
 
     width: 100vw;
-
     height: 100vh;
-
     height: 100dvh;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     background: #020609;
@@ -543,19 +591,14 @@ body {
     z-index: 9999;
 }
 
-
 .final.show {
-
     opacity: 1;
-
     visibility: visible;
 }
 
-
 .final div {
-
     font-size:
-        clamp(38px, 11vw, 100px);
+        clamp(38px,11vw,100px);
 
     font-weight: bold;
 
@@ -563,73 +606,23 @@ body {
 
     text-align: center;
 
-    white-space: nowrap;
-
     text-shadow:
         0 0 5px #00ffcc,
         0 0 20px #00ffcc,
-        0 0 50px #00ffcc,
-        0 0 100px #00ffcc;
+        0 0 50px #00ffcc;
 
     animation:
         finalText 1.5s ease;
 }
 
-
 @keyframes finalText {
-
     from {
-
         opacity: 0;
-
-        transform:
-            scale(1.5);
+        transform: scale(1.5);
     }
 
     to {
-
         opacity: 1;
-
-        transform:
-            scale(1);
+        transform: scale(1);
     }
-
 }
-
-
-/* =====================================
-   SMALL PHONE
-===================================== */
-
-@media (max-height: 700px) {
-
-    .top {
-        margin-bottom: 8px;
-    }
-
-    .phone {
-        padding: 8px 12px;
-    }
-
-    .info {
-        padding: 4px 0;
-    }
-
-    .percentage {
-        margin-top: 8px;
-    }
-
-    .media-box {
-        margin-top: 7px;
-        padding: 7px 10px;
-    }
-
-    .media-item {
-        margin-top: 4px;
-    }
-
-    .terminal {
-        display: none;
-    }
-
-    }
