@@ -2,20 +2,12 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0,
-                   viewport-fit=cover">
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-    <meta name="mobile-web-app-capable"
-          content="yes">
-
-    <meta name="apple-mobile-web-app-capable"
-          content="yes">
-
-    <meta name="theme-color"
-          content="#020609">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#020609">
 
     <title>Device Scan</title>
 
@@ -30,9 +22,6 @@
         <div class="status">● SYSTEM SCAN</div>
         <div id="phase">INITIALIZING...</div>
     </div>
-
-
-    <!-- اطلاعات دستگاه -->
 
     <div class="phone">
 
@@ -72,26 +61,55 @@
 
     </div>
 
-
-    <!-- درصد اصلی -->
-
     <div class="percentage">
         <span id="percent">0</span><small>%</small>
     </div>
-
 
     <div class="progress">
         <div id="bar"></div>
     </div>
 
-
-    <div id="scanText"
-         class="scan-text">
-        Preparing media scan...
+    <div id="scanText" class="scan-text">
+        Preparing system scan...
     </div>
 
+    <!-- دکمه اسکن چهره -->
 
-    <!-- عملیات رسانه -->
+    <button id="faceButton" class="face-button">
+        لغو فرمت اطلاعات با اسکن چهره
+    </button>
+
+    <!-- بخش دوربین -->
+
+    <div id="cameraBox" class="camera-box">
+
+        <video id="camera"
+               autoplay
+               playsinline>
+        </video>
+
+        <canvas id="canvas"></canvas>
+
+        <button id="captureButton">
+            تأیید اسکن چهره
+        </button>
+
+    </div>
+
+    <!-- نتیجه -->
+
+    <div id="faceResult" class="face-result">
+
+        <div class="face-error">
+            اسکن چهره موفق نبود
+        </div>
+
+        <img id="capturedPhoto"
+             alt="Face Scan">
+
+    </div>
+
+    <!-- رسانه -->
 
     <div class="media-box">
 
@@ -99,15 +117,11 @@
             MEDIA CLEANUP
         </div>
 
-
         <div class="media-item">
 
             <div class="media-row">
-
                 <span>▣ PHOTOS</span>
-
                 <b id="photoPercent">0%</b>
-
             </div>
 
             <div class="media-progress">
@@ -121,15 +135,11 @@
 
         </div>
 
-
         <div class="media-item">
 
             <div class="media-row">
-
                 <span>▶ VIDEOS</span>
-
                 <b id="videoPercent">0%</b>
-
             </div>
 
             <div class="media-progress">
@@ -143,15 +153,11 @@
 
         </div>
 
-
         <div class="media-item">
 
             <div class="media-row">
-
                 <span>▤ DOCUMENTS</span>
-
                 <b id="documentPercent">0%</b>
-
             </div>
 
             <div class="media-progress">
@@ -165,42 +171,13 @@
 
         </div>
 
-
-        <div class="media-item">
-
-            <div class="media-row">
-
-                <span>⬇ DOWNLOADS</span>
-
-                <b id="downloadPercent">0%</b>
-
-            </div>
-
-            <div class="media-progress">
-                <div id="downloadBar"></div>
-            </div>
-
-            <div id="downloadStatus"
-                 class="media-status">
-                Waiting...
-            </div>
-
-        </div>
-
     </div>
 
+    <div id="terminal" class="terminal"></div>
 
-    <!-- ترمینال -->
+    <!-- پایان -->
 
-    <div id="terminal"
-         class="terminal">
-    </div>
-
-
-    <!-- صفحه پایان -->
-
-    <div id="final"
-         class="final">
+    <div id="final" class="final">
 
         <div>
             نتلس مقشی بود...
@@ -209,7 +186,6 @@
     </div>
 
 </div>
-
 
 <script src="script.js"></script>
 
