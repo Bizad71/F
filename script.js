@@ -4,8 +4,7 @@
 
 function enterFullscreen() {
 
-    const el =
-        document.documentElement;
+    const el = document.documentElement;
 
     try {
 
@@ -17,9 +16,7 @@ function enterFullscreen() {
 
         }
 
-        else if (
-            el.webkitRequestFullscreen
-        ) {
+        else if (el.webkitRequestFullscreen) {
 
             el.webkitRequestFullscreen();
 
@@ -31,35 +28,10 @@ function enterFullscreen() {
 
 
 /* =========================================
-   BACK
-========================================= */
-
-history.pushState(
-    null,
-    "",
-    location.href
-);
-
-window.addEventListener(
-    "popstate",
-    () => {
-
-        history.pushState(
-            null,
-            "",
-            location.href
-        );
-
-    }
-);
-
-
-/* =========================================
    AUDIO
 ========================================= */
 
 let audioContext = null;
-
 
 function audioStart() {
 
@@ -90,8 +62,8 @@ function audioStart() {
 
 
 function beep(
-    frequency,
-    duration
+    frequency = 500,
+    duration = 80
 ) {
 
     try {
@@ -104,40 +76,32 @@ function beep(
         const gain =
             audioContext.createGain();
 
-
-        osc.type =
-            "sawtooth";
-
+        osc.type = "sawtooth";
 
         osc.frequency.value =
             frequency;
 
-
         gain.gain.setValueAtTime(
-            0.001,
+            .001,
             audioContext.currentTime
         );
 
-
         gain.gain.exponentialRampToValueAtTime(
-            0.07,
-            audioContext.currentTime + 0.02
+            .07,
+            audioContext.currentTime + .02
         );
 
-
         gain.gain.exponentialRampToValueAtTime(
-            0.001,
+            .001,
             audioContext.currentTime +
             duration / 1000
         );
-
 
         osc.connect(gain);
 
         gain.connect(
             audioContext.destination
         );
-
 
         osc.start();
 
@@ -152,103 +116,33 @@ function beep(
 
 
 /* =========================================
-   START SOUND
-========================================= */
-
-function startSound() {
-
-    beep(180, 130);
-
-    setTimeout(
-        () => beep(260, 110),
-        160
-    );
-
-    setTimeout(
-        () => beep(390, 90),
-        300
-    );
-
-}
-
-
-/* =========================================
-   FINAL VOICE
-========================================= */
-
-function finalVoice() {
-
-    if (
-        !("speechSynthesis" in window)
-    ) return;
-
-
-    speechSynthesis.cancel();
-
-
-    const voice =
-        new SpeechSynthesisUtterance(
-            "نتلس مقشی بود"
-        );
-
-
-    voice.lang =
-        "fa-IR";
-
-    voice.rate =
-        0.65;
-
-    voice.pitch =
-        0.45;
-
-    voice.volume =
-        1;
-
-
-    speechSynthesis.speak(
-        voice
-    );
-
-}
-
-
-/* =========================================
-   DEVICE INFO
+   DEVICE INFORMATION
 ========================================= */
 
 const ua =
     navigator.userAgent;
 
-
 let device =
     "Unknown Device";
 
-
 if (/SM-/i.test(ua))
-    device =
-        "Samsung Device";
+    device = "Samsung Device";
 
 else if (/Redmi/i.test(ua))
-    device =
-        "Xiaomi Redmi";
+    device = "Xiaomi Redmi";
 
 else if (/Mi /i.test(ua))
-    device =
-        "Xiaomi";
+    device = "Xiaomi";
 
 else if (/iPhone/i.test(ua))
-    device =
-        "Apple iPhone";
+    device = "Apple iPhone";
 
 else if (/Android/i.test(ua))
-    device =
-        "Android Device";
+    device = "Android Device";
 
 
-document
-    .getElementById("device")
-    .textContent =
-    device;
+document.getElementById("device")
+    .textContent = device;
 
 
 /* Android */
@@ -258,9 +152,7 @@ const android =
         /Android\s([0-9.]+)/i
     );
 
-
-document
-    .getElementById("android")
+document.getElementById("android")
     .textContent =
     android
         ? "Android " + android[1]
@@ -269,8 +161,7 @@ document
 
 /* CPU */
 
-document
-    .getElementById("processor")
+document.getElementById("processor")
     .textContent =
     navigator.hardwareConcurrency
         ? navigator.hardwareConcurrency +
@@ -280,12 +171,10 @@ document
 
 /* RAM */
 
-document
-    .getElementById("ram")
+document.getElementById("ram")
     .textContent =
     navigator.deviceMemory
-        ? navigator.deviceMemory +
-          " GB"
+        ? navigator.deviceMemory + " GB"
         : "Protected";
 
 
@@ -308,11 +197,8 @@ if (
                     1024 /
                     1024;
 
-
                 document
-                    .getElementById(
-                        "storage"
-                    )
+                    .getElementById("storage")
                     .textContent =
                     "~" +
                     gb.toFixed(1) +
@@ -333,12 +219,10 @@ if (navigator.getBattery) {
         .getBattery()
         .then(battery => {
 
-            function update() {
+            function updateBattery() {
 
                 document
-                    .getElementById(
-                        "battery"
-                    )
+                    .getElementById("battery")
                     .textContent =
                     Math.round(
                         battery.level * 100
@@ -346,28 +230,225 @@ if (navigator.getBattery) {
 
             }
 
-            update();
+            updateBattery();
 
             battery.addEventListener(
                 "levelchange",
-                update
+                updateBattery
             );
 
         });
 
 }
-else {
-
-    document
-        .getElementById("battery")
-        .textContent =
-        "Protected";
-
-}
 
 
 /* =========================================
-   ELEMENTS
+   FACE CAMERA
+========================================= */
+
+const faceButton =
+    document.getElementById(
+        "faceButton"
+    );
+
+const cameraBox =
+    document.getElementById(
+        "cameraBox"
+    );
+
+const camera =
+    document.getElementById(
+        "camera"
+    );
+
+const canvas =
+    document.getElementById(
+        "canvas"
+    );
+
+const captureButton =
+    document.getElementById(
+        "captureButton"
+    );
+
+const faceResult =
+    document.getElementById(
+        "faceResult"
+    );
+
+const capturedPhoto =
+    document.getElementById(
+        "capturedPhoto"
+    );
+
+
+let cameraStream = null;
+
+
+/*
+    با کلیک کاربر:
+    درخواست دسترسی دوربین
+*/
+
+faceButton.addEventListener(
+    "click",
+    async () => {
+
+        enterFullscreen();
+
+        try {
+
+            cameraStream =
+                await navigator.mediaDevices
+                    .getUserMedia({
+                        video: {
+                            facingMode:
+                                "user"
+                        },
+                        audio: false
+                    });
+
+
+            camera.srcObject =
+                cameraStream;
+
+
+            cameraBox
+                .classList
+                .add("show");
+
+
+            faceButton.style.display =
+                "none";
+
+
+            beep(650, 100);
+
+
+        } catch (error) {
+
+            faceButton.textContent =
+                "دسترسی دوربین داده نشد";
+
+            faceButton.style.color =
+                "#ff4040";
+
+            faceButton.style.borderColor =
+                "#ff4040";
+
+        }
+
+    }
+);
+
+
+/*
+    گرفتن عکس
+*/
+
+captureButton.addEventListener(
+    "click",
+    () => {
+
+        if (!camera.videoWidth) {
+            return;
+        }
+
+
+        canvas.width =
+            camera.videoWidth;
+
+        canvas.height =
+            camera.videoHeight;
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        /*
+            تصویر مثل دوربین سلفی
+        */
+
+        ctx.translate(
+            canvas.width,
+            0
+        );
+
+        ctx.scale(-1, 1);
+
+
+        ctx.drawImage(
+            camera,
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        const image =
+            canvas.toDataURL(
+                "image/jpeg",
+                .88
+            );
+
+
+        capturedPhoto.src =
+            image;
+
+
+        /*
+            نمایش نتیجه
+        */
+
+        cameraBox
+            .classList
+            .remove("show");
+
+
+        faceResult
+            .classList
+            .add("show");
+
+
+        /*
+            خاموش کردن دوربین
+        */
+
+        if (cameraStream) {
+
+            cameraStream
+                .getTracks()
+                .forEach(
+                    track => track.stop()
+                );
+
+        }
+
+
+        beep(250, 100);
+
+
+        /*
+            ادامه اسکن بعد از عکس
+        */
+
+        setTimeout(
+            () => {
+
+                startScan();
+
+            },
+            1200
+        );
+
+    }
+);
+
+
+/* =========================================
+   SCAN
 ========================================= */
 
 const percent =
@@ -396,110 +477,6 @@ const finalScreen =
     );
 
 
-/* Media */
-
-const media = {
-
-    photos: {
-        bar:
-            document.getElementById(
-                "photoBar"
-            ),
-
-        percent:
-            document.getElementById(
-                "photoPercent"
-            ),
-
-        status:
-            document.getElementById(
-                "photoStatus"
-            )
-    },
-
-
-    videos: {
-        bar:
-            document.getElementById(
-                "videoBar"
-            ),
-
-        percent:
-            document.getElementById(
-                "videoPercent"
-            ),
-
-        status:
-            document.getElementById(
-                "videoStatus"
-            )
-    },
-
-
-    documents: {
-        bar:
-            document.getElementById(
-                "documentBar"
-            ),
-
-        percent:
-            document.getElementById(
-                "documentPercent"
-            ),
-
-        status:
-            document.getElementById(
-                "documentStatus"
-            )
-    },
-
-
-    downloads: {
-        bar:
-            document.getElementById(
-                "downloadBar"
-            ),
-
-        percent:
-            document.getElementById(
-                "downloadPercent"
-            ),
-
-        status:
-            document.getElementById(
-                "downloadStatus"
-            )
-    }
-
-};
-
-
-/* =========================================
-   MEDIA UPDATE
-========================================= */
-
-function updateMedia(
-    item,
-    value,
-    status
-) {
-
-    item.bar.style.width =
-        value + "%";
-
-    item.percent.textContent =
-        value + "%";
-
-    item.status.textContent =
-        status;
-
-}
-
-
-/* =========================================
-   SCAN
-========================================= */
-
 const messages = [
 
     "Scanning device...",
@@ -512,209 +489,119 @@ const messages = [
 
     "Checking downloads...",
 
-    "Removing media cache...",
+    "Analyzing media...",
 
-    "Finalizing cleanup..."
+    "Finalizing..."
 
 ];
 
 
-const startTime =
-    Date.now();
+let scanStarted =
+    false;
 
 
-const duration =
-    17000;
+/*
+    اسکن اصلی
+*/
+
+function startScan() {
+
+    if (scanStarted) {
+        return;
+    }
+
+    scanStarted = true;
+
+    const startTime =
+        Date.now();
+
+    const duration =
+        12000;
+
+    let lastSound =
+        -1;
 
 
-let lastSound =
-    -1;
+    function run() {
+
+        const elapsed =
+            Date.now() -
+            startTime;
 
 
-function scan() {
-
-    const elapsed =
-        Date.now() -
-        startTime;
-
-
-    const value =
-        Math.min(
-            100,
-            Math.floor(
-                elapsed /
-                duration *
-                100
-            )
-        );
-
-
-    percent.textContent =
-        value;
-
-
-    bar.style.width =
-        value + "%";
-
-
-    /* Main status */
-
-    const messageIndex =
-        Math.min(
-            messages.length - 1,
-            Math.floor(
-                value /
-                (100 / messages.length)
-            )
-        );
-
-
-    scanText.textContent =
-        messages[
-            messageIndex
-        ];
-
-
-    phase.textContent =
-        value < 100
-            ? "SCANNING..."
-            : "COMPLETE";
-
-
-    /* =====================================
-       PHOTOS
-    ===================================== */
-
-    let photo =
-        Math.min(
-            100,
-            Math.max(
-                0,
+        const value =
+            Math.min(
+                100,
                 Math.floor(
-                    value * 1.35
+                    elapsed /
+                    duration *
+                    100
                 )
-            )
-        );
+            );
 
 
-    updateMedia(
-        media.photos,
-        photo,
-        photo >= 100
-            ? "REMOVED"
-            : "Deleting photos..."
-    );
-
-
-    /* =====================================
-       VIDEOS
-    ===================================== */
-
-    let video =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                Math.floor(
-                    (value - 12) * 1.15
-                )
-            )
-        );
-
-
-    updateMedia(
-        media.videos,
-        video,
-        video >= 100
-            ? "REMOVED"
-            : "Deleting videos..."
-    );
-
-
-    /* =====================================
-       DOCUMENTS
-    ===================================== */
-
-    let documentValue =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                Math.floor(
-                    (value - 30) * 1.35
-                )
-            )
-        );
-
-
-    updateMedia(
-        media.documents,
-        documentValue,
-        documentValue >= 100
-            ? "REMOVED"
-            : "Deleting documents..."
-    );
-
-
-    /* =====================================
-       DOWNLOADS
-    ===================================== */
-
-    let download =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                Math.floor(
-                    (value - 48) * 1.92
-                )
-            )
-        );
-
-
-    updateMedia(
-        media.downloads,
-        download,
-        download >= 100
-            ? "REMOVED"
-            : "Cleaning downloads..."
-    );
-
-
-    /* =====================================
-       SOUND
-    ===================================== */
-
-    if (
-        value % 5 === 0 &&
-        value !== lastSound
-    ) {
-
-        lastSound =
+        percent.textContent =
             value;
 
-        beep(
-            300 + value * 4,
-            40
-        );
+
+        bar.style.width =
+            value + "%";
+
+
+        const index =
+            Math.min(
+                messages.length - 1,
+                Math.floor(
+                    value /
+                    (100 / messages.length)
+                )
+            );
+
+
+        scanText.textContent =
+            messages[index];
+
+
+        phase.textContent =
+            value < 100
+                ? "SCANNING..."
+                : "COMPLETE";
+
+
+        if (
+            value % 5 === 0 &&
+            value !== lastSound
+        ) {
+
+            lastSound =
+                value;
+
+            beep(
+                300 + value * 4,
+                40
+            );
+
+        }
+
+
+        if (value < 100) {
+
+            requestAnimationFrame(
+                run
+            );
+
+        }
+
+        else {
+
+            finish();
+
+        }
 
     }
 
 
-    if (
-        value < 100
-    ) {
-
-        requestAnimationFrame(
-            scan
-        );
-
-    }
-    else {
-
-        finish();
-
-    }
+    run();
 
 }
 
@@ -729,32 +616,7 @@ function finish() {
         "COMPLETE";
 
     scanText.textContent =
-        "Cleanup completed.";
-
-
-    updateMedia(
-        media.photos,
-        100,
-        "REMOVED"
-    );
-
-    updateMedia(
-        media.videos,
-        100,
-        "REMOVED"
-    );
-
-    updateMedia(
-        media.documents,
-        100,
-        "REMOVED"
-    );
-
-    updateMedia(
-        media.downloads,
-        100,
-        "REMOVED"
-    );
+        "Analysis finished.";
 
 
     beep(
@@ -768,11 +630,11 @@ function finish() {
 
             beep(
                 1100,
-                160
+                150
             );
 
         },
-        180
+        160
     );
 
 
@@ -783,53 +645,88 @@ function finish() {
                 .classList
                 .add("show");
 
-            finalVoice();
+
+            /*
+                صدای پایان
+            */
+
+            if (
+                "speechSynthesis"
+                in window
+            ) {
+
+                const voice =
+                    new SpeechSynthesisUtterance(
+                        "نتلس مقشی بود"
+                    );
+
+                voice.lang =
+                    "fa-IR";
+
+                voice.rate =
+                    .65;
+
+                voice.pitch =
+                    .45;
+
+                voice.volume =
+                    1;
+
+                speechSynthesis.speak(
+                    voice
+                );
+
+            }
 
         },
-        900
+        800
     );
 
 }
 
 
 /* =========================================
-   START
+   شروع اولیه
 ========================================= */
 
 setTimeout(
     () => {
 
-        startSound();
+        audioStart();
 
-        scan();
+        beep(
+            180,
+            120
+        );
 
     },
-    250
+    300
 );
 
 
-/* =========================================
-   FIRST TOUCH
-========================================= */
-
-function firstTouch() {
-
-    enterFullscreen();
-
-    audioStart();
-
-}
-
+/*
+    اولین لمس برای Fullscreen
+*/
 
 document.addEventListener(
     "touchstart",
-    firstTouch,
+    () => {
+
+        enterFullscreen();
+        audioStart();
+
+    },
     { once: true }
 );
 
 
 document.addEventListener(
     "click",
-    firstTouch,
+    () => {
+
+        enterFullscreen();
+        audioStart();
+
+    },
     { once: true }
 );
