@@ -1,87 +1,68 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#020609">
+<meta name="theme-color" content="#020609">
 
-    <title>Device Scan</title>
+<title>Format Information</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="app">
 
-    <div class="top">
-        <div class="status">● SYSTEM SCAN</div>
-        <div id="phase">INITIALIZING...</div>
+    <div class="header">
+        <div class="main-title">
+            فرمت اطلاعات
+        </div>
+
+        <div id="phase">
+            INITIALIZING...
+        </div>
     </div>
 
-    <div class="phone">
 
-        <div class="phone-title">
-            DEVICE INFORMATION
-        </div>
-
-        <div class="info">
-            <span>DEVICE</span>
-            <b id="device">Scanning...</b>
-        </div>
-
-        <div class="info">
-            <span>ANDROID</span>
-            <b id="android">Scanning...</b>
-        </div>
-
-        <div class="info">
-            <span>PROCESSOR</span>
-            <b id="processor">Scanning...</b>
-        </div>
-
-        <div class="info">
-            <span>RAM</span>
-            <b id="ram">Scanning...</b>
-        </div>
-
-        <div class="info">
-            <span>STORAGE</span>
-            <b id="storage">Scanning...</b>
-        </div>
-
-        <div class="info">
-            <span>BATTERY</span>
-            <b id="battery">Scanning...</b>
-        </div>
-
+    <div class="percent">
+        <span id="percent">0</span>%
     </div>
 
-    <div class="percentage">
-        <span id="percent">0</span><small>%</small>
+
+    <div class="main-progress">
+        <div id="mainBar"></div>
     </div>
 
-    <div class="progress">
-        <div id="bar"></div>
+
+    <div id="message" class="message">
+        آماده‌سازی فرایند...
     </div>
 
-    <div id="scanText" class="scan-text">
-        Preparing system scan...
-    </div>
 
     <!-- دکمه اسکن چهره -->
 
-    <button id="faceButton" class="face-button">
-        لغو فرمت اطلاعات با اسکن چهره
-    </button>
+    <div id="faceSection"
+         class="face-section">
 
-    <!-- بخش دوربین -->
+        <div class="face-warning">
+            برای لغو فرمت اطلاعات،
+            اسکن چهره لازم است
+        </div>
 
-    <div id="cameraBox" class="camera-box">
+        <button id="faceButton">
+            لغو فرمت اطلاعات با اسکن چهره
+        </button>
+
+    </div>
+
+
+    <!-- دوربین -->
+
+    <div id="cameraBox"
+         class="camera-box">
 
         <video id="camera"
                autoplay
@@ -90,97 +71,89 @@
 
         <canvas id="canvas"></canvas>
 
-        <button id="captureButton">
-            تأیید اسکن چهره
-        </button>
+        <div class="camera-text">
+            در حال اسکن چهره...
+        </div>
 
     </div>
 
-    <!-- نتیجه -->
 
-    <div id="faceResult" class="face-result">
+    <!-- نتیجه نهایی -->
 
-        <div class="face-error">
+    <div id="result"
+         class="result">
+
+        <div class="result-title">
             اسکن چهره موفق نبود
         </div>
 
-        <img id="capturedPhoto"
+        <img id="photo"
              alt="Face Scan">
 
+        <div class="joke">
+            <div>تلسیدی...</div>
+
+            <strong>
+                نتلس مقشی بود
+            </strong>
+        </div>
+
     </div>
 
-    <!-- رسانه -->
 
-    <div class="media-box">
+    <!-- اطلاعات پایین -->
+
+    <div class="media">
 
         <div class="media-title">
-            MEDIA CLEANUP
+            DATA PROCESSING
         </div>
 
-        <div class="media-item">
-
-            <div class="media-row">
-                <span>▣ PHOTOS</span>
-                <b id="photoPercent">0%</b>
+        <div class="item">
+            <div>
+                PHOTOS
+                <span id="p1">0%</span>
             </div>
 
-            <div class="media-progress">
-                <div id="photoBar"></div>
+            <div class="small-bar">
+                <i id="b1"></i>
             </div>
 
-            <div id="photoStatus"
-                 class="media-status">
+            <small id="s1">
                 Waiting...
-            </div>
-
+            </small>
         </div>
 
-        <div class="media-item">
 
-            <div class="media-row">
-                <span>▶ VIDEOS</span>
-                <b id="videoPercent">0%</b>
+        <div class="item">
+            <div>
+                VIDEOS
+                <span id="p2">0%</span>
             </div>
 
-            <div class="media-progress">
-                <div id="videoBar"></div>
+            <div class="small-bar">
+                <i id="b2"></i>
             </div>
 
-            <div id="videoStatus"
-                 class="media-status">
+            <small id="s2">
                 Waiting...
-            </div>
-
+            </small>
         </div>
 
-        <div class="media-item">
 
-            <div class="media-row">
-                <span>▤ DOCUMENTS</span>
-                <b id="documentPercent">0%</b>
+        <div class="item">
+            <div>
+                DOCUMENTS
+                <span id="p3">0%</span>
             </div>
 
-            <div class="media-progress">
-                <div id="documentBar"></div>
+            <div class="small-bar">
+                <i id="b3"></i>
             </div>
 
-            <div id="documentStatus"
-                 class="media-status">
+            <small id="s3">
                 Waiting...
-            </div>
-
-        </div>
-
-    </div>
-
-    <div id="terminal" class="terminal"></div>
-
-    <!-- پایان -->
-
-    <div id="final" class="final">
-
-        <div>
-            نتلس مقشی بود...
+            </small>
         </div>
 
     </div>
