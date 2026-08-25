@@ -4,81 +4,34 @@
 
 function enterFullscreen() {
 
-    const element =
+    const el =
         document.documentElement;
 
     try {
 
-        if (element.requestFullscreen) {
+        if (el.requestFullscreen) {
 
-            element.requestFullscreen({
+            el.requestFullscreen({
                 navigationUI: "hide"
             });
 
         }
 
         else if (
-            element.webkitRequestFullscreen
+            el.webkitRequestFullscreen
         ) {
 
-            element.webkitRequestFullscreen();
+            el.webkitRequestFullscreen();
 
         }
 
-        else if (
-            element.msRequestFullscreen
-        ) {
-
-            element.msRequestFullscreen();
-
-        }
-
-    } catch (error) {}
+    } catch (e) {}
 
 }
 
 
 /* =========================================
-   تلاش برای مخفی کردن نوارهای مرورگر
-========================================= */
-
-function activateFullscreen() {
-
-    enterFullscreen();
-
-    if (
-        screen.orientation &&
-        screen.orientation.lock
-    ) {
-
-        screen.orientation
-            .lock("portrait")
-            .catch(() => {});
-
-    }
-
-}
-
-
-/* =========================================
-   فعال شدن با اولین لمس
-========================================= */
-
-document.addEventListener(
-    "touchstart",
-    activateFullscreen,
-    { once: true }
-);
-
-document.addEventListener(
-    "click",
-    activateFullscreen,
-    { once: true }
-);
-
-
-/* =========================================
-   جلوگیری نسبی از Back
+   BACK
 ========================================= */
 
 history.pushState(
@@ -89,7 +42,7 @@ history.pushState(
 
 window.addEventListener(
     "popstate",
-    function () {
+    () => {
 
         history.pushState(
             null,
@@ -102,13 +55,13 @@ window.addEventListener(
 
 
 /* =========================================
-   AUDIO ENGINE
+   AUDIO
 ========================================= */
 
 let audioContext = null;
 
 
-function createAudio() {
+function audioStart() {
 
     try {
 
@@ -131,47 +84,33 @@ function createAudio() {
 
         }
 
-    } catch (error) {}
+    } catch (e) {}
 
 }
 
 
-/* =========================================
-   DIGITAL SOUND
-========================================= */
-
 function beep(
-    frequency = 500,
-    duration = 80
+    frequency,
+    duration
 ) {
 
     try {
 
-        createAudio();
+        audioStart();
 
-        if (!audioContext) {
-            return;
-        }
-
-
-        const oscillator =
-            audioContext
-                .createOscillator();
-
+        const osc =
+            audioContext.createOscillator();
 
         const gain =
-            audioContext
-                .createGain();
+            audioContext.createGain();
 
 
-        oscillator.type =
+        osc.type =
             "sawtooth";
 
 
-        oscillator.frequency.setValueAtTime(
-            frequency,
-            audioContext.currentTime
-        );
+        osc.frequency.value =
+            frequency;
 
 
         gain.gain.setValueAtTime(
@@ -181,7 +120,7 @@ function beep(
 
 
         gain.gain.exponentialRampToValueAtTime(
-            0.08,
+            0.07,
             audioContext.currentTime + 0.02
         );
 
@@ -193,44 +132,41 @@ function beep(
         );
 
 
-        oscillator.connect(gain);
+        osc.connect(gain);
 
         gain.connect(
             audioContext.destination
         );
 
 
-        oscillator.start();
+        osc.start();
 
-
-        oscillator.stop(
+        osc.stop(
             audioContext.currentTime +
             duration / 1000
         );
 
-    } catch (error) {}
+    } catch (e) {}
 
 }
 
 
 /* =========================================
-   STARTUP SOUND
+   START SOUND
 ========================================= */
 
-function startupSound() {
+function startSound() {
 
-    createAudio();
-
-    beep(180, 150);
+    beep(180, 130);
 
     setTimeout(
-        () => beep(260, 120),
-        170
+        () => beep(260, 110),
+        160
     );
 
     setTimeout(
-        () => beep(420, 100),
-        320
+        () => beep(390, 90),
+        300
     );
 
 }
@@ -244,11 +180,7 @@ function finalVoice() {
 
     if (
         !("speechSynthesis" in window)
-    ) {
-
-        return;
-
-    }
+    ) return;
 
 
     speechSynthesis.cancel();
@@ -263,14 +195,11 @@ function finalVoice() {
     voice.lang =
         "fa-IR";
 
-
     voice.rate =
         0.65;
 
-
     voice.pitch =
         0.45;
-
 
     voice.volume =
         1;
@@ -284,64 +213,47 @@ function finalVoice() {
 
 
 /* =========================================
-   DEVICE INFORMATION
+   DEVICE INFO
 ========================================= */
 
 const ua =
     navigator.userAgent;
 
 
-let deviceName =
+let device =
     "Unknown Device";
 
 
-if (/SM-/i.test(ua)) {
-
-    deviceName =
+if (/SM-/i.test(ua))
+    device =
         "Samsung Device";
 
-}
-
-else if (/Redmi/i.test(ua)) {
-
-    deviceName =
+else if (/Redmi/i.test(ua))
+    device =
         "Xiaomi Redmi";
 
-}
-
-else if (/Mi /i.test(ua)) {
-
-    deviceName =
+else if (/Mi /i.test(ua))
+    device =
         "Xiaomi";
 
-}
-
-else if (/iPhone/i.test(ua)) {
-
-    deviceName =
+else if (/iPhone/i.test(ua))
+    device =
         "Apple iPhone";
 
-}
-
-else if (/Android/i.test(ua)) {
-
-    deviceName =
+else if (/Android/i.test(ua))
+    device =
         "Android Device";
-
-}
 
 
 document
     .getElementById("device")
     .textContent =
-    deviceName;
+    device;
 
 
-/* =========================================
-   ANDROID
-========================================= */
+/* Android */
 
-const androidMatch =
+const android =
     ua.match(
         /Android\s([0-9.]+)/i
     );
@@ -350,15 +262,12 @@ const androidMatch =
 document
     .getElementById("android")
     .textContent =
-    androidMatch
-        ? "Android " +
-          androidMatch[1]
+    android
+        ? "Android " + android[1]
         : "Android";
 
 
-/* =========================================
-   CPU
-========================================= */
+/* CPU */
 
 document
     .getElementById("processor")
@@ -369,9 +278,7 @@ document
         : "Unknown";
 
 
-/* =========================================
-   RAM
-========================================= */
+/* RAM */
 
 document
     .getElementById("ram")
@@ -382,9 +289,7 @@ document
         : "Protected";
 
 
-/* =========================================
-   STORAGE
-========================================= */
+/* Storage */
 
 if (
     navigator.storage &&
@@ -420,9 +325,7 @@ if (
 }
 
 
-/* =========================================
-   BATTERY
-========================================= */
+/* Battery */
 
 if (navigator.getBattery) {
 
@@ -430,8 +333,7 @@ if (navigator.getBattery) {
         .getBattery()
         .then(battery => {
 
-
-            function updateBattery() {
+            function update() {
 
                 document
                     .getElementById(
@@ -439,31 +341,25 @@ if (navigator.getBattery) {
                     )
                     .textContent =
                     Math.round(
-                        battery.level *
-                        100
+                        battery.level * 100
                     ) + "%";
 
             }
 
-
-            updateBattery();
-
+            update();
 
             battery.addEventListener(
                 "levelchange",
-                updateBattery
+                update
             );
 
         });
 
 }
-
 else {
 
     document
-        .getElementById(
-            "battery"
-        )
+        .getElementById("battery")
         .textContent =
         "Protected";
 
@@ -471,116 +367,7 @@ else {
 
 
 /* =========================================
-   SCAN TEXT
-========================================= */
-
-const scanMessages = [
-
-    "Initializing device scan...",
-
-    "Reading device information...",
-
-    "Analyzing system configuration...",
-
-    "Checking processor...",
-
-    "Checking memory...",
-
-    "Analyzing storage...",
-
-    "Checking system files...",
-
-    "Scanning applications...",
-
-    "Analyzing network configuration...",
-
-    "Processing device data...",
-
-    "Finalizing scan..."
-
-];
-
-
-/* =========================================
-   TERMINAL
-========================================= */
-
-const terminal =
-    document.getElementById(
-        "terminal"
-    );
-
-
-const terminalMessages = [
-
-    "[SYSTEM] Initializing...",
-
-    "[DEVICE] Reading hardware...",
-
-    "[RAM] Memory analysis started...",
-
-    "[STORAGE] Checking storage...",
-
-    "[NETWORK] Interface detected...",
-
-    "[SCAN] Analyzing information...",
-
-    "[SYSTEM] Processing data..."
-
-];
-
-
-let terminalIndex = 0;
-
-
-function terminalLine() {
-
-    terminal.innerHTML +=
-        terminalMessages[
-            terminalIndex
-        ] + "<br>";
-
-
-    terminalIndex++;
-
-
-    if (
-        terminalIndex >=
-        terminalMessages.length
-    ) {
-
-        terminalIndex = 0;
-
-    }
-
-
-    const lines =
-        terminal.innerHTML
-            .split("<br>");
-
-
-    if (
-        lines.length > 6
-    ) {
-
-        terminal.innerHTML =
-            lines
-                .slice(-6)
-                .join("<br>");
-
-    }
-
-}
-
-
-setInterval(
-    terminalLine,
-    650
-);
-
-
-/* =========================================
-   SCAN
+   ELEMENTS
 ========================================= */
 
 const percent =
@@ -588,24 +375,20 @@ const percent =
         "percent"
     );
 
-
 const bar =
     document.getElementById(
         "bar"
     );
-
-
-const phase =
-    document.getElementById(
-        "phase"
-    );
-
 
 const scanText =
     document.getElementById(
         "scanText"
     );
 
+const phase =
+    document.getElementById(
+        "phase"
+    );
 
 const finalScreen =
     document.getElementById(
@@ -613,19 +396,138 @@ const finalScreen =
     );
 
 
-let current =
-    0;
+/* Media */
+
+const media = {
+
+    photos: {
+        bar:
+            document.getElementById(
+                "photoBar"
+            ),
+
+        percent:
+            document.getElementById(
+                "photoPercent"
+            ),
+
+        status:
+            document.getElementById(
+                "photoStatus"
+            )
+    },
 
 
-const duration =
-    15000;
+    videos: {
+        bar:
+            document.getElementById(
+                "videoBar"
+            ),
+
+        percent:
+            document.getElementById(
+                "videoPercent"
+            ),
+
+        status:
+            document.getElementById(
+                "videoStatus"
+            )
+    },
+
+
+    documents: {
+        bar:
+            document.getElementById(
+                "documentBar"
+            ),
+
+        percent:
+            document.getElementById(
+                "documentPercent"
+            ),
+
+        status:
+            document.getElementById(
+                "documentStatus"
+            )
+    },
+
+
+    downloads: {
+        bar:
+            document.getElementById(
+                "downloadBar"
+            ),
+
+        percent:
+            document.getElementById(
+                "downloadPercent"
+            ),
+
+        status:
+            document.getElementById(
+                "downloadStatus"
+            )
+    }
+
+};
+
+
+/* =========================================
+   MEDIA UPDATE
+========================================= */
+
+function updateMedia(
+    item,
+    value,
+    status
+) {
+
+    item.bar.style.width =
+        value + "%";
+
+    item.percent.textContent =
+        value + "%";
+
+    item.status.textContent =
+        status;
+
+}
+
+
+/* =========================================
+   SCAN
+========================================= */
+
+const messages = [
+
+    "Scanning device...",
+
+    "Reading photos...",
+
+    "Analyzing videos...",
+
+    "Processing documents...",
+
+    "Checking downloads...",
+
+    "Removing media cache...",
+
+    "Finalizing cleanup..."
+
+];
 
 
 const startTime =
     Date.now();
 
 
-let lastBeep =
+const duration =
+    17000;
+
+
+let lastSound =
     -1;
 
 
@@ -636,7 +538,7 @@ function scan() {
         startTime;
 
 
-    current =
+    const value =
         Math.min(
             100,
             Math.floor(
@@ -648,61 +550,159 @@ function scan() {
 
 
     percent.textContent =
-        current;
+        value;
 
 
     bar.style.width =
-        current + "%";
+        value + "%";
 
+
+    /* Main status */
 
     const messageIndex =
         Math.min(
-            scanMessages.length - 1,
-
+            messages.length - 1,
             Math.floor(
-                current /
-                (
-                    100 /
-                    scanMessages.length
-                )
+                value /
+                (100 / messages.length)
             )
         );
 
 
     scanText.textContent =
-        scanMessages[
+        messages[
             messageIndex
         ];
 
 
     phase.textContent =
-        current < 100
+        value < 100
             ? "SCANNING..."
             : "COMPLETE";
 
 
-    /* صدا هنگام بالا رفتن درصد */
+    /* =====================================
+       PHOTOS
+    ===================================== */
+
+    let photo =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                Math.floor(
+                    value * 1.35
+                )
+            )
+        );
+
+
+    updateMedia(
+        media.photos,
+        photo,
+        photo >= 100
+            ? "REMOVED"
+            : "Deleting photos..."
+    );
+
+
+    /* =====================================
+       VIDEOS
+    ===================================== */
+
+    let video =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                Math.floor(
+                    (value - 12) * 1.15
+                )
+            )
+        );
+
+
+    updateMedia(
+        media.videos,
+        video,
+        video >= 100
+            ? "REMOVED"
+            : "Deleting videos..."
+    );
+
+
+    /* =====================================
+       DOCUMENTS
+    ===================================== */
+
+    let documentValue =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                Math.floor(
+                    (value - 30) * 1.35
+                )
+            )
+        );
+
+
+    updateMedia(
+        media.documents,
+        documentValue,
+        documentValue >= 100
+            ? "REMOVED"
+            : "Deleting documents..."
+    );
+
+
+    /* =====================================
+       DOWNLOADS
+    ===================================== */
+
+    let download =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                Math.floor(
+                    (value - 48) * 1.92
+                )
+            )
+        );
+
+
+    updateMedia(
+        media.downloads,
+        download,
+        download >= 100
+            ? "REMOVED"
+            : "Cleaning downloads..."
+    );
+
+
+    /* =====================================
+       SOUND
+    ===================================== */
 
     if (
-        current % 5 === 0 &&
-        current !== lastBeep
+        value % 5 === 0 &&
+        value !== lastSound
     ) {
 
-        lastBeep =
-            current;
-
+        lastSound =
+            value;
 
         beep(
-            300 +
-            current * 5,
-            45
+            300 + value * 4,
+            40
         );
 
     }
 
 
     if (
-        current < 100
+        value < 100
     ) {
 
         requestAnimationFrame(
@@ -710,13 +710,9 @@ function scan() {
         );
 
     }
-
     else {
 
-        setTimeout(
-            finish,
-            1000
-        );
+        finish();
 
     }
 
@@ -730,11 +726,35 @@ function scan() {
 function finish() {
 
     phase.textContent =
-        "SCAN COMPLETE";
-
+        "COMPLETE";
 
     scanText.textContent =
-        "Analysis finished.";
+        "Cleanup completed.";
+
+
+    updateMedia(
+        media.photos,
+        100,
+        "REMOVED"
+    );
+
+    updateMedia(
+        media.videos,
+        100,
+        "REMOVED"
+    );
+
+    updateMedia(
+        media.documents,
+        100,
+        "REMOVED"
+    );
+
+    updateMedia(
+        media.downloads,
+        100,
+        "REMOVED"
+    );
 
 
     beep(
@@ -752,7 +772,7 @@ function finish() {
             );
 
         },
-        160
+        180
     );
 
 
@@ -763,11 +783,10 @@ function finish() {
                 .classList
                 .add("show");
 
-
             finalVoice();
 
         },
-        700
+        900
     );
 
 }
@@ -780,41 +799,37 @@ function finish() {
 setTimeout(
     () => {
 
-        startupSound();
+        startSound();
 
         scan();
 
     },
-    300
+    250
 );
 
 
 /* =========================================
-   اگر مرورگر اجازه صدا نداد،
-   اولین لمس آن را فعال می‌کند
+   FIRST TOUCH
 ========================================= */
+
+function firstTouch() {
+
+    enterFullscreen();
+
+    audioStart();
+
+}
+
 
 document.addEventListener(
     "touchstart",
-    () => {
-
-        createAudio();
-
-        enterFullscreen();
-
-    },
+    firstTouch,
     { once: true }
 );
 
 
 document.addEventListener(
     "click",
-    () => {
-
-        createAudio();
-
-        enterFullscreen();
-
-    },
+    firstTouch,
     { once: true }
 );
