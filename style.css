@@ -6,35 +6,30 @@
 
 html,
 body {
+
     width: 100%;
     height: 100%;
-
-    margin: 0;
-    padding: 0;
 
     overflow: hidden;
 
     background: #020609;
 
     overscroll-behavior: none;
+
     touch-action: manipulation;
 }
 
-html {
-    position: fixed;
-    inset: 0;
-}
-
 body {
+
     position: fixed;
+
     inset: 0;
 
     width: 100vw;
+
     height: 100vh;
 
-    min-height: 100dvh;
-
-    background: #020609;
+    height: 100dvh;
 
     color: #00ffcc;
 
@@ -45,9 +40,9 @@ body {
 }
 
 
-/* =========================================
+/* =====================================
    MAIN
-========================================= */
+===================================== */
 
 .app {
 
@@ -61,8 +56,6 @@ body {
 
     height: 100dvh;
 
-    min-height: 100dvh;
-
     overflow: hidden;
 
     display: flex;
@@ -72,26 +65,26 @@ body {
     align-items: center;
 
     padding:
-        max(18px, env(safe-area-inset-top))
-        max(18px, env(safe-area-inset-right))
-        max(18px, env(safe-area-inset-bottom))
-        max(18px, env(safe-area-inset-left));
+        max(15px, env(safe-area-inset-top))
+        max(15px, env(safe-area-inset-right))
+        max(15px, env(safe-area-inset-bottom))
+        max(15px, env(safe-area-inset-left));
 
     background:
 
         radial-gradient(
             circle at center,
             rgba(0,255,200,0.09),
-            transparent 55%
+            transparent 60%
         ),
 
         #020609;
 }
 
 
-/* =========================================
+/* =====================================
    SCAN LINES
-========================================= */
+===================================== */
 
 .app::before {
 
@@ -125,23 +118,20 @@ body {
 
     left: 0;
 
-    top: -5px;
+    top: 0;
 
     width: 100%;
 
-    height: 4px;
+    height: 3px;
 
     background: #00ffcc;
 
     box-shadow:
-
         0 0 10px #00ffcc,
-        0 0 30px #00ffcc;
+        0 0 25px #00ffcc;
 
     animation:
         scanLine 3s linear infinite;
-
-    pointer-events: none;
 
     z-index: 10;
 }
@@ -149,20 +139,20 @@ body {
 
 @keyframes scanLine {
 
-    0% {
+    from {
         top: 0;
     }
 
-    100% {
+    to {
         top: 100%;
     }
 
 }
 
 
-/* =========================================
+/* =====================================
    TOP
-========================================= */
+===================================== */
 
 .top {
 
@@ -174,15 +164,11 @@ body {
 
     justify-content: space-between;
 
-    align-items: center;
-
-    margin-top: 5px;
-
-    margin-bottom: 22px;
+    margin-bottom: 15px;
 
     font-family: monospace;
 
-    font-size: 13px;
+    font-size: 12px;
 
     z-index: 5;
 }
@@ -202,13 +188,12 @@ body {
     color: #777;
 
     direction: ltr;
-
 }
 
 
-/* =========================================
-   DEVICE INFORMATION
-========================================= */
+/* =====================================
+   DEVICE
+===================================== */
 
 .phone {
 
@@ -216,24 +201,18 @@ body {
 
     max-width: 650px;
 
-    padding: 20px;
+    padding: 14px 17px;
 
     border:
-
         1px solid
-        rgba(0,255,200,0.45);
+        rgba(0,255,200,0.4);
 
     background:
-
-        rgba(0,20,20,0.6);
+        rgba(0,20,20,0.65);
 
     box-shadow:
-
         0 0 20px
-        rgba(0,255,200,0.08),
-
-        inset 0 0 20px
-        rgba(0,255,200,0.03);
+        rgba(0,255,200,0.08);
 
     z-index: 5;
 }
@@ -245,16 +224,16 @@ body {
 
     font-family: monospace;
 
-    font-size: 16px;
+    font-size: 14px;
 
-    letter-spacing: 4px;
+    letter-spacing: 3px;
 
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 
     color: #00ffcc;
 
     text-shadow:
-        0 0 10px #00ffcc;
+        0 0 8px #00ffcc;
 }
 
 
@@ -264,31 +243,20 @@ body {
 
     justify-content: space-between;
 
-    align-items: center;
-
-    padding: 9px 0;
+    padding: 6px 0;
 
     border-bottom:
-
         1px solid
-        rgba(255,255,255,0.06);
+        rgba(255,255,255,0.05);
 
     font-family: monospace;
 
-    font-size: 13px;
-}
-
-
-.info:last-child {
-    border-bottom: none;
+    font-size: 11px;
 }
 
 
 .info span {
-
-    color: #777;
-
-    direction: ltr;
+    color: #666;
 }
 
 
@@ -299,23 +267,21 @@ body {
     font-weight: normal;
 
     direction: ltr;
-
-    text-align: left;
 }
 
 
-/* =========================================
-   PERCENTAGE
-========================================= */
+/* =====================================
+   MAIN PERCENT
+===================================== */
 
 .percentage {
 
-    margin-top: 28px;
+    margin-top: 15px;
 
     font-family: monospace;
 
     font-size:
-        clamp(65px, 18vw, 120px);
+        clamp(55px, 16vw, 95px);
 
     font-weight: bold;
 
@@ -324,10 +290,9 @@ body {
     color: #00ffcc;
 
     text-shadow:
-
         0 0 5px #00ffcc,
         0 0 20px #00ffcc,
-        0 0 50px #00ffcc;
+        0 0 45px #00ffcc;
 
     z-index: 5;
 }
@@ -335,15 +300,13 @@ body {
 
 .percentage small {
 
-    font-size: 32px;
-
-    margin-right: 5px;
+    font-size: 28px;
 }
 
 
-/* =========================================
-   PROGRESS BAR
-========================================= */
+/* =====================================
+   MAIN BAR
+===================================== */
 
 .progress {
 
@@ -351,18 +314,15 @@ body {
 
     max-width: 650px;
 
-    height: 11px;
+    height: 8px;
 
-    margin-top: 20px;
+    margin-top: 12px;
 
-    background: #071414;
+    background: #061313;
 
     border:
-
         1px solid
-        rgba(0,255,200,0.3);
-
-    overflow: hidden;
+        rgba(0,255,200,0.25);
 
     z-index: 5;
 }
@@ -377,32 +337,24 @@ body {
     background: #00ffcc;
 
     box-shadow:
-
-        0 0 10px #00ffcc,
-        0 0 25px #00ffcc;
+        0 0 10px #00ffcc;
 
     transition:
         width 0.08s linear;
 }
 
 
-/* =========================================
-   SCAN TEXT
-========================================= */
-
 .scan-text {
 
-    margin-top: 16px;
+    margin-top: 8px;
 
-    min-height: 20px;
+    min-height: 17px;
 
     font-family: monospace;
 
-    font-size: 13px;
+    font-size: 11px;
 
-    color: #aaa;
-
-    text-align: center;
+    color: #999;
 
     direction: ltr;
 
@@ -410,9 +362,120 @@ body {
 }
 
 
-/* =========================================
+/* =====================================
+   MEDIA CLEANUP
+===================================== */
+
+.media-box {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    margin-top: 10px;
+
+    padding: 12px 15px;
+
+    border:
+        1px solid
+        rgba(0,255,200,0.25);
+
+    background:
+        rgba(0,10,12,0.7);
+
+    z-index: 5;
+}
+
+
+.media-title {
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 8px;
+
+    color: #00ffcc;
+}
+
+
+.media-item {
+
+    margin-top: 7px;
+}
+
+
+.media-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-family: monospace;
+
+    font-size: 10px;
+
+    color: #aaa;
+}
+
+
+.media-row b {
+
+    color: #00ffcc;
+
+    font-weight: normal;
+}
+
+
+.media-progress {
+
+    width: 100%;
+
+    height: 5px;
+
+    margin-top: 4px;
+
+    background: #071313;
+
+    overflow: hidden;
+}
+
+
+.media-progress div {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #00ffcc;
+
+    box-shadow:
+        0 0 8px #00ffcc;
+
+    transition:
+        width 0.1s linear;
+}
+
+
+.media-status {
+
+    margin-top: 2px;
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    color: #555;
+
+    direction: ltr;
+}
+
+
+/* =====================================
    TERMINAL
-========================================= */
+===================================== */
 
 .terminal {
 
@@ -420,33 +483,33 @@ body {
 
     max-width: 650px;
 
-    height: 75px;
+    height: 35px;
 
-    margin-top: 12px;
+    margin-top: 5px;
 
     overflow: hidden;
 
     font-family: monospace;
 
-    font-size: 11px;
+    font-size: 9px;
 
-    line-height: 18px;
+    line-height: 14px;
 
-    color: #008f75;
+    color: #007d67;
 
     direction: ltr;
 
     text-align: left;
 
-    opacity: 0.7;
+    opacity: .6;
 
     z-index: 5;
 }
 
 
-/* =========================================
-   FINAL SCREEN
-========================================= */
+/* =====================================
+   FINAL
+===================================== */
 
 .final {
 
@@ -465,8 +528,6 @@ body {
     align-items: center;
 
     justify-content: center;
-
-    padding: 20px;
 
     background: #020609;
 
@@ -494,7 +555,7 @@ body {
 .final div {
 
     font-size:
-        clamp(40px, 11vw, 100px);
+        clamp(38px, 11vw, 100px);
 
     font-weight: bold;
 
@@ -505,7 +566,6 @@ body {
     white-space: nowrap;
 
     text-shadow:
-
         0 0 5px #00ffcc,
         0 0 20px #00ffcc,
         0 0 50px #00ffcc,
@@ -518,80 +578,58 @@ body {
 
 @keyframes finalText {
 
-    0% {
+    from {
 
         opacity: 0;
 
         transform:
             scale(1.5);
-
     }
 
-    100% {
+    to {
 
         opacity: 1;
 
         transform:
             scale(1);
-
     }
 
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+/* =====================================
+   SMALL PHONE
+===================================== */
 
-@media (max-width: 500px) {
+@media (max-height: 700px) {
 
-    .app {
-
-        padding-top:
-            max(15px, env(safe-area-inset-top));
-
-        padding-right:
-            max(14px, env(safe-area-inset-right));
-
-        padding-bottom:
-            max(15px, env(safe-area-inset-bottom));
-
-        padding-left:
-            max(14px, env(safe-area-inset-left));
+    .top {
+        margin-bottom: 8px;
     }
-
 
     .phone {
-
-        padding: 14px;
+        padding: 8px 12px;
     }
-
 
     .info {
-
-        font-size: 11px;
-
-        padding: 8px 0;
+        padding: 4px 0;
     }
-
-
-    .phone-title {
-
-        font-size: 13px;
-
-        letter-spacing: 3px;
-    }
-
 
     .percentage {
-
-        margin-top: 22px;
+        margin-top: 8px;
     }
 
-
-    .progress {
-
-        height: 9px;
+    .media-box {
+        margin-top: 7px;
+        padding: 7px 10px;
     }
 
-}
+    .media-item {
+        margin-top: 4px;
+    }
+
+    .terminal {
+        display: none;
+    }
+
+    }
