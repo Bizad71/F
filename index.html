@@ -2,8 +2,29 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="theme-color"
+        content="#020609"
+    >
+
     <title>Device Scan</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,11 +34,14 @@
 
     <div class="top">
         <div class="status">● SYSTEM SCAN</div>
-        <div id="phase">در حال آماده‌سازی...</div>
+        <div id="phase">INITIALIZING...</div>
     </div>
 
     <div class="phone">
-        <div class="phone-title">DEVICE INFORMATION</div>
+
+        <div class="phone-title">
+            DEVICE INFORMATION
+        </div>
 
         <div class="info">
             <span>DEVICE</span>
@@ -48,24 +72,41 @@
             <span>BATTERY</span>
             <b id="battery">Scanning...</b>
         </div>
+
     </div>
+
 
     <div class="percentage">
         <span id="percent">0</span><small>%</small>
     </div>
 
+
     <div class="progress">
         <div id="bar"></div>
     </div>
 
-    <div class="scan-text" id="scanText">
+
+    <div
+        class="scan-text"
+        id="scanText"
+    >
         Initializing device scan...
     </div>
 
-    <div class="terminal" id="terminal"></div>
 
-    <div class="final" id="final">
-        <div>نتلس مقشی بود...</div>
+    <div
+        class="terminal"
+        id="terminal"
+    ></div>
+
+
+    <div
+        class="final"
+        id="final"
+    >
+        <div>
+            نتلس مقشی بود...
+        </div>
     </div>
 
 </div>
