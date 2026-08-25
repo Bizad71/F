@@ -1,46 +1,27 @@
-/* =====================================
-   عناصر
-===================================== */
+const percent = document.getElementById("percent");
+const mainBar = document.getElementById("mainBar");
+const message = document.getElementById("message");
+const phase = document.getElementById("phase");
 
-const percent =
-    document.getElementById("percent");
+const faceSection = document.getElementById("faceSection");
+const faceButton = document.getElementById("faceButton");
 
-const mainBar =
-    document.getElementById("mainBar");
+const cameraBox = document.getElementById("cameraBox");
+const camera = document.getElementById("camera");
+const canvas = document.getElementById("canvas");
 
-const message =
-    document.getElementById("message");
-
-const phase =
-    document.getElementById("phase");
-
-const faceSection =
-    document.getElementById("faceSection");
-
-const faceButton =
-    document.getElementById("faceButton");
-
-const cameraBox =
-    document.getElementById("cameraBox");
-
-const camera =
-    document.getElementById("camera");
-
-const canvas =
-    document.getElementById("canvas");
-
-const result =
-    document.getElementById("result");
-
-const photo =
-    document.getElementById("photo");
-
+const result = document.getElementById("result");
+const photo = document.getElementById("photo");
 
 let stream = null;
-
 let faceTaken = false;
 
+let scanPaused = false;
 let scanFinished = false;
+
+let scanStart = Date.now();
+
+const scanDuration = 16000;
 
 
 /* =====================================
@@ -52,14 +33,12 @@ function fullscreen() {
     try {
 
         if (
-            document.documentElement
-                .requestFullscreen
+            document.documentElement.requestFullscreen
         ) {
 
-            document.documentElement
-                .requestFullscreen({
-                    navigationUI: "hide"
-                });
+            document.documentElement.requestFullscreen({
+                navigationUI: "hide"
+            });
 
         }
 
@@ -69,32 +48,26 @@ function fullscreen() {
 
 
 /* =====================================
-   صدای ساده
+   SOUND
 ===================================== */
 
-let audio;
+let audio = null;
 
-function sound() {
+function beep(freq = 450, time = 70) {
 
     try {
 
         if (!audio) {
 
-            audio =
-                new (
-                    window.AudioContext ||
-                    window.webkitAudioContext
-                )();
+            audio = new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
 
         }
 
-        if (
-            audio.state ===
-            "suspended"
-        ) {
-
+        if (audio.state === "suspended") {
             audio.resume();
-
         }
 
         const osc =
@@ -103,22 +76,18 @@ function sound() {
         const gain =
             audio.createGain();
 
-        osc.frequency.value =
-            450;
+        osc.frequency.value = freq;
 
-        gain.gain.value =
-            .025;
+        gain.gain.value = 0.025;
 
         osc.connect(gain);
-
-        gain.connect(
-            audio.destination
-        );
+        gain.connect(audio.destination);
 
         osc.start();
 
         osc.stop(
-            audio.currentTime + .05
+            audio.currentTime +
+            time / 1000
         );
 
     } catch (e) {}
@@ -127,33 +96,29 @@ function sound() {
 
 
 /* =====================================
-   اسکن
+   SCAN
 ===================================== */
-
-let start =
-    Date.now();
-
-const duration =
-    16000;
-
 
 function scan() {
 
-    if (scanFinished) {
+    if (
+        scanFinished ||
+        scanPaused
+    ) {
+
         return;
+
     }
 
-
     const elapsed =
-        Date.now() - start;
-
+        Date.now() - scanStart;
 
     const value =
         Math.min(
             100,
             Math.floor(
                 elapsed /
-                duration *
+                scanDuration *
                 100
             )
         );
@@ -161,7 +126,6 @@ function scan() {
 
     percent.textContent =
         value;
-
 
     mainBar.style.width =
         value + "%";
@@ -173,7 +137,9 @@ function scan() {
             : "COMPLETE";
 
 
-    /* پیام‌ها */
+    /* =================================
+       پیام‌ها
+    ================================= */
 
     if (value < 10) {
 
@@ -184,7 +150,6 @@ function scan() {
 
     else if (
         value >= 10 &&
-        value < 30 &&
         !faceTaken
     ) {
 
@@ -197,56 +162,43 @@ function scan() {
 
     }
 
-    else if (
-        value >= 30 &&
-        value < 55
-    ) {
+    else if (value < 40) {
 
         message.textContent =
-            "در حال بررسی فایل‌های تصویری...";
+            "در حال بررسی اطلاعات...";
 
     }
 
-    else if (
-        value >= 55 &&
-        value < 75
-    ) {
+    else if (value < 65) {
 
         message.textContent =
-            "در حال بررسی ویدیوها...";
+            "در حال بررسی تصاویر و ویدیوها...";
 
     }
 
-    else if (
-        value >= 75 &&
-        value < 95
-    ) {
+    else if (value < 85) {
 
         message.textContent =
-            "در حال پردازش اطلاعات...";
+            "در حال پردازش فایل‌ها...";
 
     }
 
     else {
 
         message.textContent =
-            "در حال نهایی‌سازی...";
+            "در حال نهایی‌سازی اطلاعات...";
 
     }
 
 
-    /* درصدهای نمایشی */
+    /* نوارهای پایین */
 
     updateSmall(
         "b1",
         "p1",
         Math.min(100, value * 1.4),
-        "s1",
-        value > 70
-            ? "REMOVED"
-            : "Processing photos..."
+        "s1"
     );
-
 
     updateSmall(
         "b2",
@@ -258,12 +210,8 @@ function scan() {
                 (value - 20) * 1.3
             )
         ),
-        "s2",
-        value > 95
-            ? "REMOVED"
-            : "Processing videos..."
+        "s2"
     );
-
 
     updateSmall(
         "b3",
@@ -275,10 +223,7 @@ function scan() {
                 (value - 45) * 1.8
             )
         ),
-        "s3",
-        value > 95
-            ? "REMOVED"
-            : "Processing documents..."
+        "s3"
     );
 
 
@@ -286,16 +231,17 @@ function scan() {
         value % 5 === 0
     ) {
 
-        sound();
+        beep(
+            350 + value * 3,
+            35
+        );
 
     }
 
 
     if (value < 100) {
 
-        requestAnimationFrame(
-            scan
-        );
+        requestAnimationFrame(scan);
 
     }
 
@@ -308,12 +254,15 @@ function scan() {
 }
 
 
+/* =====================================
+   SMALL BARS
+===================================== */
+
 function updateSmall(
     barId,
     percentId,
     value,
-    statusId,
-    status
+    statusId
 ) {
 
     value =
@@ -332,83 +281,123 @@ function updateSmall(
     document
         .getElementById(statusId)
         .textContent =
-        status;
+        value >= 100
+            ? "REMOVED"
+            : "Processing...";
+
 }
 
 
 /* =====================================
-   اسکن چهره
+   دکمه اسکن چهره
 ===================================== */
 
 faceButton.addEventListener(
     "click",
     async () => {
 
+        /*
+         * اینجا اسکن متوقف می‌شود
+         */
+
+        scanPaused = true;
+
+        faceButton.disabled = true;
+
         fullscreen();
 
         message.textContent =
-            "درخواست دسترسی به دوربین...";
+            "در انتظار اجازه دوربین...";
+
+        phase.textContent =
+            "FACE VERIFICATION";
 
 
         try {
 
             stream =
-                await navigator
-                    .mediaDevices
-                    .getUserMedia({
+                await navigator.mediaDevices.getUserMedia({
 
-                        video: {
-                            facingMode:
-                                "user"
-                        },
+                    video: {
+                        facingMode: "user"
+                    },
 
-                        audio: false
+                    audio: false
 
-                    });
+                });
 
+
+            /*
+             * دوربین آماده شد
+             */
 
             camera.srcObject =
                 stream;
 
-
             cameraBox
                 .classList
                 .add("show");
-
 
             faceSection.style.display =
                 "none";
 
 
             message.textContent =
-                "دوربین فعال شد؛ در حال اسکن چهره...";
+                "در حال اسکن چهره...";
 
 
             /*
-               صبر کوتاه تا تصویر دوربین
-               واقعاً آماده شود
-            */
+             * بعد از آماده شدن تصویر،
+             * خودکار عکس گرفته می‌شود
+             */
 
-            camera.onloadedmetadata =
-                () => {
+            if (
+                camera.readyState >= 2
+            ) {
 
-                    setTimeout(
-                        takePhoto,
-                        900
-                    );
+                setTimeout(
+                    takeFacePhoto,
+                    700
+                );
 
-                };
+            }
 
+            else {
+
+                camera.onloadedmetadata =
+                    () => {
+
+                        setTimeout(
+                            takeFacePhoto,
+                            700
+                        );
+
+                    };
+
+            }
 
         }
 
         catch (error) {
 
+            /*
+             * اگر اجازه داده نشد
+             */
+
+            scanPaused = false;
+
+            faceButton.disabled =
+                false;
+
             message.textContent =
                 "دسترسی دوربین انجام نشد";
 
-            faceButton.textContent =
-                "دوباره تلاش کنید";
+            phase.textContent =
+                "CAMERA DENIED";
+
+            requestAnimationFrame(
+                scan
+            );
 
         }
 
@@ -417,10 +406,10 @@ faceButton.addEventListener(
 
 
 /* =====================================
-   گرفتن عکس خودکار
+   گرفتن عکس
 ===================================== */
 
-function takePhoto() {
+function takeFacePhoto() {
 
     if (
         faceTaken ||
@@ -431,29 +420,33 @@ function takePhoto() {
 
     }
 
-
     faceTaken = true;
 
 
-    canvas.width =
+    const width =
         camera.videoWidth;
 
-    canvas.height =
+    const height =
         camera.videoHeight;
 
 
+    canvas.width =
+        width;
+
+    canvas.height =
+        height;
+
+
     const ctx =
-        canvas.getContext(
-            "2d"
-        );
+        canvas.getContext("2d");
 
 
     /*
-       تصویر آینه‌ای سلفی
-    */
+     * تصویر سلفی
+     */
 
     ctx.translate(
-        canvas.width,
+        width,
         0
     );
 
@@ -467,28 +460,127 @@ function takePhoto() {
         camera,
         0,
         0,
-        canvas.width,
-        canvas.height
+        width,
+        height
     );
 
 
     /*
-       افکت کارتونی
-       افزایش کنتراست + کاهش رنگ‌ها
-    */
+     * کارتونی کردن واقعی‌تر
+     */
 
-    const imageData =
-        ctx.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height
+    cartoonize(
+        ctx,
+        width,
+        height
+    );
+
+
+    /*
+     * خروجی عکس
+     */
+
+    photo.src =
+        canvas.toDataURL(
+            "image/jpeg",
+            0.92
         );
 
 
-    const data =
-        imageData.data;
+    /*
+     * خاموش کردن دوربین
+     */
 
+    if (stream) {
+
+        stream
+            .getTracks()
+            .forEach(
+                track => track.stop()
+            );
+
+        stream = null;
+
+    }
+
+
+    camera.srcObject =
+        null;
+
+    cameraBox
+        .classList
+        .remove("show");
+
+
+    /*
+     * پیام شکست اسکن
+     */
+
+    message.textContent =
+        "اسکن چهره ناموفق بود";
+
+    phase.textContent =
+        "FACE SCAN FAILED";
+
+
+    beep(
+        220,
+        130
+    );
+
+
+    /*
+     * عکس فعلاً نمایش داده نمی‌شود.
+     * فقط در پایان نمایش داده خواهد شد.
+     */
+
+    /*
+     * ادامه درصد از مقدار فعلی
+     */
+
+    scanPaused = false;
+
+    scanStart =
+        Date.now() -
+        (
+            Number(percent.textContent) /
+            100 *
+            scanDuration
+        );
+
+
+    requestAnimationFrame(
+        scan
+    );
+
+}
+
+
+/* =====================================
+   CARTOON EFFECT
+===================================== */
+
+function cartoonize(
+    ctx,
+    width,
+    height
+) {
+
+    const image =
+        ctx.getImageData(
+            0,
+            0,
+            width,
+            height
+        );
+
+    const data =
+        image.data;
+
+
+    /*
+     * Posterize
+     */
 
     for (
         let i = 0;
@@ -504,53 +596,47 @@ function takePhoto() {
 
 
         /*
-           posterize
-        */
+         * کاهش تعداد رنگ‌ها
+         */
 
         r =
-            Math.floor(
-                r / 32
-            ) * 32;
+            Math.floor(r / 35) * 35;
 
         g =
-            Math.floor(
-                g / 32
-            ) * 32;
+            Math.floor(g / 35) * 35;
 
         b =
-            Math.floor(
-                b / 32
-            ) * 32;
+            Math.floor(b / 35) * 35;
 
 
         /*
-           کمی افزایش کنتراست
-        */
+         * کنتراست بیشتر
+         */
 
         r =
-            Math.min(
-                255,
-                Math.max(
-                    0,
-                    (r - 128) * 1.35 + 128
+            Math.max(
+                0,
+                Math.min(
+                    255,
+                    (r - 128) * 1.5 + 128
                 )
             );
 
         g =
-            Math.min(
-                255,
-                Math.max(
-                    0,
-                    (g - 128) * 1.35 + 128
+            Math.max(
+                0,
+                Math.min(
+                    255,
+                    (g - 128) * 1.5 + 128
                 )
             );
 
         b =
-            Math.min(
-                255,
-                Math.max(
-                    0,
-                    (b - 128) * 1.35 + 128
+            Math.max(
+                0,
+                Math.min(
+                    255,
+                    (b - 128) * 1.5 + 128
                 )
             );
 
@@ -563,53 +649,137 @@ function takePhoto() {
 
         data[i + 2] =
             b;
+
     }
 
 
     ctx.putImageData(
-        imageData,
+        image,
         0,
         0
     );
 
 
     /*
-       تبدیل به عکس
-    */
+     * خطوط کارتونی روی تصویر
+     */
 
-    photo.src =
-        canvas.toDataURL(
-            "image/jpeg",
-            .9
+    const second =
+        ctx.getImageData(
+            0,
+            0,
+            width,
+            height
+        );
+
+    const src =
+        second.data;
+
+
+    const copy =
+        new Uint8ClampedArray(
+            src
         );
 
 
     /*
-       خاموش کردن دوربین
-    */
+     * Edge Detection ساده
+     */
 
-    if (stream) {
+    for (
+        let y = 1;
+        y < height - 1;
+        y++
+    ) {
 
-        stream
-            .getTracks()
-            .forEach(
-                track =>
-                    track.stop()
-            );
+        for (
+            let x = 1;
+            x < width - 1;
+            x++
+        ) {
+
+            const i =
+                (y * width + x) * 4;
+
+            const left =
+                ((y * width + x - 1) * 4);
+
+            const right =
+                ((y * width + x + 1) * 4);
+
+            const up =
+                (((y - 1) * width + x) * 4);
+
+            const down =
+                (((y + 1) * width + x) * 4);
+
+
+            const current =
+                (
+                    copy[i] +
+                    copy[i + 1] +
+                    copy[i + 2]
+                ) / 3;
+
+
+            const neighbor =
+                (
+                    copy[left] +
+                    copy[left + 1] +
+                    copy[left + 2] +
+                    copy[right] +
+                    copy[right + 1] +
+                    copy[right + 2] +
+                    copy[up] +
+                    copy[up + 1] +
+                    copy[up + 2] +
+                    copy[down] +
+                    copy[down + 1] +
+                    copy[down + 2]
+                ) / 12;
+
+
+            /*
+             * اختلاف زیاد = لبه
+             */
+
+            if (
+                Math.abs(
+                    current -
+                    neighbor
+                ) > 35
+            ) {
+
+                src[i] =
+                    Math.max(
+                        0,
+                        src[i] * .25
+                    );
+
+                src[i + 1] =
+                    Math.max(
+                        0,
+                        src[i + 1] * .25
+                    );
+
+                src[i + 2] =
+                    Math.max(
+                        0,
+                        src[i + 2] * .25
+                    );
+
+            }
+
+        }
 
     }
 
 
-    cameraBox
-        .classList
-        .remove("show");
-
-
-    message.textContent =
-        "اسکن چهره انجام شد؛ ادامه پردازش اطلاعات...";
-
-
-    sound();
+    ctx.putImageData(
+        second,
+        0,
+        0
+    );
 
 }
 
@@ -632,21 +802,38 @@ function finish() {
         "COMPLETE";
 
 
+    message.textContent =
+        "فرایند تکمیل شد";
+
+
+    /*
+     * عکس فقط در پایان نمایش داده می‌شود
+     */
+
     if (faceTaken) {
 
-        message.textContent =
-            "اسکن چهره موفق نبود";
+        setTimeout(
+            () => {
 
-        result
-            .classList
-            .add("show");
+                result
+                    .classList
+                    .add("show");
 
-    }
+                message.textContent =
+                    "اسکن چهره ناموفق بود";
 
-    else {
+                /*
+                 * اسکرول به سمت عکس
+                 */
 
-        message.textContent =
-            "فرایند تکمیل شد";
+                result.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            },
+            600
+        );
 
     }
 
@@ -654,7 +841,7 @@ function finish() {
 
 
 /* =====================================
-   شروع
+   START
 ===================================== */
 
 setTimeout(
