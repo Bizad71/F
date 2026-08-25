@@ -448,3 +448,37 @@ document.addEventListener(
     activateSound,
     { once: true }
 );
+function enterFullscreen() {
+
+    const element = document.documentElement;
+
+    if (element.requestFullscreen) {
+        element.requestFullscreen().catch(() => {});
+    } 
+    else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } 
+    else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+
+}
+
+
+/* با اولین لمس، صفحه تمام‌صفحه شود */
+
+document.addEventListener(
+    "touchstart",
+    () => {
+        enterFullscreen();
+    },
+    { once: true }
+);
+
+document.addEventListener(
+    "click",
+    () => {
+        enterFullscreen();
+    },
+    { once: true }
+);
