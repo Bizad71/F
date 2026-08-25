@@ -3,36 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Alert</title>
+    <title>Device Scan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="screen">
+<div class="app">
 
-        <div class="warning">⚠ SYSTEM ALERT ⚠</div>
-
-        <div class="main-text" id="mainText">
-            تلسیدی...
-        </div>
-
-        <div class="sub-text" id="subText">
-            نتلس مقشی بود...
-        </div>
-
-        <div class="loader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
-        <div class="terminal" id="terminal"></div>
-
+    <div class="top">
+        <div class="status">● SYSTEM SCAN</div>
+        <div id="phase">در حال آماده‌سازی...</div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="phone">
+        <div class="phone-title">DEVICE INFORMATION</div>
+
+        <div class="info">
+            <span>DEVICE</span>
+            <b id="device">Scanning...</b>
+        </div>
+
+        <div class="info">
+            <span>ANDROID</span>
+            <b id="android">Scanning...</b>
+        </div>
+
+        <div class="info">
+            <span>PROCESSOR</span>
+            <b id="processor">Scanning...</b>
+        </div>
+
+        <div class="info">
+            <span>RAM</span>
+            <b id="ram">Scanning...</b>
+        </div>
+
+        <div class="info">
+            <span>STORAGE</span>
+            <b id="storage">Scanning...</b>
+        </div>
+
+        <div class="info">
+            <span>BATTERY</span>
+            <b id="battery">Scanning...</b>
+        </div>
+    </div>
+
+    <div class="percentage">
+        <span id="percent">0</span><small>%</small>
+    </div>
+
+    <div class="progress">
+        <div id="bar"></div>
+    </div>
+
+    <div class="scan-text" id="scanText">
+        Initializing device scan...
+    </div>
+
+    <div class="terminal" id="terminal"></div>
+
+    <div class="final" id="final">
+        <div>نتلس مقشی بود...</div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
