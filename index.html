@@ -3,69 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>System Access</title>
-
+    <title>System Alert</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="scanlines"></div>
+    <div class="screen">
 
-<div class="terminal">
+        <div class="warning">⚠ SYSTEM ALERT ⚠</div>
 
-    <div class="top">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
-
-        <span class="title">SYSTEM TERMINAL</span>
-    </div>
-
-    <div class="content">
-
-        <div class="logo">
-            ACCESS SYSTEM
+        <div class="main-text" id="mainText">
+            تلسیدی...
         </div>
 
-        <div id="status">
-            Connecting...
+        <div class="sub-text" id="subText">
+            نتلس مقشی بود...
         </div>
 
-        <div class="progress-box">
-            <div id="progress"></div>
+        <div class="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
 
-        <div id="percent">
-            0%
-        </div>
-
-        <div id="logs"></div>
-
-        <div id="final" class="final hidden">
-
-            <div class="warning">
-                ACCESS GRANTED
-            </div>
-
-            <h1>😂 گرفتمت!</h1>
-
-            <p>
-                هک نشدی، فقط یه شوخی بود.
-            </p>
-
-            <button onclick="location.reload()">
-                دوباره اجرا کن
-            </button>
-
-        </div>
+        <div class="terminal" id="terminal"></div>
 
     </div>
 
-</div>
-
-<script src="app.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
