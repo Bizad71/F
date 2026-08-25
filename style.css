@@ -12,24 +12,15 @@ body {
 
     background: #020609;
 
-    overscroll-behavior: none;
-    touch-action: manipulation;
+    font-family:
+        Tahoma,
+        Arial,
+        sans-serif;
 }
 
 body {
     position: fixed;
     inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-
-    color: #00ffcc;
-
-    font-family:
-        Tahoma,
-        Arial,
-        sans-serif;
 }
 
 .app {
@@ -41,25 +32,25 @@ body {
     height: 100dvh;
 
     overflow-y: auto;
-    overflow-x: hidden;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 
     padding:
-        max(15px, env(safe-area-inset-top))
+        20px
         15px
-        max(20px, env(safe-area-inset-bottom));
+        30px;
 
     background:
         radial-gradient(
-            circle at center,
-            rgba(0,255,200,.09),
-            transparent 60%
+            circle,
+            rgba(0,255,200,.10),
+            transparent 65%
         ),
         #020609;
+
+    color: #00ffcc;
 }
+
+
+/* خطوط اسکن */
 
 .app::before {
     content: "";
@@ -72,253 +63,183 @@ body {
     background:
         repeating-linear-gradient(
             0deg,
-            rgba(0,255,200,.025) 0,
+            rgba(0,255,200,.025) 0px,
             rgba(0,255,200,.025) 1px,
             transparent 1px,
             transparent 4px
         );
 
-    z-index: 1;
+    z-index: 50;
 }
 
-.app::after {
-    content: "";
 
-    position: fixed;
+/* عنوان */
 
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 3px;
-
-    background: #00ffcc;
-
-    box-shadow:
-        0 0 10px #00ffcc,
-        0 0 25px #00ffcc;
-
-    animation: scanLine 3s linear infinite;
-
-    pointer-events: none;
-
-    z-index: 10;
-}
-
-@keyframes scanLine {
-    from {
-        top: 0;
-    }
-
-    to {
-        top: 100%;
-    }
-}
-
-/* TOP */
-
-.top {
-    width: 100%;
-    max-width: 650px;
-
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 15px;
-
-    font-family: monospace;
-    font-size: 12px;
-
-    z-index: 5;
-}
-
-.status {
-    color: #00ffcc;
-
-    text-shadow:
-        0 0 8px #00ffcc;
-}
-
-#phase {
-    color: #777;
-    direction: ltr;
-}
-
-/* DEVICE */
-
-.phone {
-    width: 100%;
-    max-width: 650px;
-
-    padding: 14px 17px;
-
-    border:
-        1px solid
-        rgba(0,255,200,.4);
-
-    background:
-        rgba(0,20,20,.65);
-
-    box-shadow:
-        0 0 20px
-        rgba(0,255,200,.08);
-
-    z-index: 5;
-}
-
-.phone-title {
+.header {
     text-align: center;
-
-    font-family: monospace;
-
-    font-size: 14px;
-
-    letter-spacing: 3px;
-
-    margin-bottom: 10px;
-
-    color: #00ffcc;
-
-    text-shadow:
-        0 0 8px #00ffcc;
 }
 
-.info {
-    display: flex;
-    justify-content: space-between;
-
-    padding: 6px 0;
-
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.05);
-
-    font-family: monospace;
-
-    font-size: 11px;
-}
-
-.info span {
-    color: #666;
-}
-
-.info b {
-    color: #ddd;
-    font-weight: normal;
-    direction: ltr;
-}
-
-/* PERCENT */
-
-.percentage {
-    margin-top: 15px;
-
-    font-family: monospace;
-
+.main-title {
     font-size:
-        clamp(55px,16vw,95px);
+        clamp(42px, 12vw, 90px);
 
-    font-weight: bold;
+    font-weight: 900;
 
     color: #00ffcc;
-
-    line-height: 1;
 
     text-shadow:
         0 0 5px #00ffcc,
         0 0 20px #00ffcc,
-        0 0 45px #00ffcc;
-
-    z-index: 5;
+        0 0 50px #00ffcc;
 }
 
-.percentage small {
-    font-size: 28px;
+#phase {
+    margin-top: 5px;
+
+    color: #777;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    direction: ltr;
 }
 
-.progress {
+
+/* درصد */
+
+.percent {
+    margin-top: 8px;
+
+    text-align: center;
+
+    font-family: monospace;
+
+    font-size:
+        clamp(65px, 20vw, 120px);
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    color: #00ffcc;
+
+    text-shadow:
+        0 0 8px #00ffcc,
+        0 0 30px #00ffcc;
+}
+
+
+/* نوار اصلی */
+
+.main-progress {
     width: 100%;
-    max-width: 650px;
+    max-width: 700px;
 
-    height: 8px;
+    height: 10px;
 
-    margin-top: 12px;
+    margin: 12px auto;
 
-    background: #061313;
+    background: #071313;
 
     border:
         1px solid
-        rgba(0,255,200,.25);
-
-    z-index: 5;
+        rgba(0,255,200,.3);
 }
 
-#bar {
+#mainBar {
     width: 0%;
     height: 100%;
 
     background: #00ffcc;
 
     box-shadow:
-        0 0 10px #00ffcc;
+        0 0 15px #00ffcc;
 
     transition:
-        width .08s linear;
+        width .1s linear;
 }
 
-.scan-text {
-    margin-top: 8px;
 
-    min-height: 17px;
+/* متن */
+
+.message {
+    min-height: 30px;
+
+    text-align: center;
+
+    color: #aaa;
 
     font-family: monospace;
 
-    font-size: 11px;
-
-    color: #999;
-
-    direction: ltr;
-
-    z-index: 5;
+    font-size: 13px;
 }
 
-/* FACE BUTTON */
 
-.face-button {
+/* دکمه */
+
+.face-section {
+    display: none;
+
     width: 100%;
-    max-width: 650px;
+    max-width: 600px;
 
-    margin-top: 12px;
+    margin: 15px auto;
 
-    padding: 14px;
+    padding: 18px;
+
+    text-align: center;
 
     border:
         1px solid
-        #00ffcc;
+        rgba(0,255,200,.45);
+
+    background:
+        rgba(0,20,20,.7);
+}
+
+.face-section.show {
+    display: block;
+}
+
+.face-warning {
+    margin-bottom: 14px;
+
+    color: #fff;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    line-height: 1.8;
+}
+
+#faceButton {
+    width: 100%;
+
+    padding: 15px;
+
+    border:
+        1px solid #00ffcc;
 
     background:
         rgba(0,255,200,.08);
 
     color: #00ffcc;
 
-    font-family: Tahoma, Arial;
+    font-size: 15px;
 
-    font-size: 14px;
+    font-weight: bold;
 
     cursor: pointer;
-
-    box-shadow:
-        0 0 15px
-        rgba(0,255,200,.15);
-
-    z-index: 6;
 }
 
-.face-button:active {
+#faceButton:active {
     transform: scale(.98);
 }
 
-/* CAMERA */
+
+/* دوربین */
 
 .camera-box {
     display: none;
@@ -326,17 +247,16 @@ body {
     width: 100%;
     max-width: 500px;
 
-    margin-top: 15px;
+    margin: 15px auto;
 
     padding: 10px;
 
-    border:
-        1px solid
-        rgba(0,255,200,.5);
-
     background: #000;
 
-    z-index: 20;
+    border:
+        1px solid #00ffcc;
+
+    text-align: center;
 }
 
 .camera-box.show {
@@ -346,77 +266,69 @@ body {
 #camera {
     width: 100%;
 
-    max-height: 320px;
-
     display: block;
-
-    object-fit: cover;
 
     transform: scaleX(-1);
 
     border:
         1px solid
-        rgba(0,255,200,.25);
+        rgba(0,255,200,.3);
 }
 
 #canvas {
     display: none;
 }
 
-#captureButton {
-    width: 100%;
+.camera-text {
+    padding: 10px;
 
-    margin-top: 10px;
+    color: #00ffcc;
 
-    padding: 12px;
+    font-family: monospace;
 
-    border: none;
-
-    background: #00ffcc;
-
-    color: #00100d;
-
-    font-weight: bold;
-
-    font-size: 14px;
-
-    cursor: pointer;
+    animation:
+        blink .7s infinite;
 }
 
-/* RESULT */
+@keyframes blink {
+    50% {
+        opacity: .3;
+    }
+}
 
-.face-result {
+
+/* نتیجه */
+
+.result {
     display: none;
 
     width: 100%;
     max-width: 500px;
 
-    margin-top: 15px;
+    margin: 20px auto;
+
+    text-align: center;
 
     padding: 15px;
 
     border:
         1px solid
-        rgba(255,60,60,.6);
+        rgba(255,50,50,.5);
 
     background:
-        rgba(30,0,0,.35);
-
-    text-align: center;
-
-    z-index: 15;
+        rgba(20,0,0,.5);
 }
 
-.face-result.show {
+.result.show {
     display: block;
 }
 
-.face-error {
-    margin-bottom: 12px;
+.result-title {
+    margin-bottom: 15px;
 
     color: #ff4040;
 
-    font-size: 20px;
+    font-size: 21px;
 
     font-weight: bold;
 
@@ -424,33 +336,64 @@ body {
         0 0 10px red;
 }
 
-#capturedPhoto {
+
+/*
+   تصویر کارتونی
+*/
+
+#photo {
     width: 100%;
 
-    max-height: 300px;
+    max-height: 380px;
 
     object-fit: cover;
 
     display: block;
 
     border:
-        2px solid
-        #00ffcc;
+        2px solid #00ffcc;
 
     box-shadow:
-        0 0 20px
-        rgba(0,255,200,.35);
+        0 0 25px
+        rgba(0,255,200,.4);
 }
 
-/* MEDIA */
 
-.media-box {
+/* متن شوخی */
+
+.joke {
+    margin-top: 18px;
+
+    color: #fff;
+
+    font-size: 25px;
+
+    line-height: 1.8;
+}
+
+.joke strong {
+    display: block;
+
+    color: #00ffcc;
+
+    font-size:
+        clamp(30px, 9vw, 60px);
+
+    text-shadow:
+        0 0 8px #00ffcc,
+        0 0 25px #00ffcc;
+}
+
+
+/* پردازش */
+
+.media {
     width: 100%;
     max-width: 650px;
 
-    margin-top: 10px;
+    margin: 15px auto;
 
-    padding: 12px 15px;
+    padding: 15px;
 
     border:
         1px solid
@@ -458,56 +401,49 @@ body {
 
     background:
         rgba(0,10,12,.7);
-
-    z-index: 5;
 }
 
 .media-title {
+    margin-bottom: 10px;
+
     font-family: monospace;
 
-    font-size: 12px;
-
     letter-spacing: 3px;
-
-    margin-bottom: 8px;
-
-    color: #00ffcc;
 }
 
-.media-item {
-    margin-top: 7px;
+.item {
+    margin-top: 12px;
+
+    color: #aaa;
+
+    font-family: monospace;
+
+    font-size: 11px;
 }
 
-.media-row {
+.item > div:first-child {
     display: flex;
 
     justify-content: space-between;
-
-    font-family: monospace;
-
-    font-size: 10px;
-
-    color: #aaa;
 }
 
-.media-row b {
+.item span {
     color: #00ffcc;
-    font-weight: normal;
 }
 
-.media-progress {
+.small-bar {
     width: 100%;
 
     height: 5px;
 
-    margin-top: 4px;
+    margin-top: 5px;
 
     background: #071313;
-
-    overflow: hidden;
 }
 
-.media-progress div {
+.small-bar i {
+    display: block;
+
     width: 0%;
     height: 100%;
 
@@ -515,114 +451,34 @@ body {
 
     box-shadow:
         0 0 8px #00ffcc;
-
-    transition:
-        width .1s linear;
 }
 
-.media-status {
-    margin-top: 2px;
-
-    font-family: monospace;
-
-    font-size: 9px;
-
+.item small {
     color: #555;
 
-    direction: ltr;
-}
-
-/* TERMINAL */
-
-.terminal {
-    width: 100%;
-    max-width: 650px;
-
-    height: 35px;
-
-    margin-top: 5px;
-
-    overflow: hidden;
-
-    font-family: monospace;
-
     font-size: 9px;
 
-    line-height: 14px;
-
-    color: #007d67;
-
     direction: ltr;
-
-    text-align: left;
-
-    opacity: .6;
-
-    z-index: 5;
 }
 
-/* FINAL */
 
-.final {
-    position: fixed;
+/* موبایل */
 
-    inset: 0;
+@media (max-height: 700px) {
 
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: #020609;
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-
-    transition:
-        opacity 1.2s ease;
-
-    z-index: 9999;
-}
-
-.final.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.final div {
-    font-size:
-        clamp(38px,11vw,100px);
-
-    font-weight: bold;
-
-    color: #00ffcc;
-
-    text-align: center;
-
-    text-shadow:
-        0 0 5px #00ffcc,
-        0 0 20px #00ffcc,
-        0 0 50px #00ffcc;
-
-    animation:
-        finalText 1.5s ease;
-}
-
-@keyframes finalText {
-    from {
-        opacity: 0;
-        transform: scale(1.5);
+    .app {
+        padding-top: 10px;
     }
 
-    to {
-        opacity: 1;
-        transform: scale(1);
+    .main-title {
+        font-size: 45px;
     }
-}
+
+    .percent {
+        font-size: 65px;
+    }
+
+    .media {
+        margin-top: 8px;
+    }
+    }
