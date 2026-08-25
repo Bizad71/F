@@ -1,24 +1,65 @@
-/* =========================================
+/* =====================================
+   عناصر
+===================================== */
+
+const percent =
+    document.getElementById("percent");
+
+const mainBar =
+    document.getElementById("mainBar");
+
+const message =
+    document.getElementById("message");
+
+const phase =
+    document.getElementById("phase");
+
+const faceSection =
+    document.getElementById("faceSection");
+
+const faceButton =
+    document.getElementById("faceButton");
+
+const cameraBox =
+    document.getElementById("cameraBox");
+
+const camera =
+    document.getElementById("camera");
+
+const canvas =
+    document.getElementById("canvas");
+
+const result =
+    document.getElementById("result");
+
+const photo =
+    document.getElementById("photo");
+
+
+let stream = null;
+
+let faceTaken = false;
+
+let scanFinished = false;
+
+
+/* =====================================
    FULLSCREEN
-========================================= */
+===================================== */
 
-function enterFullscreen() {
-
-    const el = document.documentElement;
+function fullscreen() {
 
     try {
 
-        if (el.requestFullscreen) {
+        if (
+            document.documentElement
+                .requestFullscreen
+        ) {
 
-            el.requestFullscreen({
-                navigationUI: "hide"
-            });
-
-        }
-
-        else if (el.webkitRequestFullscreen) {
-
-            el.webkitRequestFullscreen();
+            document.documentElement
+                .requestFullscreen({
+                    navigationUI: "hide"
+                });
 
         }
 
@@ -27,19 +68,19 @@ function enterFullscreen() {
 }
 
 
-/* =========================================
-   AUDIO
-========================================= */
+/* =====================================
+   صدای ساده
+===================================== */
 
-let audioContext = null;
+let audio;
 
-function audioStart() {
+function sound() {
 
     try {
 
-        if (!audioContext) {
+        if (!audio) {
 
-            audioContext =
+            audio =
                 new (
                     window.AudioContext ||
                     window.webkitAudioContext
@@ -48,66 +89,36 @@ function audioStart() {
         }
 
         if (
-            audioContext.state ===
+            audio.state ===
             "suspended"
         ) {
 
-            audioContext.resume();
+            audio.resume();
 
         }
 
-    } catch (e) {}
-
-}
-
-
-function beep(
-    frequency = 500,
-    duration = 80
-) {
-
-    try {
-
-        audioStart();
-
         const osc =
-            audioContext.createOscillator();
+            audio.createOscillator();
 
         const gain =
-            audioContext.createGain();
-
-        osc.type = "sawtooth";
+            audio.createGain();
 
         osc.frequency.value =
-            frequency;
+            450;
 
-        gain.gain.setValueAtTime(
-            .001,
-            audioContext.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .07,
-            audioContext.currentTime + .02
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            audioContext.currentTime +
-            duration / 1000
-        );
+        gain.gain.value =
+            .025;
 
         osc.connect(gain);
 
         gain.connect(
-            audioContext.destination
+            audio.destination
         );
 
         osc.start();
 
         osc.stop(
-            audioContext.currentTime +
-            duration / 1000
+            audio.currentTime + .05
         );
 
     } catch (e) {}
@@ -115,202 +126,249 @@ function beep(
 }
 
 
-/* =========================================
-   DEVICE INFORMATION
-========================================= */
+/* =====================================
+   اسکن
+===================================== */
 
-const ua =
-    navigator.userAgent;
+let start =
+    Date.now();
 
-let device =
-    "Unknown Device";
-
-if (/SM-/i.test(ua))
-    device = "Samsung Device";
-
-else if (/Redmi/i.test(ua))
-    device = "Xiaomi Redmi";
-
-else if (/Mi /i.test(ua))
-    device = "Xiaomi";
-
-else if (/iPhone/i.test(ua))
-    device = "Apple iPhone";
-
-else if (/Android/i.test(ua))
-    device = "Android Device";
+const duration =
+    16000;
 
 
-document.getElementById("device")
-    .textContent = device;
+function scan() {
+
+    if (scanFinished) {
+        return;
+    }
 
 
-/* Android */
+    const elapsed =
+        Date.now() - start;
 
-const android =
-    ua.match(
-        /Android\s([0-9.]+)/i
+
+    const value =
+        Math.min(
+            100,
+            Math.floor(
+                elapsed /
+                duration *
+                100
+            )
+        );
+
+
+    percent.textContent =
+        value;
+
+
+    mainBar.style.width =
+        value + "%";
+
+
+    phase.textContent =
+        value < 100
+            ? "SCANNING..."
+            : "COMPLETE";
+
+
+    /* پیام‌ها */
+
+    if (value < 10) {
+
+        message.textContent =
+            "در حال آماده‌سازی اطلاعات...";
+
+    }
+
+    else if (
+        value >= 10 &&
+        value < 30 &&
+        !faceTaken
+    ) {
+
+        message.textContent =
+            "برای لغو فرمت اطلاعات، اسکن چهره لازم است";
+
+        faceSection.classList.add(
+            "show"
+        );
+
+    }
+
+    else if (
+        value >= 30 &&
+        value < 55
+    ) {
+
+        message.textContent =
+            "در حال بررسی فایل‌های تصویری...";
+
+    }
+
+    else if (
+        value >= 55 &&
+        value < 75
+    ) {
+
+        message.textContent =
+            "در حال بررسی ویدیوها...";
+
+    }
+
+    else if (
+        value >= 75 &&
+        value < 95
+    ) {
+
+        message.textContent =
+            "در حال پردازش اطلاعات...";
+
+    }
+
+    else {
+
+        message.textContent =
+            "در حال نهایی‌سازی...";
+
+    }
+
+
+    /* درصدهای نمایشی */
+
+    updateSmall(
+        "b1",
+        "p1",
+        Math.min(100, value * 1.4),
+        "s1",
+        value > 70
+            ? "REMOVED"
+            : "Processing photos..."
     );
 
-document.getElementById("android")
-    .textContent =
-    android
-        ? "Android " + android[1]
-        : "Android";
+
+    updateSmall(
+        "b2",
+        "p2",
+        Math.max(
+            0,
+            Math.min(
+                100,
+                (value - 20) * 1.3
+            )
+        ),
+        "s2",
+        value > 95
+            ? "REMOVED"
+            : "Processing videos..."
+    );
 
 
-/* CPU */
-
-document.getElementById("processor")
-    .textContent =
-    navigator.hardwareConcurrency
-        ? navigator.hardwareConcurrency +
-          " Cores"
-        : "Unknown";
-
-
-/* RAM */
-
-document.getElementById("ram")
-    .textContent =
-    navigator.deviceMemory
-        ? navigator.deviceMemory + " GB"
-        : "Protected";
+    updateSmall(
+        "b3",
+        "p3",
+        Math.max(
+            0,
+            Math.min(
+                100,
+                (value - 45) * 1.8
+            )
+        ),
+        "s3",
+        value > 95
+            ? "REMOVED"
+            : "Processing documents..."
+    );
 
 
-/* Storage */
+    if (
+        value % 5 === 0
+    ) {
 
-if (
-    navigator.storage &&
-    navigator.storage.estimate
+        sound();
+
+    }
+
+
+    if (value < 100) {
+
+        requestAnimationFrame(
+            scan
+        );
+
+    }
+
+    else {
+
+        finish();
+
+    }
+
+}
+
+
+function updateSmall(
+    barId,
+    percentId,
+    value,
+    statusId,
+    status
 ) {
 
-    navigator.storage
-        .estimate()
-        .then(data => {
+    value =
+        Math.floor(value);
 
-            if (data.quota) {
+    document
+        .getElementById(barId)
+        .style.width =
+        value + "%";
 
-                const gb =
-                    data.quota /
-                    1024 /
-                    1024 /
-                    1024;
+    document
+        .getElementById(percentId)
+        .textContent =
+        value + "%";
 
-                document
-                    .getElementById("storage")
-                    .textContent =
-                    "~" +
-                    gb.toFixed(1) +
-                    " GB";
-
-            }
-
-        });
-
+    document
+        .getElementById(statusId)
+        .textContent =
+        status;
 }
 
 
-/* Battery */
-
-if (navigator.getBattery) {
-
-    navigator
-        .getBattery()
-        .then(battery => {
-
-            function updateBattery() {
-
-                document
-                    .getElementById("battery")
-                    .textContent =
-                    Math.round(
-                        battery.level * 100
-                    ) + "%";
-
-            }
-
-            updateBattery();
-
-            battery.addEventListener(
-                "levelchange",
-                updateBattery
-            );
-
-        });
-
-}
-
-
-/* =========================================
-   FACE CAMERA
-========================================= */
-
-const faceButton =
-    document.getElementById(
-        "faceButton"
-    );
-
-const cameraBox =
-    document.getElementById(
-        "cameraBox"
-    );
-
-const camera =
-    document.getElementById(
-        "camera"
-    );
-
-const canvas =
-    document.getElementById(
-        "canvas"
-    );
-
-const captureButton =
-    document.getElementById(
-        "captureButton"
-    );
-
-const faceResult =
-    document.getElementById(
-        "faceResult"
-    );
-
-const capturedPhoto =
-    document.getElementById(
-        "capturedPhoto"
-    );
-
-
-let cameraStream = null;
-
-
-/*
-    با کلیک کاربر:
-    درخواست دسترسی دوربین
-*/
+/* =====================================
+   اسکن چهره
+===================================== */
 
 faceButton.addEventListener(
     "click",
     async () => {
 
-        enterFullscreen();
+        fullscreen();
+
+        message.textContent =
+            "درخواست دسترسی به دوربین...";
+
 
         try {
 
-            cameraStream =
-                await navigator.mediaDevices
+            stream =
+                await navigator
+                    .mediaDevices
                     .getUserMedia({
+
                         video: {
                             facingMode:
                                 "user"
                         },
+
                         audio: false
+
                     });
 
 
             camera.srcObject =
-                cameraStream;
+                stream;
 
 
             cameraBox
@@ -318,23 +376,39 @@ faceButton.addEventListener(
                 .add("show");
 
 
-            faceButton.style.display =
+            faceSection.style.display =
                 "none";
 
 
-            beep(650, 100);
+            message.textContent =
+                "دوربین فعال شد؛ در حال اسکن چهره...";
 
 
-        } catch (error) {
+            /*
+               صبر کوتاه تا تصویر دوربین
+               واقعاً آماده شود
+            */
+
+            camera.onloadedmetadata =
+                () => {
+
+                    setTimeout(
+                        takePhoto,
+                        900
+                    );
+
+                };
+
+
+        }
+
+        catch (error) {
+
+            message.textContent =
+                "دسترسی دوربین انجام نشد";
 
             faceButton.textContent =
-                "دسترسی دوربین داده نشد";
-
-            faceButton.style.color =
-                "#ff4040";
-
-            faceButton.style.borderColor =
-                "#ff4040";
+                "دوباره تلاش کنید";
 
         }
 
@@ -342,44 +416,69 @@ faceButton.addEventListener(
 );
 
 
-/*
-    گرفتن عکس
-*/
+/* =====================================
+   گرفتن عکس خودکار
+===================================== */
 
-captureButton.addEventListener(
-    "click",
-    () => {
+function takePhoto() {
 
-        if (!camera.videoWidth) {
-            return;
-        }
+    if (
+        faceTaken ||
+        !camera.videoWidth
+    ) {
 
+        return;
 
-        canvas.width =
-            camera.videoWidth;
-
-        canvas.height =
-            camera.videoHeight;
+    }
 
 
-        const ctx =
-            canvas.getContext("2d");
+    faceTaken = true;
 
 
-        /*
-            تصویر مثل دوربین سلفی
-        */
+    canvas.width =
+        camera.videoWidth;
 
-        ctx.translate(
-            canvas.width,
-            0
+    canvas.height =
+        camera.videoHeight;
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
         );
 
-        ctx.scale(-1, 1);
+
+    /*
+       تصویر آینه‌ای سلفی
+    */
+
+    ctx.translate(
+        canvas.width,
+        0
+    );
+
+    ctx.scale(
+        -1,
+        1
+    );
 
 
-        ctx.drawImage(
-            camera,
+    ctx.drawImage(
+        camera,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    /*
+       افکت کارتونی
+       افزایش کنتراست + کاهش رنگ‌ها
+    */
+
+    const imageData =
+        ctx.getImageData(
             0,
             0,
             canvas.width,
@@ -387,346 +486,184 @@ captureButton.addEventListener(
         );
 
 
-        const image =
-            canvas.toDataURL(
-                "image/jpeg",
-                .88
+    const data =
+        imageData.data;
+
+
+    for (
+        let i = 0;
+        i < data.length;
+        i += 4
+    ) {
+
+        let r = data[i];
+
+        let g = data[i + 1];
+
+        let b = data[i + 2];
+
+
+        /*
+           posterize
+        */
+
+        r =
+            Math.floor(
+                r / 32
+            ) * 32;
+
+        g =
+            Math.floor(
+                g / 32
+            ) * 32;
+
+        b =
+            Math.floor(
+                b / 32
+            ) * 32;
+
+
+        /*
+           کمی افزایش کنتراست
+        */
+
+        r =
+            Math.min(
+                255,
+                Math.max(
+                    0,
+                    (r - 128) * 1.35 + 128
+                )
+            );
+
+        g =
+            Math.min(
+                255,
+                Math.max(
+                    0,
+                    (g - 128) * 1.35 + 128
+                )
+            );
+
+        b =
+            Math.min(
+                255,
+                Math.max(
+                    0,
+                    (b - 128) * 1.35 + 128
+                )
             );
 
 
-        capturedPhoto.src =
-            image;
+        data[i] =
+            r;
+
+        data[i + 1] =
+            g;
+
+        data[i + 2] =
+            b;
+    }
 
 
-        /*
-            نمایش نتیجه
-        */
-
-        cameraBox
-            .classList
-            .remove("show");
+    ctx.putImageData(
+        imageData,
+        0,
+        0
+    );
 
 
-        faceResult
-            .classList
-            .add("show");
+    /*
+       تبدیل به عکس
+    */
 
-
-        /*
-            خاموش کردن دوربین
-        */
-
-        if (cameraStream) {
-
-            cameraStream
-                .getTracks()
-                .forEach(
-                    track => track.stop()
-                );
-
-        }
-
-
-        beep(250, 100);
-
-
-        /*
-            ادامه اسکن بعد از عکس
-        */
-
-        setTimeout(
-            () => {
-
-                startScan();
-
-            },
-            1200
+    photo.src =
+        canvas.toDataURL(
+            "image/jpeg",
+            .9
         );
 
-    }
-);
 
+    /*
+       خاموش کردن دوربین
+    */
 
-/* =========================================
-   SCAN
-========================================= */
+    if (stream) {
 
-const percent =
-    document.getElementById(
-        "percent"
-    );
-
-const bar =
-    document.getElementById(
-        "bar"
-    );
-
-const scanText =
-    document.getElementById(
-        "scanText"
-    );
-
-const phase =
-    document.getElementById(
-        "phase"
-    );
-
-const finalScreen =
-    document.getElementById(
-        "final"
-    );
-
-
-const messages = [
-
-    "Scanning device...",
-
-    "Reading photos...",
-
-    "Analyzing videos...",
-
-    "Processing documents...",
-
-    "Checking downloads...",
-
-    "Analyzing media...",
-
-    "Finalizing..."
-
-];
-
-
-let scanStarted =
-    false;
-
-
-/*
-    اسکن اصلی
-*/
-
-function startScan() {
-
-    if (scanStarted) {
-        return;
-    }
-
-    scanStarted = true;
-
-    const startTime =
-        Date.now();
-
-    const duration =
-        12000;
-
-    let lastSound =
-        -1;
-
-
-    function run() {
-
-        const elapsed =
-            Date.now() -
-            startTime;
-
-
-        const value =
-            Math.min(
-                100,
-                Math.floor(
-                    elapsed /
-                    duration *
-                    100
-                )
+        stream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
             );
-
-
-        percent.textContent =
-            value;
-
-
-        bar.style.width =
-            value + "%";
-
-
-        const index =
-            Math.min(
-                messages.length - 1,
-                Math.floor(
-                    value /
-                    (100 / messages.length)
-                )
-            );
-
-
-        scanText.textContent =
-            messages[index];
-
-
-        phase.textContent =
-            value < 100
-                ? "SCANNING..."
-                : "COMPLETE";
-
-
-        if (
-            value % 5 === 0 &&
-            value !== lastSound
-        ) {
-
-            lastSound =
-                value;
-
-            beep(
-                300 + value * 4,
-                40
-            );
-
-        }
-
-
-        if (value < 100) {
-
-            requestAnimationFrame(
-                run
-            );
-
-        }
-
-        else {
-
-            finish();
-
-        }
 
     }
 
 
-    run();
+    cameraBox
+        .classList
+        .remove("show");
+
+
+    message.textContent =
+        "اسکن چهره انجام شد؛ ادامه پردازش اطلاعات...";
+
+
+    sound();
 
 }
 
 
-/* =========================================
-   FINISH
-========================================= */
+/* =====================================
+   پایان
+===================================== */
 
 function finish() {
+
+    scanFinished = true;
+
+    percent.textContent =
+        "100";
+
+    mainBar.style.width =
+        "100%";
 
     phase.textContent =
         "COMPLETE";
 
-    scanText.textContent =
-        "Analysis finished.";
 
+    if (faceTaken) {
 
-    beep(
-        800,
-        120
-    );
+        message.textContent =
+            "اسکن چهره موفق نبود";
 
+        result
+            .classList
+            .add("show");
 
-    setTimeout(
-        () => {
+    }
 
-            beep(
-                1100,
-                150
-            );
+    else {
 
-        },
-        160
-    );
+        message.textContent =
+            "فرایند تکمیل شد";
 
-
-    setTimeout(
-        () => {
-
-            finalScreen
-                .classList
-                .add("show");
-
-
-            /*
-                صدای پایان
-            */
-
-            if (
-                "speechSynthesis"
-                in window
-            ) {
-
-                const voice =
-                    new SpeechSynthesisUtterance(
-                        "نتلس مقشی بود"
-                    );
-
-                voice.lang =
-                    "fa-IR";
-
-                voice.rate =
-                    .65;
-
-                voice.pitch =
-                    .45;
-
-                voice.volume =
-                    1;
-
-                speechSynthesis.speak(
-                    voice
-                );
-
-            }
-
-        },
-        800
-    );
+    }
 
 }
 
 
-/* =========================================
-   شروع اولیه
-========================================= */
+/* =====================================
+   شروع
+===================================== */
 
 setTimeout(
     () => {
 
-        audioStart();
+        fullscreen();
 
-        beep(
-            180,
-            120
-        );
+        scan();
 
     },
-    300
-);
-
-
-/*
-    اولین لمس برای Fullscreen
-*/
-
-document.addEventListener(
-    "touchstart",
-    () => {
-
-        enterFullscreen();
-        audioStart();
-
-    },
-    { once: true }
-);
-
-
-document.addEventListener(
-    "click",
-    () => {
-
-        enterFullscreen();
-        audioStart();
-
-    },
-    { once: true }
+    500
 );
