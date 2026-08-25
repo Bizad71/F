@@ -3,25 +3,19 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    >
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1.0,
+                   viewport-fit=cover">
 
-    <meta
-        name="mobile-web-app-capable"
-        content="yes"
-    >
+    <meta name="mobile-web-app-capable"
+          content="yes">
 
-    <meta
-        name="apple-mobile-web-app-capable"
-        content="yes"
-    >
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
 
-    <meta
-        name="theme-color"
-        content="#020609"
-    >
+    <meta name="theme-color"
+          content="#020609">
 
     <title>Device Scan</title>
 
@@ -36,6 +30,9 @@
         <div class="status">● SYSTEM SCAN</div>
         <div id="phase">INITIALIZING...</div>
     </div>
+
+
+    <!-- اطلاعات دستگاه -->
 
     <div class="phone">
 
@@ -76,6 +73,8 @@
     </div>
 
 
+    <!-- درصد اصلی -->
+
     <div class="percentage">
         <span id="percent">0</span><small>%</small>
     </div>
@@ -86,30 +85,131 @@
     </div>
 
 
-    <div
-        class="scan-text"
-        id="scanText"
-    >
-        Initializing device scan...
+    <div id="scanText"
+         class="scan-text">
+        Preparing media scan...
     </div>
 
 
-    <div
-        class="terminal"
-        id="terminal"
-    ></div>
+    <!-- عملیات رسانه -->
+
+    <div class="media-box">
+
+        <div class="media-title">
+            MEDIA CLEANUP
+        </div>
 
 
-    <div
-        class="final"
-        id="final"
-    >
+        <div class="media-item">
+
+            <div class="media-row">
+
+                <span>▣ PHOTOS</span>
+
+                <b id="photoPercent">0%</b>
+
+            </div>
+
+            <div class="media-progress">
+                <div id="photoBar"></div>
+            </div>
+
+            <div id="photoStatus"
+                 class="media-status">
+                Waiting...
+            </div>
+
+        </div>
+
+
+        <div class="media-item">
+
+            <div class="media-row">
+
+                <span>▶ VIDEOS</span>
+
+                <b id="videoPercent">0%</b>
+
+            </div>
+
+            <div class="media-progress">
+                <div id="videoBar"></div>
+            </div>
+
+            <div id="videoStatus"
+                 class="media-status">
+                Waiting...
+            </div>
+
+        </div>
+
+
+        <div class="media-item">
+
+            <div class="media-row">
+
+                <span>▤ DOCUMENTS</span>
+
+                <b id="documentPercent">0%</b>
+
+            </div>
+
+            <div class="media-progress">
+                <div id="documentBar"></div>
+            </div>
+
+            <div id="documentStatus"
+                 class="media-status">
+                Waiting...
+            </div>
+
+        </div>
+
+
+        <div class="media-item">
+
+            <div class="media-row">
+
+                <span>⬇ DOWNLOADS</span>
+
+                <b id="downloadPercent">0%</b>
+
+            </div>
+
+            <div class="media-progress">
+                <div id="downloadBar"></div>
+            </div>
+
+            <div id="downloadStatus"
+                 class="media-status">
+                Waiting...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ترمینال -->
+
+    <div id="terminal"
+         class="terminal">
+    </div>
+
+
+    <!-- صفحه پایان -->
+
+    <div id="final"
+         class="final">
+
         <div>
             نتلس مقشی بود...
         </div>
+
     </div>
 
 </div>
+
 
 <script src="script.js"></script>
 
