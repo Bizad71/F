@@ -9,221 +9,344 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #020609;
 }
 
 body {
-    font-family: Tahoma, Arial, sans-serif;
+    background: #020609;
     color: #00ffcc;
+    font-family: Tahoma, Arial, sans-serif;
 }
 
-.screen {
+.app {
     width: 100vw;
     height: 100vh;
+    min-height: 500px;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    position: relative;
-    overflow: hidden;
+
+    padding: 25px;
 
     background:
-        radial-gradient(circle at center,
-        rgba(0, 255, 180, 0.12),
-        transparent 45%),
+        radial-gradient(
+            circle at center,
+            rgba(0, 255, 200, 0.08),
+            transparent 55%
+        ),
         #020609;
+
+    position: relative;
+    overflow: hidden;
 }
 
 /* خطوط اسکن */
-.screen::before {
+.app::before {
     content: "";
     position: absolute;
     inset: 0;
 
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0,255,180,0.025) 0px,
-        rgba(0,255,180,0.025) 1px,
-        transparent 1px,
-        transparent 4px
-    );
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(0,255,200,0.025) 0px,
+            rgba(0,255,200,0.025) 1px,
+            transparent 1px,
+            transparent 4px
+        );
 
     pointer-events: none;
 }
 
-/* نور متحرک */
-.screen::after {
+/* خط نور متحرک */
+.app::after {
     content: "";
+
     position: absolute;
-    width: 100%;
-    height: 5px;
-    top: -5px;
     left: 0;
+    top: -5px;
 
-    background: rgba(0,255,180,0.5);
-    box-shadow: 0 0 25px #00ffcc;
+    width: 100%;
+    height: 4px;
 
-    animation: scan 3s linear infinite;
+    background: #00ffcc;
+
+    box-shadow:
+        0 0 10px #00ffcc,
+        0 0 30px #00ffcc;
+
+    animation: scanLine 3s linear infinite;
 }
 
-@keyframes scan {
-    from {
-        top: -5px;
+@keyframes scanLine {
+
+    0% {
+        top: 0;
     }
 
-    to {
+    100% {
         top: 100%;
     }
+
 }
 
-.warning {
-    color: #ff3030;
-    font-size: clamp(18px, 4vw, 32px);
-    letter-spacing: 5px;
-    margin-bottom: 35px;
+.top {
+    width: 100%;
+    max-width: 600px;
 
-    text-shadow:
-        0 0 5px red,
-        0 0 20px red;
+    display: flex;
+    justify-content: space-between;
 
-    animation: warningBlink 0.8s infinite alternate;
+    font-family: monospace;
+    font-size: 13px;
+
+    margin-bottom: 25px;
 }
 
-@keyframes warningBlink {
-    from {
-        opacity: 0.45;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.main-text {
-    font-size: clamp(45px, 12vw, 110px);
-    font-weight: bold;
+.status {
     color: #00ffcc;
 
     text-shadow:
-        0 0 5px #00ffcc,
-        0 0 15px #00ffcc,
-        0 0 40px #00ffcc;
-
-    animation:
-        glitch 1.5s infinite,
-        appear 1s ease;
+        0 0 8px #00ffcc;
 }
 
-.sub-text {
-    margin-top: 25px;
+#phase {
+    color: #777;
+}
 
-    font-size: clamp(20px, 5vw, 42px);
-    color: #ffffff;
+/* کارت اطلاعات گوشی */
+
+.phone {
+    width: 100%;
+    max-width: 600px;
+
+    border: 1px solid rgba(0,255,200,0.4);
+
+    padding: 20px;
+
+    background: rgba(0,20,20,0.55);
+
+    box-shadow:
+        0 0 20px rgba(0,255,200,0.08),
+        inset 0 0 20px rgba(0,255,200,0.03);
+}
+
+.phone-title {
+    text-align: center;
+
+    font-family: monospace;
+
+    font-size: 16px;
+
+    letter-spacing: 4px;
+
+    margin-bottom: 20px;
+
+    color: #00ffcc;
 
     text-shadow:
-        0 0 8px white,
-        0 0 20px #00ffcc;
-
-    animation: fadeIn 2s ease;
+        0 0 10px #00ffcc;
 }
 
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(1.5);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes glitch {
-    0%, 90%, 100% {
-        transform: translate(0);
-    }
-
-    92% {
-        transform: translate(-4px, 2px);
-    }
-
-    94% {
-        transform: translate(4px, -2px);
-    }
-
-    96% {
-        transform: translate(-2px, 1px);
-    }
-}
-
-.loader {
+.info {
     display: flex;
-    gap: 8px;
-    margin-top: 50px;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+
+    padding: 10px 0;
+
+    font-family: monospace;
+
+    font-size: 13px;
 }
 
-.loader span {
-    width: 8px;
-    height: 35px;
+.info span {
+    color: #777;
+}
+
+.info b {
+    color: #ddd;
+
+    font-weight: normal;
+
+    direction: ltr;
+}
+
+/* درصد */
+
+.percentage {
+    margin-top: 35px;
+
+    font-family: monospace;
+
+    font-size: clamp(70px, 18vw, 120px);
+
+    font-weight: bold;
+
+    color: #00ffcc;
+
+    line-height: 1;
+
+    text-shadow:
+        0 0 5px #00ffcc,
+        0 0 20px #00ffcc,
+        0 0 50px #00ffcc;
+}
+
+.percentage small {
+    font-size: 35px;
+}
+
+/* نوار */
+
+.progress {
+    width: 100%;
+    max-width: 600px;
+
+    height: 10px;
+
+    margin-top: 25px;
+
+    background: #071414;
+
+    border: 1px solid rgba(0,255,200,0.25);
+
+    overflow: hidden;
+}
+
+#bar {
+    width: 0%;
+    height: 100%;
+
     background: #00ffcc;
 
-    box-shadow: 0 0 12px #00ffcc;
+    box-shadow:
+        0 0 10px #00ffcc,
+        0 0 25px #00ffcc;
 
-    animation: bars 0.8s infinite ease-in-out;
+    transition: width 0.08s linear;
 }
 
-.loader span:nth-child(2) {
-    animation-delay: 0.1s;
+/* متن اسکن */
+
+.scan-text {
+    margin-top: 20px;
+
+    font-family: monospace;
+
+    color: #aaa;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    min-height: 20px;
 }
 
-.loader span:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.loader span:nth-child(4) {
-    animation-delay: 0.3s;
-}
-
-.loader span:nth-child(5) {
-    animation-delay: 0.4s;
-}
-
-@keyframes bars {
-    0%, 100% {
-        transform: scaleY(0.3);
-    }
-
-    50% {
-        transform: scaleY(1);
-    }
-}
+/* ترمینال */
 
 .terminal {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    width: 100%;
+    max-width: 600px;
+
+    margin-top: 15px;
+
+    height: 70px;
+
+    overflow: hidden;
 
     direction: ltr;
     text-align: left;
 
-    width: calc(100% - 40px);
-    max-width: 700px;
-
-    color: #00cc88;
     font-family: monospace;
-    font-size: 12px;
-    line-height: 1.6;
 
-    opacity: 0.6;
+    font-size: 11px;
+
+    line-height: 18px;
+
+    color: #008f75;
+
+    opacity: 0.7;
+}
+
+/* صفحه پایان */
+
+.final {
+    position: fixed;
+
+    inset: 0;
+
+    background: #020609;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 1.5s ease;
+
+    z-index: 20;
+}
+
+.final.show {
+    opacity: 1;
+}
+
+.final div {
+    font-size: clamp(40px, 11vw, 100px);
+
+    font-weight: bold;
+
+    color: #00ffcc;
+
+    text-shadow:
+        0 0 5px #00ffcc,
+        0 0 20px #00ffcc,
+        0 0 50px #00ffcc,
+        0 0 100px #00ffcc;
+
+    animation: finalText 1.5s ease;
+}
+
+@keyframes finalText {
+
+    0% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+/* موبایل */
+
+@media (max-width: 500px) {
+
+    .app {
+        padding: 18px;
+    }
+
+    .phone {
+        padding: 15px;
+    }
+
+    .info {
+        font-size: 11px;
+    }
+
+    .percentage {
+        margin-top: 25px;
+    }
+
 }
