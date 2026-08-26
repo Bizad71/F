@@ -2,288 +2,260 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>همراه من</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<title>همراه من | v0.2</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 background:#eef4fb;
+color:#182235;
 font-family:Tahoma,Arial,sans-serif;
-color:#172033;
-line-height:1.9
+line-height:1.9;
 }
 
 .app{
 width:94%;
-max-width:700px;
+max-width:680px;
 margin:auto;
-padding:15px 0 40px
+padding:15px 0 40px;
 }
 
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:15px
+margin-bottom:15px;
 }
 
 .logo{
 font-size:28px;
-font-weight:bold
+font-weight:bold;
 }
 
-.badge{
+.version{
+font-size:12px;
 background:#dceaff;
-color:#145bc1;
+color:#155fc7;
 padding:5px 12px;
 border-radius:20px;
-font-size:12px
 }
 
 .card{
-background:white;
-border-radius:25px;
+background:#fff;
+border-radius:24px;
 padding:20px;
 margin-bottom:15px;
-box-shadow:0 7px 25px rgba(0,0,0,.07)
+box-shadow:0 7px 25px rgba(0,0,0,.07);
 }
 
-.hero{text-align:center}
+.hero{
+text-align:center;
+}
 
 .hero-icon{
-font-size:60px
+font-size:58px;
 }
 
 .hero h1{
 font-size:27px;
-margin:5px 0
+margin:5px 0;
 }
 
 .hero p{
 color:#667085;
-margin:0
+margin:0;
 }
 
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px
+.device{
+background:#f5f8fc;
+border-radius:17px;
+padding:14px;
+margin-top:15px;
 }
 
-.action{
-border:2px solid #dce4ef;
-background:white;
+.device-title{
+font-size:13px;
+color:#68758a;
+}
+
+.device-name{
+font-size:18px;
+font-weight:bold;
+margin-top:3px;
+}
+
+.mic{
+width:100%;
+border:0;
 border-radius:20px;
-padding:20px 10px;
-min-height:140px;
+padding:25px 15px;
+background:#1769e0;
+color:white;
 font-family:inherit;
-cursor:pointer
-}
-
-.action:active{
-transform:scale(.97)
-}
-
-.action-icon{
-font-size:40px;
-display:block
-}
-
-.action-title{
-font-size:17px;
+font-size:20px;
 font-weight:bold;
-display:block
+cursor:pointer;
 }
 
-.action-desc{
-font-size:12px;
-color:#68758a
+.mic.listening{
+background:#c62828;
 }
 
-label{
+.mic-icon{
+font-size:45px;
 display:block;
-font-size:19px;
-font-weight:bold;
-margin-bottom:8px
+}
+
+.or{
+text-align:center;
+color:#7a8597;
+margin:15px 0;
 }
 
 textarea{
 width:100%;
-min-height:120px;
+min-height:125px;
 border:2px solid #dce4ef;
 border-radius:17px;
 padding:14px;
 font-family:inherit;
 font-size:17px;
+resize:none;
 outline:none;
-resize:vertical
 }
 
 textarea:focus{
-border-color:#1769e0
+border-color:#1769e0;
 }
 
 .btn{
+width:100%;
 border:0;
 border-radius:15px;
 padding:14px;
+margin-top:10px;
 font-family:inherit;
 font-size:16px;
 font-weight:bold;
-cursor:pointer
+cursor:pointer;
 }
 
 .primary{
 background:#1769e0;
-color:white
+color:#fff;
 }
 
 .secondary{
 background:#eaf0f7;
-color:#172033
+color:#182235;
 }
 
-.full{
-width:100%;
-margin-top:10px
-}
-
-.row{
-display:flex;
-gap:10px;
-margin-top:10px
-}
-
-.row .btn{
-flex:1
-}
-
-.preview{
+.detected{
 display:none;
-margin-top:15px
 }
 
-.preview img{
-width:100%;
-max-height:400px;
-object-fit:contain;
-border-radius:16px;
-border:2px solid #dce4ef
-}
-
-.progress{
-display:none;
-margin-top:15px
-}
-
-.progress-bar{
-height:12px;
-background:#e5eaf1;
+.problem{
+background:#f3f8ff;
+border:2px solid #d6e6ff;
 border-radius:20px;
-overflow:hidden
-}
-
-.progress-inner{
-height:100%;
-width:0;
-background:#1769e0;
-transition:.2s
-}
-
-.progress-text{
-font-size:13px;
+padding:18px;
 text-align:center;
-margin-top:5px;
-color:#667085
+}
+
+.problem-icon{
+font-size:45px;
+}
+
+.problem-title{
+font-size:23px;
+font-weight:bold;
+}
+
+.problem-confidence{
+font-size:12px;
+color:#68758a;
 }
 
 .result{
-display:none
+display:none;
 }
 
-.result-title{
+.result-head{
 display:flex;
-align-items:center;
 gap:12px;
-border-bottom:1px solid #e2e7ee;
-padding-bottom:12px
+align-items:center;
+border-bottom:1px solid #e1e6ec;
+padding-bottom:12px;
 }
 
 .result-icon{
-font-size:38px
+font-size:40px;
 }
 
 .result h2{
 margin:0;
-font-size:22px
+font-size:22px;
 }
 
-.answer{
-font-size:18px;
-padding:15px 0
-}
-
-.ocr{
-background:#f7f9fc;
-border:1px solid #dce4ef;
-border-radius:15px;
-padding:15px;
-white-space:pre-wrap;
-font-size:16px;
-max-height:300px;
-overflow:auto
+.subtitle{
+font-size:12px;
+color:#68758a;
 }
 
 .step{
-display:none;
-background:#f2f8ff;
-border:2px solid #d4e5ff;
+background:#f3f8ff;
+border:2px solid #d6e6ff;
 border-radius:20px;
-padding:18px;
-text-align:center
+padding:20px;
+text-align:center;
+margin-top:15px;
+}
+
+.step-label{
+color:#1769e0;
+font-weight:bold;
 }
 
 .step-number{
-width:50px;
-height:50px;
+width:52px;
+height:52px;
 border-radius:50%;
 background:#1769e0;
 color:white;
 display:grid;
 place-items:center;
-margin:8px auto;
+margin:10px auto;
+font-size:22px;
 font-weight:bold;
-font-size:20px
 }
 
 .step-text{
+font-size:19px;
+font-weight:bold;
+}
+
+.question{
 font-size:18px;
-font-weight:bold
 }
 
-.loading{
-display:none;
+.success{
+background:#eaf8ef;
+border:2px solid #b9e4c7;
+border-radius:18px;
+padding:18px;
 text-align:center;
-padding:15px
+display:none;
 }
 
-.spinner{
-width:38px;
-height:38px;
-border:4px solid #dce4ef;
-border-top-color:#1769e0;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto
-}
-
-@keyframes spin{
-to{transform:rotate(360deg)}
+.success-icon{
+font-size:45px;
 }
 
 #toast{
@@ -291,7 +263,7 @@ position:fixed;
 bottom:20px;
 left:50%;
 transform:translate(-50%,120px);
-background:#172033;
+background:#182235;
 color:white;
 padding:12px 18px;
 border-radius:12px;
@@ -300,35 +272,20 @@ transition:.3s;
 z-index:100;
 width:90%;
 max-width:400px;
-text-align:center
+text-align:center;
 }
 
 #toast.show{
 transform:translate(-50%,0);
-opacity:1
+opacity:1;
 }
 
 footer{
-text-align:center;
 font-size:11px;
-color:#748096
+text-align:center;
+color:#758196;
 }
 
-@media(max-width:430px){
-
-.logo{font-size:23px}
-
-.hero h1{font-size:24px}
-
-.action{
-min-height:125px
-}
-
-.row{
-flex-direction:column
-}
-
-}
 </style>
 </head>
 
@@ -336,200 +293,147 @@ flex-direction:column
 
 <div class="app">
 
+
 <header>
 
 <div>
-<div class="logo">همراه من</div>
-<div style="font-size:12px;color:#68758a">
-دستیار دیجیتال سالمندان
-</div>
+
+<div class="logo">
+همراه من
 </div>
 
-<div class="badge">
-MVP 1.0
+<div style="font-size:12px;color:#68758a">
+دستیار حل مشکلات گوشی
+</div>
+
+</div>
+
+<div class="version">
+v0.2
 </div>
 
 </header>
 
 
-<!-- INTRO -->
+<!-- HERO -->
 
 <section class="card hero">
 
-<div class="hero-icon">🤝</div>
+<div class="hero-icon">
+🤝
+</div>
 
 <h1>
-چه کمکی می‌خواهید؟
+مشکل گوشی دارید؟
 </h1>
 
 <p>
-فقط مشکل خود را بگویید یا از آن عکس بگیرید.
+به زبان خودتان بگویید چه اتفاقی افتاده.
 </p>
 
-</section>
 
+<div class="device">
 
-<!-- ACTIONS -->
+<div class="device-title">
+دستگاه شما
+</div>
 
-<section class="card actions">
-
-<button
-class="action"
-onclick="openCamera()"
+<div
+class="device-name"
+id="deviceName"
 >
+در حال شناسایی...
+</div>
 
-<span class="action-icon">📷</span>
-
-<span class="action-title">
-عکس بگیر
-</span>
-
-<span class="action-desc">
-پیامک، نامه یا صفحه گوشی
-</span>
-
-</button>
-
-
-<button
-class="action"
-onclick="startVoice()"
->
-
-<span class="action-icon">🎤</span>
-
-<span class="action-title">
-صحبت کن
-</span>
-
-<span class="action-desc">
-سؤال خود را بگو
-</span>
-
-</button>
-
-
-<button
-class="action"
-onclick="readLastAnswer()"
->
-
-<span class="action-icon">🔊</span>
-
-<span class="action-title">
-برایم بخوان
-</span>
-
-<span class="action-desc">
-پاسخ را با صدا بشنو
-</span>
-
-</button>
-
-
-<button
-class="action"
-onclick="showHelp()"
->
-
-<span class="action-icon">❓</span>
-
-<span class="action-title">
-راهنما
-</span>
-
-<span class="action-desc">
-چطور استفاده کنم؟
-</span>
-
-</button>
+</div>
 
 </section>
 
 
-<!-- QUESTION -->
+<!-- VOICE -->
 
 <section class="card">
 
-<label>
-سؤال شما
-</label>
+<button
+class="mic"
+id="micButton"
+onclick="startVoice()"
+>
+
+<span class="mic-icon">
+🎤
+</span>
+
+مثلاً بگویید:
+<br>
+
+«گوشیم پیام نمی‌فرسته»
+
+</button>
+
+
+<div class="or">
+یا سؤال خود را بنویسید
+</div>
+
 
 <textarea
 id="question"
 placeholder="مثلاً:
-این پیامک یعنی چی؟
-یا:
-چطور قبض پرداخت کنم؟"
+
+گوشیم پیام ارسال نمی‌کنه
+
+اینترنت گوشیم وصل نمیشه
+
+صدای گوشیم قطع شده
+
+نمی‌تونم تماس بگیرم"
 ></textarea>
 
 
-<div class="row">
-
 <button
 class="btn primary"
-onclick="analyzeQuestion()"
+onclick="analyze()"
 >
-کمکم کن
+بررسی مشکل
 </button>
-
-<button
-class="btn secondary"
-onclick="clearAll()"
->
-پاک کردن
-</button>
-
-</div>
 
 </section>
 
 
-<!-- CAMERA -->
-
-<input
-id="camera"
-type="file"
-accept="image/*"
-capture="environment"
-style="display:none"
-onchange="imageSelected()"
->
-
-
-<!-- PREVIEW -->
+<!-- DETECTED -->
 
 <section
-class="card preview"
-id="preview"
+class="card detected"
+id="detected"
 >
 
-<img id="previewImage">
-
-<button
-class="btn primary full"
-onclick="runOCR()"
->
-🔎 خواندن متن عکس
-</button>
-
-</section>
-
-
-<!-- OCR LOADING -->
+<div class="problem">
 
 <div
-class="card loading"
-id="loading"
+class="problem-icon"
+id="problemIcon"
 >
+🔧
+</div>
 
-<div class="spinner"></div>
+<div
+class="problem-title"
+id="problemTitle"
+>
+مشکل
+</div>
 
-<div id="loadingText">
-در حال خواندن عکس...
+<div
+class="problem-confidence"
+id="confidence"
+>
+تشخیص اولیه
 </div>
 
 </div>
+
+</section>
 
 
 <!-- RESULT -->
@@ -539,21 +443,21 @@ class="card result"
 id="result"
 >
 
-<div class="result-title">
+<div class="result-head">
 
 <div class="result-icon">
-💡
+🛠️
 </div>
 
 <div>
 
 <h2 id="resultTitle">
-راهنمای شما
+حل مشکل
 </h2>
 
 <div
+class="subtitle"
 id="resultSubtitle"
-style="font-size:12px;color:#68758a"
 >
 </div>
 
@@ -563,8 +467,9 @@ style="font-size:12px;color:#68758a"
 
 
 <div
-class="answer"
-id="answer"
+class="question"
+id="explanation"
+style="padding-top:15px"
 >
 </div>
 
@@ -574,7 +479,7 @@ class="step"
 id="step"
 >
 
-<div style="color:#1769e0;font-weight:bold">
+<div class="step-label">
 مرحله فعلی
 </div>
 
@@ -591,29 +496,51 @@ id="stepText"
 >
 </div>
 
+
 <button
-class="btn primary full"
+class="btn primary"
 onclick="nextStep()"
 id="nextButton"
 >
 مرحله بعد
 </button>
 
+
+<button
+class="btn secondary"
+onclick="problemSolved()"
+>
+مشکل حل شد
+</button>
+
+</div>
+
+
+<div
+class="success"
+id="success"
+>
+
+<div class="success-icon">
+✅
+</div>
+
+<strong>
+عالی!
+</strong>
+
+<p>
+خوشحالیم که مشکل برطرف شد.
+</p>
+
 </div>
 
 
 <button
-class="btn secondary full"
-onclick="speakAnswer()"
+class="btn secondary"
+onclick="newProblem()"
 >
-🔊 خواندن پاسخ
-</button>
-
-<button
-class="btn secondary full"
-onclick="newQuestion()"
->
-سؤال جدید
+مشکل دیگری دارم
 </button>
 
 </section>
@@ -621,11 +548,12 @@ onclick="newQuestion()"
 
 <footer>
 
-همراه من — نمونه اولیه واقعی
+همراه من v0.2
 
 <br>
 
-برای OCR اولین بار به اینترنت نیاز است.
+این نسخه راهنمایی می‌کند و هنوز
+کنترل مستقیم تنظیمات گوشی را ندارد.
 
 </footer>
 
@@ -637,201 +565,366 @@ onclick="newQuestion()"
 
 <script>
 
-let steps=[];
-let currentStep=0;
-let lastAnswer="";
+
+/* ===================================
+   DEVICE DETECTION
+=================================== */
+
+function detectDevice(){
+
+const ua=navigator.userAgent;
+
+let os="دستگاه موبایل";
+
+if(/Android/i.test(ua))
+os="Android";
+
+else if(/iPhone|iPad/i.test(ua))
+os="Apple iPhone / iPad";
+
+else if(/Windows/i.test(ua))
+os="Windows";
+
+let brand="";
+
+if(/Samsung/i.test(ua))
+brand="Samsung";
+
+else if(/Xiaomi|Redmi|POCO/i.test(ua))
+brand="Xiaomi / Redmi / POCO";
+
+else if(/Huawei|Honor/i.test(ua))
+brand="Huawei / Honor";
+
+else if(/OPPO/i.test(ua))
+brand="OPPO";
+
+else if(/vivo/i.test(ua))
+brand="vivo";
+
+else if(/OnePlus/i.test(ua))
+brand="OnePlus";
+
+else if(/Pixel/i.test(ua))
+brand="Google Pixel";
+
+else if(/iPhone/i.test(ua))
+brand="Apple iPhone";
+
+else
+brand="مدل دقیق توسط مرورگر قابل تشخیص نیست";
 
 
-/* ======================
-   TOAST
-====================== */
-
-function toast(message){
-
-const t=document.getElementById("toast");
-
-t.textContent=message;
-
-t.classList.add("show");
-
-clearTimeout(window.toastTimer);
-
-window.toastTimer=setTimeout(()=>{
-
-t.classList.remove("show");
-
-},3000);
+document.getElementById("deviceName")
+.textContent=
+brand+" — "+os;
 
 }
 
 
-/* ======================
-   CAMERA
-====================== */
+detectDevice();
 
-function openCamera(){
 
-document.getElementById("camera").click();
+/* ===================================
+   DATA
+=================================== */
+
+const problems={
+
+
+sms:{
+
+icon:"💬",
+
+title:"ارسال نشدن پیامک",
+
+keywords:[
+"پیامک",
+"sms",
+"پیام",
+"اس ام اس",
+"پیام نمیفرسته",
+"پیام نمی فرسته",
+"پیام نمی‌فرسته",
+"پیام ارسال نمیشه",
+"پیام ارسال نمی شود",
+"پیام ارسال نمیشه"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+گوشی شما نمی‌تواند پیامک را ارسال کند.
+</p>
+
+<p>
+اول چند مورد ساده را بررسی می‌کنیم.
+لازم نیست همه تنظیمات گوشی را بلد باشید.
+</p>
+`,
+
+steps:[
+
+"ابتدا مطمئن شوید آنتن گوشی دارید.",
+
+"برنامه پیام‌ها را باز کنید.",
+
+"یک پیام جدید به یک شماره آشنا ارسال کنید.",
+
+"اگر ارسال نشد، وارد تنظیمات گوشی شوید.",
+
+"در بخش سیم‌کارت و شبکه، سیم‌کارتی را که با آن پیام می‌فرستید بررسی کنید.",
+
+"سیم‌کارت موردنظر را برای پیامک فعال کنید.",
+
+"دوباره یک پیام کوتاه آزمایشی بفرستید."
+
+]
+
+},
+
+
+internet:{
+
+icon:"🌐",
+
+title:"وصل نشدن اینترنت",
+
+keywords:[
+"اینترنت",
+"اینترنتم",
+"دیتا",
+"دیتای موبایل",
+"نت ندارم",
+"اینترنت وصل نمیشه",
+"اینترنت قطع",
+"اینترنت کار نمیکنه",
+"اینترنت کار نمی کند",
+"wifi",
+"وای فای",
+"وای‌فای"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+اتصال اینترنت گوشی برقرار نیست.
+</p>
+
+<p>
+ابتدا موارد ساده را بررسی می‌کنیم.
+</p>
+`,
+
+steps:[
+
+"بالای صفحه گوشی را نگاه کنید و ببینید علامت آنتن وجود دارد.",
+
+"اگر از اینترنت سیم‌کارت استفاده می‌کنید، دیتای موبایل را روشن کنید.",
+
+"اگر Wi-Fi استفاده می‌کنید، مطمئن شوید Wi-Fi روشن است.",
+
+"حالت هواپیما را بررسی کنید و اگر روشن است خاموشش کنید.",
+
+"Wi-Fi یا دیتای موبایل را یک بار خاموش و روشن کنید.",
+
+"دوباره اینترنت را امتحان کنید."
+
+]
+
+},
+
+
+call:{
+
+icon:"📞",
+
+title:"مشکل تماس تلفنی",
+
+keywords:[
+"تماس",
+"زنگ",
+"زنگ نمیخوره",
+"تماس نمیگیره",
+"تماس نمی‌گیره",
+"نمی تونم تماس",
+"نمیتونم تماس",
+"تماس برقرار",
+"شماره گیری"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+گوشی نمی‌تواند تماس تلفنی برقرار کند
+یا تماس دریافت کند.
+</p>
+`,
+
+steps:[
+
+"اول بررسی کنید گوشی آنتن دارد.",
+
+"حالت هواپیما را خاموش کنید.",
+
+"شماره‌ای را که می‌شناسید شماره‌گیری کنید.",
+
+"اگر تماس برقرار نشد، سیم‌کارت را بررسی کنید.",
+
+"اگر دو سیم‌کارت دارید، سیم‌کارت پیش‌فرض تماس را بررسی کنید.",
+
+"یک بار گوشی را خاموش و روشن کنید.",
+
+"دوباره تماس بگیرید."
+
+]
+
+},
+
+
+sound:{
+
+icon:"🔊",
+
+title:"مشکل صدا",
+
+keywords:[
+"صدا",
+"صدای گوشی",
+"صدا ندارم",
+"صدا قطع",
+"بلندگو",
+"اسپیکر",
+"صدای گوشی قطع شده",
+"صدای گوشی کار نمیکنه"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+صدای گوشی به درستی پخش نمی‌شود.
+</p>
+`,
+
+steps:[
+
+"دکمه افزایش صدا را چند بار فشار دهید.",
+
+"بررسی کنید گوشی روی حالت بی‌صدا نباشد.",
+
+"اگر هدفون یا هندزفری وصل است، آن را جدا کنید.",
+
+"یک ویدیو یا موسیقی را پخش کنید.",
+
+"صدای رسانه را افزایش دهید.",
+
+"اگر هنوز صدا ندارید، گوشی را یک بار خاموش و روشن کنید."
+
+]
+
+},
+
+
+charging:{
+
+icon:"🔋",
+
+title:"شارژ نشدن گوشی",
+
+keywords:[
+"شارژ",
+"شارژ نمیشه",
+"شارژ نمی شود",
+"شارژ نمیکنه",
+"شارژر",
+"باتری",
+"باتری شارژ"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+گوشی شارژ نمی‌شود یا شارژ آن
+به درستی انجام نمی‌شود.
+</p>
+`,
+
+steps:[
+
+"شارژر را از برق جدا کنید.",
+
+"کابل را بررسی کنید.",
+
+"کابل را دوباره به شارژر و گوشی وصل کنید.",
+
+"یک پریز برق دیگر امتحان کنید.",
+
+"اگر کابل یا شارژر دیگری دارید، آن را امتحان کنید.",
+
+"درگاه شارژ گوشی را از نظر وجود گردوغبار بررسی کنید."
+
+]
+
+},
+
+
+slow:{
+
+icon:"🐢",
+
+title:"کند شدن گوشی",
+
+keywords:[
+"کند",
+"آهسته",
+"هنگ",
+"هنگ میکنه",
+"هنگ می‌کنه",
+"کند شده",
+"گوشی کند",
+"لگ"
+],
+
+explanation:`
+<strong>مشکل احتمالی:</strong>
+
+<p>
+گوشی شما کند شده یا برنامه‌ها
+با تأخیر اجرا می‌شوند.
+</p>
+`,
+
+steps:[
+
+"برنامه‌هایی که استفاده نمی‌کنید ببندید.",
+
+"فضای خالی حافظه گوشی را بررسی کنید.",
+
+"فایل‌های غیرضروری را حذف کنید.",
+
+"گوشی را یک بار خاموش و روشن کنید.",
+
+"برنامه‌های غیرضروری را حذف کنید.",
+
+"اگر مشکل ادامه داشت، مرحله بعدی را بررسی می‌کنیم."
+
+]
 
 }
-
-
-function imageSelected(){
-
-const input=document.getElementById("camera");
-
-if(!input.files.length)
-return;
-
-const file=input.files[0];
-
-const reader=new FileReader();
-
-reader.onload=function(e){
-
-document.getElementById("previewImage").src=e.target.result;
-
-document.getElementById("preview").style.display="block";
-
-toast("عکس آماده است. روی «خواندن متن عکس» بزنید.");
 
 };
 
-reader.readAsDataURL(file);
 
-}
+/* ===================================
+   ANALYZE
+=================================== */
 
-
-/* ======================
-   OCR
-====================== */
-
-async function runOCR(){
-
-const input=document.getElementById("camera");
-
-if(!input.files.length){
-
-toast("ابتدا یک عکس انتخاب کنید.");
-
-return;
-
-}
-
-const loading=document.getElementById("loading");
-
-loading.style.display="block";
-
-document.getElementById("loadingText")
-.textContent="در حال دانلود مدل فارسی...";
-
-try{
-
-const worker=await Tesseract.createWorker("fas",1,{
-logger:function(info){
-
-if(info.status){
-
-document.getElementById("loadingText")
-.textContent=
-"در حال خواندن: "+
-info.status+
-" "+
-Math.round((info.progress||0)*100)+
-"%";
-
-}
-
-}
-});
-
-
-const result=await worker.recognize(
-input.files[0]
-);
-
-
-await worker.terminate();
-
-const text=result.data.text.trim();
-
-loading.style.display="none";
-
-
-if(!text){
-
-toast("متنی از عکس پیدا نشد.");
-
-return;
-
-}
-
-
-/* متن استخراج شده */
-
-document.getElementById("question")
-.value=text;
-
-
-showResult(
-
-"متن عکس خوانده شد",
-
-"متن استخراج‌شده از تصویر",
-
-`
-<p>
-متن تشخیص داده‌شده:
-</p>
-
-<div class="ocr">
-${escapeHTML(text)}
-</div>
-
-<p>
-حالا می‌توانید روی «کمکم کن» بزنید
-تا راهنمای مرتبط نمایش داده شود.
-</p>
-`
-
-);
-
-}catch(error){
-
-console.error(error);
-
-loading.style.display="none";
-
-toast(
-"خواندن عکس انجام نشد. عکس واضح‌تری امتحان کنید."
-);
-
-}
-
-}
-
-
-/* ======================
-   SECURITY
-====================== */
-
-function escapeHTML(text){
-
-return text
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* ======================
-   QUESTION
-====================== */
-
-function analyzeQuestion(){
+function analyze(){
 
 const text=
 document
@@ -840,297 +933,118 @@ document
 .trim()
 .toLowerCase();
 
+
 if(!text){
 
-toast("لطفاً سؤال خود را بنویسید.");
+toast("اول مشکل خود را بگویید یا بنویسید.");
 
 return;
 
 }
 
 
-/* قبض */
+let best=null;
 
-if(
-text.includes("قبض")||
-text.includes("پرداخت")
-){
+let score=0;
 
-showResult(
 
-"راهنمای پرداخت قبض",
+for(const key in problems){
 
-"راهنمای نمونه",
+const p=problems[key];
 
-`
-<p>
-<strong>
-به زبان ساده:
-</strong>
-</p>
+let current=0;
 
-<p>
-اگر می‌خواهید قبض پرداخت کنید،
-ابتدا برنامه پرداخت موردنظر
-خود را باز کنید.
-</p>
 
-<p>
-این نمونه هنوز پرداخت واقعی
-انجام نمی‌دهد.
-</p>
-`,
+for(const word of p.keywords){
 
-[
-"برنامه پرداخت موردنظر را باز کنید.",
+if(text.includes(word))
+current++;
 
-"گزینه «پرداخت قبض» را پیدا کنید.",
+}
 
-"شناسه قبض و شناسه پرداخت را وارد کنید.",
 
-"مبلغ را بررسی و پرداخت را تأیید کنید."
-]
+if(current>score){
 
-);
+score=current;
+
+best=p;
+
+}
+
+}
+
+
+if(!best){
+
+showUnknown();
 
 return;
 
 }
 
 
-/* پیام */
-
-if(
-text.includes("پیامک")||
-text.includes("پیام")||
-text.includes("اعلان")
-){
-
-showResult(
-
-"توضیح پیام",
-
-"راهنمای نمونه",
-
-`
-<p>
-<strong>
-به زبان ساده:
-</strong>
-</p>
-
-<p>
-اگر پیامکی دریافت کرده‌اید
-و معنی آن را نمی‌دانید،
-می‌توانید از پیام عکس بگیرید.
-</p>
-
-<p>
-در نسخه فعلی متن عکس استخراج می‌شود.
-در مرحله بعد می‌توانیم تحلیل
-هوشمند متن را اضافه کنیم.
-</p>
-`,
-
-[
-"از پیامک عکس بگیرید.",
-
-"روی «خواندن متن عکس» بزنید.",
-
-"متن استخراج‌شده را بررسی کنید.",
-
-"در مرحله بعد توضیح ساده پیام را دریافت کنید."
-]
-
-);
-
-return;
+showProblem(best,score);
 
 }
 
 
-/* پزشک */
+/* ===================================
+   SHOW PROBLEM
+=================================== */
 
-if(
-text.includes("دکتر")||
-text.includes("پزشک")||
-text.includes("نوبت")
-){
+function showProblem(problem,score){
 
-showResult(
-
-"راهنمای نوبت پزشک",
-
-"راهنمای نمونه",
-
-`
-<p>
-برای گرفتن نوبت ابتدا باید
-پزشک یا مرکز درمانی موردنظر
-را مشخص کنید.
-</p>
-
-<p>
-این نسخه هنوز به سامانه
-نوبت‌دهی متصل نیست.
-</p>
-`,
-
-[
-"نام پزشک یا مرکز را مشخص کنید.",
-
-"سامانه نوبت‌دهی مربوط را باز کنید.",
-
-"تاریخ مناسب را انتخاب کنید.",
-
-"ساعت مناسب را انتخاب کنید.",
-
-"اطلاعات نوبت را بررسی کنید."
-]
-
-);
-
-return;
-
-}
+document.getElementById("detected")
+.style.display="block";
 
 
-/* ثنا */
-
-if(
-text.includes("ثنا")||
-text.includes("سامانه")||
-text.includes("اداره")||
-text.includes("دولت")
-){
-
-showResult(
-
-"راهنمای کار اداری",
-
-"راهنمای نمونه",
-
-`
-<p>
-برای راهنمایی دقیق باید بدانیم
-چه کاری می‌خواهید انجام دهید.
-</p>
-
-<p>
-مثلاً:
-</p>
-
-<p>
-<strong>
-«پیام ثنا برایم آمده، یعنی چی؟»
-</strong>
-</p>
-`,
-
-[
-"موضوع پیام را مشخص کنید.",
-
-"متن پیام را بررسی کنید.",
-
-"اگر لازم بود از پیام عکس بگیرید.",
-
-"راهنمای مناسب را دنبال کنید."
-]
-
-);
-
-return;
-
-}
+document.getElementById("problemIcon")
+.textContent=problem.icon;
 
 
-/* عمومی */
-
-showResult(
-
-"سؤال شما دریافت شد",
-
-"همراه من",
-
-`
-<p>
-<strong>
-سؤال شما ثبت شد.
-</strong>
-</p>
-
-<p>
-در نسخه کامل، موتور هوشمند
-متن را بررسی می‌کند و
-راهنمای مناسب را ارائه می‌دهد.
-</p>
-
-<p>
-فعلاً می‌توانید از قابلیت عکس،
-OCR و صدای فارسی استفاده کنید.
-</p>
-`,
-
-[
-"مشکل خود را واضح توضیح دهید.",
-
-"اگر مدرکی دارید از آن عکس بگیرید.",
-
-"متن استخراج‌شده را بررسی کنید.",
-
-"راهنمای مناسب را دنبال کنید."
-]
-
-);
-
-}
+document.getElementById("problemTitle")
+.textContent=problem.title;
 
 
-/* ======================
-   SHOW RESULT
-====================== */
+document.getElementById("confidence")
+.textContent=
+score>=2
+?
+"تشخیص اولیه: خوب"
+:
+"تشخیص اولیه: نیاز به بررسی بیشتر";
 
-function showResult(
-title,
-subtitle,
-html,
-stepList=[]
-){
 
 document.getElementById("result")
 .style.display="block";
 
+
 document.getElementById("resultTitle")
-.textContent=title;
+.textContent=problem.title;
+
 
 document.getElementById("resultSubtitle")
-.textContent=subtitle;
-
-document.getElementById("answer")
-.innerHTML=html;
-
-steps=stepList;
-
-currentStep=0;
-
-lastAnswer=
-document.getElementById("answer")
-.innerText;
+.textContent=
+"راهنمای اختصاصی مشکل شما";
 
 
-if(steps.length){
+document.getElementById("explanation")
+.innerHTML=problem.explanation;
 
-document.getElementById("step")
-.style.display="block";
+
+window.currentProblem=problem;
+
+window.currentSteps=problem.steps;
+
+window.currentStep=0;
+
 
 renderStep();
 
-}else{
 
-document.getElementById("step")
+document.getElementById("success")
 .style.display="none";
 
-}
 
 document.getElementById("result")
 .scrollIntoView({
@@ -1140,78 +1054,186 @@ behavior:"smooth"
 }
 
 
-/* ======================
-   STEPS
-====================== */
+/* ===================================
+   UNKNOWN
+=================================== */
+
+function showUnknown(){
+
+document.getElementById("detected")
+.style.display="block";
+
+
+document.getElementById("problemIcon")
+.textContent="🤔";
+
+
+document.getElementById("problemTitle")
+.textContent=
+"هنوز مشکل را متوجه نشدم";
+
+
+document.getElementById("confidence")
+.textContent=
+"لطفاً کمی ساده‌تر توضیح دهید";
+
+
+document.getElementById("result")
+.style.display="block";
+
+
+document.getElementById("resultTitle")
+.textContent="یک بار دیگر توضیح دهید";
+
+
+document.getElementById("resultSubtitle")
+.textContent="مثلاً این‌طور بگویید";
+
+
+document.getElementById("explanation")
+.innerHTML=`
+
+<p>
+می‌توانید خیلی ساده بگویید:
+</p>
+
+<ul>
+
+<li>گوشیم پیام نمی‌فرسته</li>
+
+<li>اینترنت گوشیم قطع شده</li>
+
+<li>نمی‌تونم تماس بگیرم</li>
+
+<li>صدای گوشیم قطع شده</li>
+
+<li>گوشیم شارژ نمی‌شه</li>
+
+<li>گوشیم خیلی کند شده</li>
+
+</ul>
+
+`;
+
+document.getElementById("step")
+.style.display="none";
+
+document.getElementById("success")
+.style.display="none";
+
+}
+
+
+/* ===================================
+   STEP
+=================================== */
 
 function renderStep(){
 
-const numbers=
-"۰۱۲۳۴۵۶۷۸۹";
+const steps=window.currentSteps;
 
-const n=
-String(currentStep+1)
-.replace(
-/\d/g,
-d=>numbers[d]
-);
+const index=window.currentStep;
+
+
+document.getElementById("step")
+.style.display="block";
+
+
+const numbers="۰۱۲۳۴۵۶۷۸۹";
 
 document.getElementById("stepNumber")
-.textContent=n;
+.textContent=
+String(index+1)
+.replace(/\d/g,d=>numbers[d]);
+
 
 document.getElementById("stepText")
-.textContent=steps[currentStep];
+.textContent=steps[index];
+
 
 document.getElementById("nextButton")
 .textContent=
-currentStep===steps.length-1
+index===steps.length-1
 ?
-"پایان"
+"پایان مراحل"
 :
 "مرحله بعد";
 
 }
 
 
+/* ===================================
+   NEXT
+=================================== */
+
 function nextStep(){
 
-if(currentStep<steps.length-1){
+const steps=window.currentSteps;
 
-currentStep++;
+if(window.currentStep<steps.length-1){
+
+window.currentStep++;
 
 renderStep();
 
 }else{
 
-toast("راهنما تمام شد.");
+toast(
+"مراحل بررسی تمام شد."
+);
 
 }
 
 }
 
 
-/* ======================
+/* ===================================
+   SOLVED
+=================================== */
+
+function problemSolved(){
+
+document.getElementById("step")
+.style.display="none";
+
+
+document.getElementById("success")
+.style.display="block";
+
+
+document.getElementById("success")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* ===================================
    VOICE
-====================== */
+=================================== */
 
 function startVoice(){
 
-const SpeechRecognition=
+const Recognition=
 window.SpeechRecognition||
 window.webkitSpeechRecognition;
 
-if(!SpeechRecognition){
+
+if(!Recognition){
 
 toast(
-"تشخیص صدای فارسی در این مرورگر پشتیبانی نمی‌شود."
+"مرورگر شما تشخیص صدا را پشتیبانی نمی‌کند."
 );
 
 return;
 
 }
 
+
 const recognition=
-new SpeechRecognition();
+new Recognition();
+
 
 recognition.lang="fa-IR";
 
@@ -1219,7 +1241,26 @@ recognition.interimResults=false;
 
 recognition.maxAlternatives=1;
 
-toast("گوش می‌دهم... صحبت کنید.");
+
+const button=
+document.getElementById("micButton");
+
+
+button.classList.add("listening");
+
+button.innerHTML=`
+
+<span class="mic-icon">
+🔴
+</span>
+
+دارم گوش می‌دهم...
+<br>
+
+صحبت کنید
+
+`;
+
 
 recognition.start();
 
@@ -1229,126 +1270,68 @@ recognition.onresult=function(event){
 const text=
 event.results[0][0].transcript;
 
+
 document.getElementById("question")
 .value=text;
 
-analyzeQuestion();
+
+button.classList.remove("listening");
+
+button.innerHTML=`
+
+<span class="mic-icon">
+🎤
+</span>
+
+مثلاً بگویید:
+<br>
+
+«گوشیم پیام نمی‌فرسته»
+
+`;
+
+
+analyze();
 
 };
 
 
 recognition.onerror=function(){
 
-toast(
-"صدای شما تشخیص داده نشد."
-);
+button.classList.remove("listening");
+
+button.innerHTML=`
+
+<span class="mic-icon">
+🎤
+</span>
+
+مثلاً بگویید:
+<br>
+
+«گوشیم پیام نمی‌فرسته»
+
+`;
+
+toast("صدای شما تشخیص داده نشد.");
+
+};
+
+
+recognition.onend=function(){
+
+button.classList.remove("listening");
 
 };
 
 }
 
 
-/* ======================
-   TEXT TO SPEECH
-====================== */
+/* ===================================
+   NEW PROBLEM
+=================================== */
 
-function speakAnswer(){
-
-if(!lastAnswer){
-
-toast("هنوز پاسخی برای خواندن وجود ندارد.");
-
-return;
-
-}
-
-if(!("speechSynthesis" in window)){
-
-toast("خواندن متن در این مرورگر پشتیبانی نمی‌شود.");
-
-return;
-
-}
-
-speechSynthesis.cancel();
-
-const speech=
-new SpeechSynthesisUtterance(lastAnswer);
-
-speech.lang="fa-IR";
-
-speech.rate=.85;
-
-speech.pitch=1;
-
-speechSynthesis.speak(speech);
-
-}
-
-
-function readLastAnswer(){
-
-if(!lastAnswer){
-
-toast("ابتدا یک سؤال بپرسید.");
-
-return;
-
-}
-
-speakAnswer();
-
-}
-
-
-/* ======================
-   HELP
-====================== */
-
-function showHelp(){
-
-showResult(
-
-"راهنمای استفاده",
-
-"سه راه ساده برای شروع",
-
-`
-<p>
-<strong>۱. عکس بگیرید</strong>
-</p>
-
-<p>
-از پیامک، نامه یا صفحه گوشی عکس بگیرید.
-</p>
-
-<p>
-<strong>۲. صحبت کنید</strong>
-</p>
-
-<p>
-روی میکروفون بزنید و مشکل خود را بگویید.
-</p>
-
-<p>
-<strong>۳. سؤال بنویسید</strong>
-</p>
-
-<p>
-مشکل خود را ساده و کوتاه بنویسید.
-</p>
-`
-
-);
-
-}
-
-
-/* ======================
-   CLEAR
-====================== */
-
-function clearAll(){
+function newProblem(){
 
 document.getElementById("question")
 .value="";
@@ -1356,22 +1339,8 @@ document.getElementById("question")
 document.getElementById("result")
 .style.display="none";
 
-document.getElementById("preview")
+document.getElementById("detected")
 .style.display="none";
-
-document.getElementById("camera")
-.value="";
-
-lastAnswer="";
-
-speechSynthesis.cancel();
-
-}
-
-
-function newQuestion(){
-
-clearAll();
 
 window.scrollTo({
 top:0,
@@ -1381,26 +1350,31 @@ behavior:"smooth"
 }
 
 
-/* CTRL ENTER */
+/* ===================================
+   TOAST
+=================================== */
 
-document
-.getElementById("question")
-.addEventListener(
-"keydown",
-function(e){
+function toast(message){
 
-if(
-(e.ctrlKey||e.metaKey)&&
-e.key==="Enter"
-){
+const t=
+document.getElementById("toast");
 
-analyzeQuestion();
+t.textContent=message;
+
+t.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=
+setTimeout(()=>{
+
+t.classList.remove("show");
+
+},2500);
 
 }
-
-});
 
 </script>
 
 </body>
-      </html>
+</html>
