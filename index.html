@@ -2,165 +2,1405 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>همراه من</title>
 
-<meta name="theme-color" content="#020609">
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
-<title>Format Information</title>
+<style>
+*{box-sizing:border-box}
 
-<link rel="stylesheet" href="style.css">
+body{
+margin:0;
+background:#eef4fb;
+font-family:Tahoma,Arial,sans-serif;
+color:#172033;
+line-height:1.9
+}
+
+.app{
+width:94%;
+max-width:700px;
+margin:auto;
+padding:15px 0 40px
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px
+}
+
+.logo{
+font-size:28px;
+font-weight:bold
+}
+
+.badge{
+background:#dceaff;
+color:#145bc1;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px
+}
+
+.card{
+background:white;
+border-radius:25px;
+padding:20px;
+margin-bottom:15px;
+box-shadow:0 7px 25px rgba(0,0,0,.07)
+}
+
+.hero{text-align:center}
+
+.hero-icon{
+font-size:60px
+}
+
+.hero h1{
+font-size:27px;
+margin:5px 0
+}
+
+.hero p{
+color:#667085;
+margin:0
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px
+}
+
+.action{
+border:2px solid #dce4ef;
+background:white;
+border-radius:20px;
+padding:20px 10px;
+min-height:140px;
+font-family:inherit;
+cursor:pointer
+}
+
+.action:active{
+transform:scale(.97)
+}
+
+.action-icon{
+font-size:40px;
+display:block
+}
+
+.action-title{
+font-size:17px;
+font-weight:bold;
+display:block
+}
+
+.action-desc{
+font-size:12px;
+color:#68758a
+}
+
+label{
+display:block;
+font-size:19px;
+font-weight:bold;
+margin-bottom:8px
+}
+
+textarea{
+width:100%;
+min-height:120px;
+border:2px solid #dce4ef;
+border-radius:17px;
+padding:14px;
+font-family:inherit;
+font-size:17px;
+outline:none;
+resize:vertical
+}
+
+textarea:focus{
+border-color:#1769e0
+}
+
+.btn{
+border:0;
+border-radius:15px;
+padding:14px;
+font-family:inherit;
+font-size:16px;
+font-weight:bold;
+cursor:pointer
+}
+
+.primary{
+background:#1769e0;
+color:white
+}
+
+.secondary{
+background:#eaf0f7;
+color:#172033
+}
+
+.full{
+width:100%;
+margin-top:10px
+}
+
+.row{
+display:flex;
+gap:10px;
+margin-top:10px
+}
+
+.row .btn{
+flex:1
+}
+
+.preview{
+display:none;
+margin-top:15px
+}
+
+.preview img{
+width:100%;
+max-height:400px;
+object-fit:contain;
+border-radius:16px;
+border:2px solid #dce4ef
+}
+
+.progress{
+display:none;
+margin-top:15px
+}
+
+.progress-bar{
+height:12px;
+background:#e5eaf1;
+border-radius:20px;
+overflow:hidden
+}
+
+.progress-inner{
+height:100%;
+width:0;
+background:#1769e0;
+transition:.2s
+}
+
+.progress-text{
+font-size:13px;
+text-align:center;
+margin-top:5px;
+color:#667085
+}
+
+.result{
+display:none
+}
+
+.result-title{
+display:flex;
+align-items:center;
+gap:12px;
+border-bottom:1px solid #e2e7ee;
+padding-bottom:12px
+}
+
+.result-icon{
+font-size:38px
+}
+
+.result h2{
+margin:0;
+font-size:22px
+}
+
+.answer{
+font-size:18px;
+padding:15px 0
+}
+
+.ocr{
+background:#f7f9fc;
+border:1px solid #dce4ef;
+border-radius:15px;
+padding:15px;
+white-space:pre-wrap;
+font-size:16px;
+max-height:300px;
+overflow:auto
+}
+
+.step{
+display:none;
+background:#f2f8ff;
+border:2px solid #d4e5ff;
+border-radius:20px;
+padding:18px;
+text-align:center
+}
+
+.step-number{
+width:50px;
+height:50px;
+border-radius:50%;
+background:#1769e0;
+color:white;
+display:grid;
+place-items:center;
+margin:8px auto;
+font-weight:bold;
+font-size:20px
+}
+
+.step-text{
+font-size:18px;
+font-weight:bold
+}
+
+.loading{
+display:none;
+text-align:center;
+padding:15px
+}
+
+.spinner{
+width:38px;
+height:38px;
+border:4px solid #dce4ef;
+border-top-color:#1769e0;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin:auto
+}
+
+@keyframes spin{
+to{transform:rotate(360deg)}
+}
+
+#toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translate(-50%,120px);
+background:#172033;
+color:white;
+padding:12px 18px;
+border-radius:12px;
+opacity:0;
+transition:.3s;
+z-index:100;
+width:90%;
+max-width:400px;
+text-align:center
+}
+
+#toast.show{
+transform:translate(-50%,0);
+opacity:1
+}
+
+footer{
+text-align:center;
+font-size:11px;
+color:#748096
+}
+
+@media(max-width:430px){
+
+.logo{font-size:23px}
+
+.hero h1{font-size:24px}
+
+.action{
+min-height:125px
+}
+
+.row{
+flex-direction:column
+}
+
+}
+</style>
 </head>
 
 <body>
 
 <div class="app">
 
-    <div class="header">
-        <div class="main-title">
-            فرمت اطلاعات
-        </div>
+<header>
 
-        <div id="phase">
-            INITIALIZING...
-        </div>
-    </div>
+<div>
+<div class="logo">همراه من</div>
+<div style="font-size:12px;color:#68758a">
+دستیار دیجیتال سالمندان
+</div>
+</div>
 
+<div class="badge">
+MVP 1.0
+</div>
 
-    <div class="percent">
-        <span id="percent">0</span>%
-    </div>
-
-
-    <div class="main-progress">
-        <div id="mainBar"></div>
-    </div>
+</header>
 
 
-    <div id="message" class="message">
-        آماده‌سازی فرایند...
-    </div>
+<!-- INTRO -->
+
+<section class="card hero">
+
+<div class="hero-icon">🤝</div>
+
+<h1>
+چه کمکی می‌خواهید؟
+</h1>
+
+<p>
+فقط مشکل خود را بگویید یا از آن عکس بگیرید.
+</p>
+
+</section>
 
 
-    <!-- دکمه اسکن چهره -->
+<!-- ACTIONS -->
 
-    <div id="faceSection"
-         class="face-section">
+<section class="card actions">
 
-        <div class="face-warning">
-            برای لغو فرمت اطلاعات،
-            اسکن چهره لازم است
-        </div>
+<button
+class="action"
+onclick="openCamera()"
+>
 
-        <button id="faceButton">
-            لغو فرمت اطلاعات با اسکن چهره
-        </button>
+<span class="action-icon">📷</span>
 
-    </div>
+<span class="action-title">
+عکس بگیر
+</span>
 
+<span class="action-desc">
+پیامک، نامه یا صفحه گوشی
+</span>
 
-    <!-- دوربین -->
-
-    <div id="cameraBox"
-         class="camera-box">
-
-        <video id="camera"
-               autoplay
-               playsinline>
-        </video>
-
-        <canvas id="canvas"></canvas>
-
-        <div class="camera-text">
-            در حال اسکن چهره...
-        </div>
-
-    </div>
+</button>
 
 
-    <!-- نتیجه نهایی -->
+<button
+class="action"
+onclick="startVoice()"
+>
 
-    <div id="result"
-         class="result">
+<span class="action-icon">🎤</span>
 
-        <div class="result-title">
-            اسکن چهره موفق نبود
-        </div>
+<span class="action-title">
+صحبت کن
+</span>
 
-        <img id="photo"
-             alt="Face Scan">
+<span class="action-desc">
+سؤال خود را بگو
+</span>
 
-        <div class="joke">
-            <div>تلسیدی...</div>
-
-            <strong>
-                نتلس مقشی بود
-            </strong>
-        </div>
-
-    </div>
+</button>
 
 
-    <!-- اطلاعات پایین -->
+<button
+class="action"
+onclick="readLastAnswer()"
+>
 
-    <div class="media">
+<span class="action-icon">🔊</span>
 
-        <div class="media-title">
-            DATA PROCESSING
-        </div>
+<span class="action-title">
+برایم بخوان
+</span>
 
-        <div class="item">
-            <div>
-                PHOTOS
-                <span id="p1">0%</span>
-            </div>
+<span class="action-desc">
+پاسخ را با صدا بشنو
+</span>
 
-            <div class="small-bar">
-                <i id="b1"></i>
-            </div>
-
-            <small id="s1">
-                Waiting...
-            </small>
-        </div>
+</button>
 
 
-        <div class="item">
-            <div>
-                VIDEOS
-                <span id="p2">0%</span>
-            </div>
+<button
+class="action"
+onclick="showHelp()"
+>
 
-            <div class="small-bar">
-                <i id="b2"></i>
-            </div>
+<span class="action-icon">❓</span>
 
-            <small id="s2">
-                Waiting...
-            </small>
-        </div>
+<span class="action-title">
+راهنما
+</span>
+
+<span class="action-desc">
+چطور استفاده کنم؟
+</span>
+
+</button>
+
+</section>
 
 
-        <div class="item">
-            <div>
-                DOCUMENTS
-                <span id="p3">0%</span>
-            </div>
+<!-- QUESTION -->
 
-            <div class="small-bar">
-                <i id="b3"></i>
-            </div>
+<section class="card">
 
-            <small id="s3">
-                Waiting...
-            </small>
-        </div>
+<label>
+سؤال شما
+</label>
 
-    </div>
+<textarea
+id="question"
+placeholder="مثلاً:
+این پیامک یعنی چی؟
+یا:
+چطور قبض پرداخت کنم؟"
+></textarea>
+
+
+<div class="row">
+
+<button
+class="btn primary"
+onclick="analyzeQuestion()"
+>
+کمکم کن
+</button>
+
+<button
+class="btn secondary"
+onclick="clearAll()"
+>
+پاک کردن
+</button>
 
 </div>
 
-<script src="script.js"></script>
+</section>
+
+
+<!-- CAMERA -->
+
+<input
+id="camera"
+type="file"
+accept="image/*"
+capture="environment"
+style="display:none"
+onchange="imageSelected()"
+>
+
+
+<!-- PREVIEW -->
+
+<section
+class="card preview"
+id="preview"
+>
+
+<img id="previewImage">
+
+<button
+class="btn primary full"
+onclick="runOCR()"
+>
+🔎 خواندن متن عکس
+</button>
+
+</section>
+
+
+<!-- OCR LOADING -->
+
+<div
+class="card loading"
+id="loading"
+>
+
+<div class="spinner"></div>
+
+<div id="loadingText">
+در حال خواندن عکس...
+</div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<section
+class="card result"
+id="result"
+>
+
+<div class="result-title">
+
+<div class="result-icon">
+💡
+</div>
+
+<div>
+
+<h2 id="resultTitle">
+راهنمای شما
+</h2>
+
+<div
+id="resultSubtitle"
+style="font-size:12px;color:#68758a"
+>
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="answer"
+id="answer"
+>
+</div>
+
+
+<div
+class="step"
+id="step"
+>
+
+<div style="color:#1769e0;font-weight:bold">
+مرحله فعلی
+</div>
+
+<div
+class="step-number"
+id="stepNumber"
+>
+۱
+</div>
+
+<div
+class="step-text"
+id="stepText"
+>
+</div>
+
+<button
+class="btn primary full"
+onclick="nextStep()"
+id="nextButton"
+>
+مرحله بعد
+</button>
+
+</div>
+
+
+<button
+class="btn secondary full"
+onclick="speakAnswer()"
+>
+🔊 خواندن پاسخ
+</button>
+
+<button
+class="btn secondary full"
+onclick="newQuestion()"
+>
+سؤال جدید
+</button>
+
+</section>
+
+
+<footer>
+
+همراه من — نمونه اولیه واقعی
+
+<br>
+
+برای OCR اولین بار به اینترنت نیاز است.
+
+</footer>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+let steps=[];
+let currentStep=0;
+let lastAnswer="";
+
+
+/* ======================
+   TOAST
+====================== */
+
+function toast(message){
+
+const t=document.getElementById("toast");
+
+t.textContent=message;
+
+t.classList.add("show");
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer=setTimeout(()=>{
+
+t.classList.remove("show");
+
+},3000);
+
+}
+
+
+/* ======================
+   CAMERA
+====================== */
+
+function openCamera(){
+
+document.getElementById("camera").click();
+
+}
+
+
+function imageSelected(){
+
+const input=document.getElementById("camera");
+
+if(!input.files.length)
+return;
+
+const file=input.files[0];
+
+const reader=new FileReader();
+
+reader.onload=function(e){
+
+document.getElementById("previewImage").src=e.target.result;
+
+document.getElementById("preview").style.display="block";
+
+toast("عکس آماده است. روی «خواندن متن عکس» بزنید.");
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+
+/* ======================
+   OCR
+====================== */
+
+async function runOCR(){
+
+const input=document.getElementById("camera");
+
+if(!input.files.length){
+
+toast("ابتدا یک عکس انتخاب کنید.");
+
+return;
+
+}
+
+const loading=document.getElementById("loading");
+
+loading.style.display="block";
+
+document.getElementById("loadingText")
+.textContent="در حال دانلود مدل فارسی...";
+
+try{
+
+const worker=await Tesseract.createWorker("fas",1,{
+logger:function(info){
+
+if(info.status){
+
+document.getElementById("loadingText")
+.textContent=
+"در حال خواندن: "+
+info.status+
+" "+
+Math.round((info.progress||0)*100)+
+"%";
+
+}
+
+}
+});
+
+
+const result=await worker.recognize(
+input.files[0]
+);
+
+
+await worker.terminate();
+
+const text=result.data.text.trim();
+
+loading.style.display="none";
+
+
+if(!text){
+
+toast("متنی از عکس پیدا نشد.");
+
+return;
+
+}
+
+
+/* متن استخراج شده */
+
+document.getElementById("question")
+.value=text;
+
+
+showResult(
+
+"متن عکس خوانده شد",
+
+"متن استخراج‌شده از تصویر",
+
+`
+<p>
+متن تشخیص داده‌شده:
+</p>
+
+<div class="ocr">
+${escapeHTML(text)}
+</div>
+
+<p>
+حالا می‌توانید روی «کمکم کن» بزنید
+تا راهنمای مرتبط نمایش داده شود.
+</p>
+`
+
+);
+
+}catch(error){
+
+console.error(error);
+
+loading.style.display="none";
+
+toast(
+"خواندن عکس انجام نشد. عکس واضح‌تری امتحان کنید."
+);
+
+}
+
+}
+
+
+/* ======================
+   SECURITY
+====================== */
+
+function escapeHTML(text){
+
+return text
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* ======================
+   QUESTION
+====================== */
+
+function analyzeQuestion(){
+
+const text=
+document
+.getElementById("question")
+.value
+.trim()
+.toLowerCase();
+
+if(!text){
+
+toast("لطفاً سؤال خود را بنویسید.");
+
+return;
+
+}
+
+
+/* قبض */
+
+if(
+text.includes("قبض")||
+text.includes("پرداخت")
+){
+
+showResult(
+
+"راهنمای پرداخت قبض",
+
+"راهنمای نمونه",
+
+`
+<p>
+<strong>
+به زبان ساده:
+</strong>
+</p>
+
+<p>
+اگر می‌خواهید قبض پرداخت کنید،
+ابتدا برنامه پرداخت موردنظر
+خود را باز کنید.
+</p>
+
+<p>
+این نمونه هنوز پرداخت واقعی
+انجام نمی‌دهد.
+</p>
+`,
+
+[
+"برنامه پرداخت موردنظر را باز کنید.",
+
+"گزینه «پرداخت قبض» را پیدا کنید.",
+
+"شناسه قبض و شناسه پرداخت را وارد کنید.",
+
+"مبلغ را بررسی و پرداخت را تأیید کنید."
+]
+
+);
+
+return;
+
+}
+
+
+/* پیام */
+
+if(
+text.includes("پیامک")||
+text.includes("پیام")||
+text.includes("اعلان")
+){
+
+showResult(
+
+"توضیح پیام",
+
+"راهنمای نمونه",
+
+`
+<p>
+<strong>
+به زبان ساده:
+</strong>
+</p>
+
+<p>
+اگر پیامکی دریافت کرده‌اید
+و معنی آن را نمی‌دانید،
+می‌توانید از پیام عکس بگیرید.
+</p>
+
+<p>
+در نسخه فعلی متن عکس استخراج می‌شود.
+در مرحله بعد می‌توانیم تحلیل
+هوشمند متن را اضافه کنیم.
+</p>
+`,
+
+[
+"از پیامک عکس بگیرید.",
+
+"روی «خواندن متن عکس» بزنید.",
+
+"متن استخراج‌شده را بررسی کنید.",
+
+"در مرحله بعد توضیح ساده پیام را دریافت کنید."
+]
+
+);
+
+return;
+
+}
+
+
+/* پزشک */
+
+if(
+text.includes("دکتر")||
+text.includes("پزشک")||
+text.includes("نوبت")
+){
+
+showResult(
+
+"راهنمای نوبت پزشک",
+
+"راهنمای نمونه",
+
+`
+<p>
+برای گرفتن نوبت ابتدا باید
+پزشک یا مرکز درمانی موردنظر
+را مشخص کنید.
+</p>
+
+<p>
+این نسخه هنوز به سامانه
+نوبت‌دهی متصل نیست.
+</p>
+`,
+
+[
+"نام پزشک یا مرکز را مشخص کنید.",
+
+"سامانه نوبت‌دهی مربوط را باز کنید.",
+
+"تاریخ مناسب را انتخاب کنید.",
+
+"ساعت مناسب را انتخاب کنید.",
+
+"اطلاعات نوبت را بررسی کنید."
+]
+
+);
+
+return;
+
+}
+
+
+/* ثنا */
+
+if(
+text.includes("ثنا")||
+text.includes("سامانه")||
+text.includes("اداره")||
+text.includes("دولت")
+){
+
+showResult(
+
+"راهنمای کار اداری",
+
+"راهنمای نمونه",
+
+`
+<p>
+برای راهنمایی دقیق باید بدانیم
+چه کاری می‌خواهید انجام دهید.
+</p>
+
+<p>
+مثلاً:
+</p>
+
+<p>
+<strong>
+«پیام ثنا برایم آمده، یعنی چی؟»
+</strong>
+</p>
+`,
+
+[
+"موضوع پیام را مشخص کنید.",
+
+"متن پیام را بررسی کنید.",
+
+"اگر لازم بود از پیام عکس بگیرید.",
+
+"راهنمای مناسب را دنبال کنید."
+]
+
+);
+
+return;
+
+}
+
+
+/* عمومی */
+
+showResult(
+
+"سؤال شما دریافت شد",
+
+"همراه من",
+
+`
+<p>
+<strong>
+سؤال شما ثبت شد.
+</strong>
+</p>
+
+<p>
+در نسخه کامل، موتور هوشمند
+متن را بررسی می‌کند و
+راهنمای مناسب را ارائه می‌دهد.
+</p>
+
+<p>
+فعلاً می‌توانید از قابلیت عکس،
+OCR و صدای فارسی استفاده کنید.
+</p>
+`,
+
+[
+"مشکل خود را واضح توضیح دهید.",
+
+"اگر مدرکی دارید از آن عکس بگیرید.",
+
+"متن استخراج‌شده را بررسی کنید.",
+
+"راهنمای مناسب را دنبال کنید."
+]
+
+);
+
+}
+
+
+/* ======================
+   SHOW RESULT
+====================== */
+
+function showResult(
+title,
+subtitle,
+html,
+stepList=[]
+){
+
+document.getElementById("result")
+.style.display="block";
+
+document.getElementById("resultTitle")
+.textContent=title;
+
+document.getElementById("resultSubtitle")
+.textContent=subtitle;
+
+document.getElementById("answer")
+.innerHTML=html;
+
+steps=stepList;
+
+currentStep=0;
+
+lastAnswer=
+document.getElementById("answer")
+.innerText;
+
+
+if(steps.length){
+
+document.getElementById("step")
+.style.display="block";
+
+renderStep();
+
+}else{
+
+document.getElementById("step")
+.style.display="none";
+
+}
+
+document.getElementById("result")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* ======================
+   STEPS
+====================== */
+
+function renderStep(){
+
+const numbers=
+"۰۱۲۳۴۵۶۷۸۹";
+
+const n=
+String(currentStep+1)
+.replace(
+/\d/g,
+d=>numbers[d]
+);
+
+document.getElementById("stepNumber")
+.textContent=n;
+
+document.getElementById("stepText")
+.textContent=steps[currentStep];
+
+document.getElementById("nextButton")
+.textContent=
+currentStep===steps.length-1
+?
+"پایان"
+:
+"مرحله بعد";
+
+}
+
+
+function nextStep(){
+
+if(currentStep<steps.length-1){
+
+currentStep++;
+
+renderStep();
+
+}else{
+
+toast("راهنما تمام شد.");
+
+}
+
+}
+
+
+/* ======================
+   VOICE
+====================== */
+
+function startVoice(){
+
+const SpeechRecognition=
+window.SpeechRecognition||
+window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+toast(
+"تشخیص صدای فارسی در این مرورگر پشتیبانی نمی‌شود."
+);
+
+return;
+
+}
+
+const recognition=
+new SpeechRecognition();
+
+recognition.lang="fa-IR";
+
+recognition.interimResults=false;
+
+recognition.maxAlternatives=1;
+
+toast("گوش می‌دهم... صحبت کنید.");
+
+recognition.start();
+
+
+recognition.onresult=function(event){
+
+const text=
+event.results[0][0].transcript;
+
+document.getElementById("question")
+.value=text;
+
+analyzeQuestion();
+
+};
+
+
+recognition.onerror=function(){
+
+toast(
+"صدای شما تشخیص داده نشد."
+);
+
+};
+
+}
+
+
+/* ======================
+   TEXT TO SPEECH
+====================== */
+
+function speakAnswer(){
+
+if(!lastAnswer){
+
+toast("هنوز پاسخی برای خواندن وجود ندارد.");
+
+return;
+
+}
+
+if(!("speechSynthesis" in window)){
+
+toast("خواندن متن در این مرورگر پشتیبانی نمی‌شود.");
+
+return;
+
+}
+
+speechSynthesis.cancel();
+
+const speech=
+new SpeechSynthesisUtterance(lastAnswer);
+
+speech.lang="fa-IR";
+
+speech.rate=.85;
+
+speech.pitch=1;
+
+speechSynthesis.speak(speech);
+
+}
+
+
+function readLastAnswer(){
+
+if(!lastAnswer){
+
+toast("ابتدا یک سؤال بپرسید.");
+
+return;
+
+}
+
+speakAnswer();
+
+}
+
+
+/* ======================
+   HELP
+====================== */
+
+function showHelp(){
+
+showResult(
+
+"راهنمای استفاده",
+
+"سه راه ساده برای شروع",
+
+`
+<p>
+<strong>۱. عکس بگیرید</strong>
+</p>
+
+<p>
+از پیامک، نامه یا صفحه گوشی عکس بگیرید.
+</p>
+
+<p>
+<strong>۲. صحبت کنید</strong>
+</p>
+
+<p>
+روی میکروفون بزنید و مشکل خود را بگویید.
+</p>
+
+<p>
+<strong>۳. سؤال بنویسید</strong>
+</p>
+
+<p>
+مشکل خود را ساده و کوتاه بنویسید.
+</p>
+`
+
+);
+
+}
+
+
+/* ======================
+   CLEAR
+====================== */
+
+function clearAll(){
+
+document.getElementById("question")
+.value="";
+
+document.getElementById("result")
+.style.display="none";
+
+document.getElementById("preview")
+.style.display="none";
+
+document.getElementById("camera")
+.value="";
+
+lastAnswer="";
+
+speechSynthesis.cancel();
+
+}
+
+
+function newQuestion(){
+
+clearAll();
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* CTRL ENTER */
+
+document
+.getElementById("question")
+.addEventListener(
+"keydown",
+function(e){
+
+if(
+(e.ctrlKey||e.metaKey)&&
+e.key==="Enter"
+){
+
+analyzeQuestion();
+
+}
+
+});
+
+</script>
 
 </body>
-</html>
+      </html>
