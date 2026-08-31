@@ -1,308 +1,121 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-
+<!DOCTYPE html><html lang="fa" dir="rtl">
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>تست Gamma Scanner</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-    <title>تست بارکد Bizadshop</title>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Tahoma, Arial, sans-serif;
+        background: #f3f4f6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-    <style>
+    .box {
+        width: 100%;
+        max-width: 420px;
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        text-align: center;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    h1 {
+        margin: 0 0 10px;
+        color: #111827;
+        font-size: 24px;
+    }
 
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #111827;
-        }
+    p {
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
 
-        .card {
-            max-width: 500px;
-            margin: 40px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.08);
-        }
+    button {
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        padding: 16px;
+        background: #2563eb;
+        color: white;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-        h1 {
-            margin-top: 0;
-            text-align: center;
-        }
+    button:active {
+        transform: scale(0.98);
+    }
 
-        p {
-            text-align: center;
-            color: #6b7280;
-        }
+    .result {
+        margin-top: 20px;
+        padding: 14px;
+        background: #f3f4f6;
+        border-radius: 12px;
+        color: #374151;
+        font-size: 14px;
+        word-break: break-word;
+    }
+</style>
 
-        label {
-            display: block;
-            margin-top: 20px;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
+</head><body><div class="box"><h1>Bizadshop</h1>
 
-        input {
-            width: 100%;
-            height: 52px;
-            padding: 10px 14px;
-            border: 2px solid #d1d5db;
-            border-radius: 12px;
-            font-size: 18px;
-            direction: ltr;
-            text-align: left;
-        }
+<p>
+    تست باز کردن برنامه<br>
+    Gamma QR & Barcode Scanner
+</p>
 
-        button {
-            width: 100%;
-            height: 52px;
-            margin-top: 20px;
-            border: 0;
-            border-radius: 12px;
-            background: #2563eb;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-        }
+<button onclick="openGammaScanner()">
+    📷 باز کردن Gamma Scanner
+</button>
 
-        button:active {
-            transform: scale(.98);
-        }
-
-        .result {
-            margin-top: 25px;
-            padding: 15px;
-            background: #f9fafb;
-            border-radius: 12px;
-            word-break: break-all;
-            text-align: center;
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-<div class="card">
-
-    <h1>
-        تست بارکد
-    </h1>
-
-    <p>
-        تست ارتباط سایت با Scan to Web
-    </p>
-
-
-    <label for="barcode">
-        بارکد
-    </label>
-
-    <input
-        id="barcode"
-        type="text"
-        inputmode="numeric"
-        autocomplete="off"
-        placeholder="نتیجه اسکن اینجا قرار می‌گیرد"
-    >
-
-
-    <button
-        id="scanBtn"
-        type="button"
-    >
-        📷 اسکن بارکد
-    </button>
-
-
-    <div class="result">
-
-        نتیجه فعلی:
-
-        <strong id="result">
-            هنوز اسکن نشده
-        </strong>
-
-    </div>
-
+<div class="result" id="status">
+    آماده تست
 </div>
 
+</div><script>
 
-<script>
+function openGammaScanner() {
 
-/* ============================================================
-   TEST SCAN TO WEB
-   ============================================================ */
+    document.getElementById("status").textContent =
+        "در حال باز کردن Gamma...";
 
+    /*
+        تلاش اول:
+        باز کردن مستقیم اپلیکیشن با Android Intent
+    */
 
-/*
-    فیلد بارکد
-*/
+    const intentUrl =
+        "intent:#Intent;" +
+        "action=android.intent.action.MAIN;" +
+        "category=android.intent.category.LAUNCHER;" +
+        "package=com.gamma.scan;" +
+        "end";
 
-const barcodeInput =
-    document.getElementById(
-        "barcode"
-    );
+    window.location.href = intentUrl;
 
+    /*
+        اگر مرورگر Intent را اجرا نکرد،
+        بعد از چند ثانیه وضعیت را نمایش می‌دهیم.
+    */
 
-/*
-    نمایش نتیجه
-*/
+    setTimeout(function () {
 
-const result =
-    document.getElementById(
-        "result"
-    );
+        document.getElementById("status").textContent =
+            "اگر Gamma باز نشد، مرورگر اجازه اجرای برنامه را نداده است.";
 
-
-/*
-    دکمه اسکن
-*/
-
-const scanBtn =
-    document.getElementById(
-        "scanBtn"
-    );
-
-
-/* ============================================================
-   باز کردن Scan to Web
-   ============================================================ */
-
-scanBtn.addEventListener(
-    "click",
-    function () {
-
-        /*
-            قبل از باز کردن برنامه،
-            فیلد را فعال می‌کنیم.
-        */
-
-        barcodeInput.focus();
-
-
-        /*
-            Scheme مربوط به Scan to Web
-
-            برنامه باید این لینک را دریافت کند.
-        */
-
-        const scannerURL =
-            "bwstw://startscanner";
-
-
-        console.log(
-            "Opening:",
-            scannerURL
-        );
-
-
-        /*
-            باز کردن برنامه خارجی
-        */
-
-        window.location.href =
-            scannerURL;
-
-    }
-);
-
-
-/* ============================================================
-   بررسی مقدار فیلد
-   ============================================================ */
-
-function checkBarcode() {
-
-    const value =
-        barcodeInput.value.trim();
-
-
-    if (!value) {
-
-        return;
-
-    }
-
-
-    result.textContent =
-        value;
-
-
-    console.log(
-        "Barcode:",
-        value
-    );
-
+    }, 2500);
 }
 
-
-/* ============================================================
-   وقتی مقدار input تغییر کرد
-   ============================================================ */
-
-barcodeInput.addEventListener(
-    "input",
-    checkBarcode
-);
-
-
-/* ============================================================
-   وقتی صفحه دوباره فعال شد
-   ============================================================ */
-
-document.addEventListener(
-    "visibilitychange",
-    function () {
-
-        if (
-            document.visibilityState ===
-            "visible"
-        ) {
-
-            setTimeout(
-                checkBarcode,
-                300
-            );
-
-        }
-
-    }
-);
-
-
-/* ============================================================
-   وقتی مرورگر دوباره Focus گرفت
-   ============================================================ */
-
-window.addEventListener(
-    "focus",
-    function () {
-
-        setTimeout(
-            checkBarcode,
-            300
-        );
-
-    }
-);
-
-</script>
-
-
-</body>
-
+</script></body>
 </html>
