@@ -1,98 +1,308 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bizadshop Scanner Test</title>
-<script src="https://unpkg.com/@zxing/browser@0.1.5/umd/zxing-browser.min.js"></script>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#eef2f7;font-family:Tahoma,Arial,sans-serif;padding:18px}
-.app{max-width:480px;margin:auto;background:#fff;border-radius:18px;padding:18px;box-shadow:0 8px 30px #0002}
-h2{text-align:center;margin:0 0 8px}.status{text-align:center;background:#f1f5f9;padding:12px;border-radius:10px;margin:12px 0}
-.camera{position:relative;background:#000;border-radius:14px;overflow:hidden;aspect-ratio:4/3}
-video{width:100%;height:100%;object-fit:cover;display:block}.box{position:absolute;inset:30% 10%;border:3px solid #22c55e;border-radius:10px;pointer-events:none}
-button{width:100%;border:0;border-radius:10px;padding:14px;margin-top:10px;font:inherit;color:#fff;background:#2563eb}
-#stop{background:#dc2626}.result{margin-top:12px;padding:14px;background:#ecfdf5;border-radius:10px;text-align:center;direction:ltr;font-size:24px;font-weight:bold;word-break:break-all}
-input{width:100%;padding:13px;margin-top:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:17px;direction:ltr}
-#debug{font-size:11px;background:#111827;color:#d1d5db;padding:10px;border-radius:10px;margin-top:12px;white-space:pre-wrap;direction:ltr}
-</style>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>تست بارکد Bizadshop</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        .card {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            color: #6b7280;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            height: 52px;
+            padding: 10px 14px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 18px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        button {
+            width: 100%;
+            height: 52px;
+            margin-top: 20px;
+            border: 0;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        button:active {
+            transform: scale(.98);
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 12px;
+            word-break: break-all;
+            text-align: center;
+        }
+
+    </style>
+
 </head>
+
+
 <body>
-<div class="app">
-<h2>تست واقعی بارکد</h2>
-<div class="status" id="status">در حال بررسی ZXing...</div>
-<div class="camera">
-<video id="video" autoplay muted playsinline></video>
-<div class="box"></div>
+
+
+<div class="card">
+
+    <h1>
+        تست بارکد
+    </h1>
+
+    <p>
+        تست ارتباط سایت با Scan to Web
+    </p>
+
+
+    <label for="barcode">
+        بارکد
+    </label>
+
+    <input
+        id="barcode"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        placeholder="نتیجه اسکن اینجا قرار می‌گیرد"
+    >
+
+
+    <button
+        id="scanBtn"
+        type="button"
+    >
+        📷 اسکن بارکد
+    </button>
+
+
+    <div class="result">
+
+        نتیجه فعلی:
+
+        <strong id="result">
+            هنوز اسکن نشده
+        </strong>
+
+    </div>
+
 </div>
-<button id="start">باز کردن دوربین</button>
-<button id="stop" disabled>بستن دوربین</button>
-<div class="result" id="result">—</div>
-<input id="manual" inputmode="numeric" placeholder="ورود دستی بارکد">
-<button id="manualBtn">ثبت دستی</button>
-<div id="debug"></div>
-</div>
+
+
 <script>
-let reader=null,controls=null,stream=null,running=false;
-const $=id=>document.getElementById(id);
-function log(x){$("debug").textContent=String(x)}
-function loaded(){
- if(typeof ZXingBrowser==="undefined"){
-  $("status").textContent="❌ ZXing بارگذاری نشده";
-  log("ZXingBrowser = undefined\nاحتمالاً اینترنت/فیلتر CDN مشکل دارد.");
-  return false;
- }
- $("status").textContent="✅ ZXing آماده است";
- log("ZXingBrowser loaded\nversion: @zxing/browser 0.1.5");
- return true;
+
+/* ============================================================
+   TEST SCAN TO WEB
+   ============================================================ */
+
+
+/*
+    فیلد بارکد
+*/
+
+const barcodeInput =
+    document.getElementById(
+        "barcode"
+    );
+
+
+/*
+    نمایش نتیجه
+*/
+
+const result =
+    document.getElementById(
+        "result"
+    );
+
+
+/*
+    دکمه اسکن
+*/
+
+const scanBtn =
+    document.getElementById(
+        "scanBtn"
+    );
+
+
+/* ============================================================
+   باز کردن Scan to Web
+   ============================================================ */
+
+scanBtn.addEventListener(
+    "click",
+    function () {
+
+        /*
+            قبل از باز کردن برنامه،
+            فیلد را فعال می‌کنیم.
+        */
+
+        barcodeInput.focus();
+
+
+        /*
+            Scheme مربوط به Scan to Web
+
+            برنامه باید این لینک را دریافت کند.
+        */
+
+        const scannerURL =
+            "bwstw://startscanner";
+
+
+        console.log(
+            "Opening:",
+            scannerURL
+        );
+
+
+        /*
+            باز کردن برنامه خارجی
+        */
+
+        window.location.href =
+            scannerURL;
+
+    }
+);
+
+
+/* ============================================================
+   بررسی مقدار فیلد
+   ============================================================ */
+
+function checkBarcode() {
+
+    const value =
+        barcodeInput.value.trim();
+
+
+    if (!value) {
+
+        return;
+
+    }
+
+
+    result.textContent =
+        value;
+
+
+    console.log(
+        "Barcode:",
+        value
+    );
+
 }
-async function stop(){
- try{if(controls)controls.stop()}catch(e){}
- controls=null;
- try{if(reader)reader.reset()}catch(e){}
- reader=null;
- try{if(stream)stream.getTracks().forEach(t=>t.stop())}catch(e){}
- stream=null;
- $("video").srcObject=null;
- running=false;$("start").disabled=false;$("stop").disabled=true;
-}
-async function start(){
- if(running)return;
- if(!loaded())return;
- await stop();
- $("status").textContent="در حال پیدا کردن دوربین...";
- try{
-  const devices=await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
-  if(!devices.length)throw new Error("هیچ دوربینی پیدا نشد.");
-  let cam=devices.find(d=>/back|rear|environment/i.test(d.label))||devices[devices.length-1];
-  log("Cameras: "+devices.length+"\nSelected: "+(cam.label||cam.deviceId));
-  $("status").textContent="در حال باز کردن دوربین...";
-  reader=new ZXingBrowser.BrowserMultiFormatReader();
-  controls=await reader.decodeFromVideoDevice(cam.deviceId,$("video"),(result,error)=>{
-   if(result){
-    $("result").textContent=result.text;
-    $("status").textContent="✅ بارکد شناسایی شد";
-    navigator.vibrate?.(150);
-   }
-  });
-  stream=$("video").srcObject;
-  running=true;$("start").disabled=true;$("stop").disabled=false;
-  $("status").textContent="📷 دوربین فعال است؛ بارکد را مقابل کادر بگیر.";
- }catch(e){
-  await stop();
-  $("status").textContent="❌ "+(e.message||e.name||"خطا");
-  log("ERROR\n"+e.name+"\n"+e.message);
- }
-}
-$("start").onclick=start;
-$("stop").onclick=stop;
-$("manualBtn").onclick=()=>{
- const v=$("manual").value.trim();
- if(!v)return;
- $("result").textContent=v;$("status").textContent="✅ بارکد دستی ثبت شد";
-};
-window.addEventListener("load",loaded);
-window.addEventListener("beforeunload",stop);
+
+
+/* ============================================================
+   وقتی مقدار input تغییر کرد
+   ============================================================ */
+
+barcodeInput.addEventListener(
+    "input",
+    checkBarcode
+);
+
+
+/* ============================================================
+   وقتی صفحه دوباره فعال شد
+   ============================================================ */
+
+document.addEventListener(
+    "visibilitychange",
+    function () {
+
+        if (
+            document.visibilityState ===
+            "visible"
+        ) {
+
+            setTimeout(
+                checkBarcode,
+                300
+            );
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   وقتی مرورگر دوباره Focus گرفت
+   ============================================================ */
+
+window.addEventListener(
+    "focus",
+    function () {
+
+        setTimeout(
+            checkBarcode,
+            300
+        );
+
+    }
+);
+
 </script>
+
+
 </body>
+
 </html>
