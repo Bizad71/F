@@ -3,245 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>تست BarcodeDetector</title>
+    <title>تست اسکنر</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
             background: #111827;
             color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .box {
-            width: 100%;
-            max-width: 500px;
             text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 15px;
-        }
-
-        #status {
-            padding: 15px;
-            border-radius: 12px;
-            background: #1f2937;
-            margin-bottom: 15px;
-        }
-
-        video {
-            width: 100%;
-            border-radius: 18px;
-            display: none;
-            background: black;
+            padding: 30px 15px;
         }
 
         button {
+            display: block;
             width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            padding: 18px;
             border: 0;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 17px;
-            cursor: pointer;
-        }
-
-        #start {
+            border-radius: 14px;
             background: #2563eb;
             color: white;
+            font-size: 20px;
         }
 
-        #result {
-            margin-top: 15px;
-            padding: 15px;
+        input {
+            display: block;
+            width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            padding: 16px;
             border-radius: 12px;
-            background: #064e3b;
-            font-size: 22px;
-            word-break: break-all;
-            min-height: 55px;
+            border: 0;
+            font-size: 20px;
+            text-align: center;
+            box-sizing: border-box;
         }
     </style>
 </head>
 
 <body>
 
-<div class="box">
+    <h2>تست بارکدخوان خارجی</h2>
 
-    <h2>تست بارکدخوان</h2>
-
-    <div id="status">
-        در حال بررسی پشتیبانی...
-    </div>
-
-    <video id="video" autoplay playsinline></video>
-
-    <button id="start">
-        باز کردن دوربین
+    <button onclick="openScanner()">
+        📷 اسکن بارکد
     </button>
 
-    <div id="result">
-        هنوز بارکدی خوانده نشده
-    </div>
+    <input
+        id="barcode"
+        type="text"
+        placeholder="نتیجه اسکن اینجا می‌آید"
+        readonly
+    >
 
-</div>
+    <script>
 
-<script>
+        function openScanner() {
 
-const statusBox = document.getElementById("status");
-const startButton = document.getElementById("start");
-const video = document.getElementById("video");
-const result = document.getElementById("result");
+            const returnUrl =
+                window.location.origin +
+                window.location.pathname +
+                "?result={RESULT}";
 
-let detector = null;
-let stream = null;
-let scanning = false;
+            const scannerUrl =
+                "binaryeye://scan?ret=" +
+                encodeURIComponent(returnUrl);
 
-
-/* =========================================================
-   بررسی BarcodeDetector
-   ========================================================= */
-
-if ("BarcodeDetector" in window) {
-
-    statusBox.textContent =
-        "✅ BarcodeDetector در این مرورگر وجود دارد.";
-
-    BarcodeDetector.getSupportedFormats()
-        .then(formats => {
-
-            statusBox.textContent =
-                "✅ پشتیبانی شد\nفرمت‌ها: " +
-                formats.join(", ");
-
-            detector = new BarcodeDetector({
-                formats: formats
-            });
-
-        })
-        .catch(error => {
-
-            statusBox.textContent =
-                "⚠️ BarcodeDetector وجود دارد ولی دریافت فرمت‌ها خطا داد.";
-
-            console.error(error);
-
-        });
-
-} else {
-
-    statusBox.textContent =
-        "❌ این مرورگر BarcodeDetector را پشتیبانی نمی‌کند.";
-
-}
-
-
-/* =========================================================
-   باز کردن دوربین
-   ========================================================= */
-
-startButton.addEventListener("click", async () => {
-
-    if (!detector) {
-
-        alert(
-            "BarcodeDetector روی این مرورگر قابل استفاده نیست."
-        );
-
-        return;
-    }
-
-    try {
-
-        stream = await navigator.mediaDevices.getUserMedia({
-
-            video: {
-                facingMode: {
-                    ideal: "environment"
-                }
-            },
-
-            audio: false
-
-        });
-
-        video.srcObject = stream;
-        video.style.display = "block";
-
-        scanning = true;
-
-        result.textContent =
-            "دوربین فعال است؛ بارکد را مقابل دوربین بگیر...";
-
-        scan();
-
-    } catch (error) {
-
-        console.error(error);
-
-        statusBox.textContent =
-            "❌ دسترسی به دوربین انجام نشد.";
-
-    }
-
-});
-
-
-/* =========================================================
-   اسکن
-   ========================================================= */
-
-async function scan() {
-
-    if (!scanning) return;
-
-    try {
-
-        if (video.readyState >= 2) {
-
-            const barcodes =
-                await detector.detect(video);
-
-            if (barcodes.length > 0) {
-
-                const barcode = barcodes[0];
-
-                result.textContent =
-                    "✅ بارکد: " + barcode.rawValue;
-
-                console.log(
-                    "Barcode:",
-                    barcode.rawValue
-                );
-
-                // فعلاً اسکن متوقف نمی‌شود
-                // تا بتوانیم سرعت و عملکرد را تست کنیم.
-            }
+            window.location.href = scannerUrl;
         }
 
-    } catch (error) {
 
-        console.error(
-            "Barcode detection error:",
-            error
-        );
+        const params =
+            new URLSearchParams(window.location.search);
 
-    }
+        const result =
+            params.get("result");
 
-    requestAnimationFrame(scan);
-}
+        if (result) {
 
-</script>
+            document.getElementById("barcode").value =
+                result;
+
+        }
+
+    </script>
 
 </body>
 </html>
